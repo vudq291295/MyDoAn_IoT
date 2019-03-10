@@ -175,8 +175,8 @@ public class Main {
 
             Vertx vertx = Vertx.vertx(options);
             vertx.deployVerticle(MQTTBroker.class.getName(), deploymentOptions);
-            vertx.deployVerticle(RestApiVerticle.class.getName(), deploymentOptions);
-            vertx.deployVerticle(PromMetricsExporter.class.getName(), deploymentOptions);
+//            vertx.deployVerticle(RestApiVerticle.class.getName(), deploymentOptions);
+//            vertx.deployVerticle(PromMetricsExporter.class.getName(), deploymentOptions);
         }
 
 

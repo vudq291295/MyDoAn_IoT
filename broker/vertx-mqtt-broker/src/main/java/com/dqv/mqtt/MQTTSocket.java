@@ -103,7 +103,7 @@ public abstract class MQTTSocket implements MQTTPacketTokenizer.MqttTokenizerLis
     }
 
     private void onMessageFromClient(AbstractMessage msg) throws Exception {
-        logger.debug("<<< " + msg);
+        logger.info("<<< " + msg);
         switch (msg.getMessageType()) {
             case CONNECT:
                 ConnectMessage connect = (ConnectMessage)msg;
@@ -155,9 +155,11 @@ public abstract class MQTTSocket implements MQTTPacketTokenizer.MqttTokenizerLis
                 break;
             case SUBSCRIBE:
                 session.resetKeepAliveTimer();
+                logger.info("<<< msg.getRemainingLength: " + msg.getRemainingLength());
 
                 SubscribeMessage subscribeMessage = (SubscribeMessage)msg;
 //                PromMetrics.mqtt_subscribe_total.labels(session.getClientID()).inc();
+                logger.info("<<< subscribeMessage.subscriptions().get(0).getTopicFilter(): " + subscribeMessage.subscriptions().get(0).getTopicFilter());
 
                 session.handleSubscribeMessage(subscribeMessage, permitted -> {
 	                SubAckMessage subAck = new SubAckMessage();
@@ -170,7 +172,7 @@ public abstract class MQTTSocket implements MQTTPacketTokenizer.MqttTokenizerLis
                             PromMetrics.mqtt_subscribe_total.inc();
                             PromMetrics.mqtt_subscribe.labels(qos.name(), c.getTopicFilter()).inc();
 	                	} else {
-	                		subAck.addType(QOSType.FAILURE);
+	                		subAck.addType(QOSType.FAILURE); 
 	                	}
 	                }
 	                if(subscribeMessage.isRetainFlag()) {
