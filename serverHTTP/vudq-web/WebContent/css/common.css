@@ -1,0 +1,19 @@
+﻿    .text-date-time{
+        font-size:16px;
+        font-style:italic;
+        text-align:center;
+        font-weight:normal
+    }
+    .invalid-expired-date{
+        color:#ff0000;
+    }
+    .valid-expired-date{
+        color:#000000;
+    }
+    .thanhkhoan-modal-window .modal-dialog {
+    width: 80%;
+    margin-top: 0px;
+    font-size: 14px;
+}
+
+     /*style bao cao*/

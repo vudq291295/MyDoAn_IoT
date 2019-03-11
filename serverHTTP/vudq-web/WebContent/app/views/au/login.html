@@ -1,0 +1,23 @@
+<form role="form">
+    <div class="row">
+        <div class="col-md-4">
+            &nbsp;
+        </div>
+        <div class="col-md-4">
+            <div class="body-login">
+                <h2 class="form-login-heading">Ðăng nhập</h2>
+                <input type="text" class="form-control" placeholder="Tên đăng nhập" data-ng-model="loginData.userName" required autofocus>
+                <input type="password" class="form-control" placeholder="Mật khẩu" data-ng-model="password" required>
+                <br />
+                <button class="btn btn-md btn-info btn-block " type="button" ng-enter="login()" data-ng-click="login()">Ðang nhập</button>
+                <div data-ng-hide="message == ''" class="alert alert-danger">
+                    {{message}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            &nbsp;
+        </div>
+    </div>
+</form>

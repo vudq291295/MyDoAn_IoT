@@ -1,0 +1,182 @@
+﻿body {
+    padding-bottom: 20px;
+    padding-top: 50px;
+}
+
+/* Set padding to keep content from hitting the edges */
+
+.body-content {
+    margin-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+
+form input:not([class]), form select:not([class]), form textarea:not([class]) { max-width: 280px; }
+
+.nav.navbar-nav li { cursor: pointer; }
+
+.modal-backdrop { /*height: 100%; */ }
+
+.modal.fade[modal-window] { background-color: rgba(0, 0, 0, 0.5); }
+
+.modal-content .dropdown-menu { /*z-index: 1100 !important;*/ }
+
+.drop-zone { border: dotted 3px lightgray; }
+
+.nv-file-over { border: dotted 3px red; }
+
+.file-over-class { border: dotted 3px green; }
+
+/* bootstrap */
+
+.panel-toolbar { position: relative; }
+
+.panel-toolbar .btn-group.btn-toolbar {
+    position: absolute;
+    right: 10px;
+    top: 2px;
+}
+
+.no-padding-vertical {
+    padding-bottom: 0px !important;
+    padding-top: 0px !important;
+}
+
+.no-margin-vertical {
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+}
+
+.no-padding-horizontal {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.no-margin-horizontal {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+
+.table .table-control {
+    border-bottom: 0px !important;
+    border-top: 0px !important;
+    padding: 0px !important;
+}
+
+.table th { white-space: nowrap; }
+
+.notification-container.control { position: relative; }
+
+.notification-container.control .notification-content {
+    position: absolute;
+    right: 0px;
+    width: 400px;
+    /*margin-top: 9px;*/
+}
+
+.notification-container .alert {
+    border-radius: 0px;
+    margin-bottom: 0px;
+}
+
+.notification-container .panel .panel-body {
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.user-container.control { position: relative; }
+
+.user-container.control .user-content {
+    position: absolute;
+    /*right: -135px;*/
+    width: 300px;
+    /*margin-top: 9px;*/
+}
+
+.chat-container > div {
+    float: none;
+    margin: 0 auto;
+}
+
+.chat-container .chat-message {
+    height: 300px;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.chat-container .chat-message .row {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.chat-container form {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.fixed-width-170 { width: 170px; }
+
+.option-select label.btn.btn-default.active[btn-radio='true'] {
+    background-color: #449d44;
+    border-color: #398439;
+    color: #fff;
+}
+
+label.btn.btn-default.active.highlight {
+    background-color: #449d44;
+    border-color: #398439;
+    color: #fff;
+}
+
+label.btn.btn-default.active[btn-radio='true'] {
+    background-color: #449d44;
+    border-color: #398439;
+    color: #fff;
+}
+
+/* validation styles */
+
+.form-validation input.ng-invalid.ng-touched { background-color: #FA787E; }
+
+.form-validation input.ng-invalid.ng-untouched { background-color: #fee080; }
+
+.form-validation input.ng-invalid.ng-dirty { background-color: #ffc695; }
+
+.form-validation input.ng-invalid.ng-pristine { background-color: #f4ffd8; }
+
+.form-validation input.ng-invalid.ng-pending { background-color: #808080; }
+
+.select2 > .select2-choice.ui-select-match {
+    /* Because of the inclusion of Bootstrap */
+    height: 29px;
+}
+
+.selectize-control > .selectize-dropdown { top: 36px; }
+
+.selectize-control.ui-select-container { width: 100%; }
+
+.tab-content .panel {
+    border-top: 0px !important;
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+
+.tab-content .panel panel-heading {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+
+.no-border-radius * { border-radius: 0 !important; }
+
+.table-input {
+    padding: 0px !important;
+}
+
+.table-input input {
+    border-width: 0 1px !important;
+    height: 100%;
+    width: 100%;
+    padding-left: 10px;
+}
