@@ -12,6 +12,14 @@ http://cxf.apache.org/schemas/jaxws.xsd">
    <import resource="classpath:META-INF/cxf/cxf.xml" /> 
    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
   <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+     <jaxrs:server id="usersServiceApiRest" address="/api/usersServiceRest">
+        <jaxrs:providers>
+            <ref bean="jsonProvider" />
+        </jaxrs:providers>
+        <jaxrs:serviceBeans>
+            <bean id="usersServiceApiClass" class="com.base.vudq.rest.UserRestImpl"/>
+        </jaxrs:serviceBeans>
+    </jaxrs:server> 
      <jaxrs:server id="usersServiceRest" address="/usersServiceRest">
         <jaxrs:providers>
             <ref bean="jsonProvider" />
