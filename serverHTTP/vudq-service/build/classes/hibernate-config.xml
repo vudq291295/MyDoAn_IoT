@@ -8,8 +8,7 @@
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
         <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/control_equipment"/>
         <property name="user" value="root"/>
-        <property name="password" value="admin@123"/>
-
+        <property name="password" value="Admin@123"/>
         <property name="acquireIncrement" value="2"/>
         <property name="minPoolSize" value="10"/>
         <property name="maxPoolSize" value="50"/>

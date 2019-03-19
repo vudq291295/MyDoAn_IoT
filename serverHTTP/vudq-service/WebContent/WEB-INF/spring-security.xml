@@ -18,7 +18,7 @@ xmlns:mvc="http://www.springframework.org/schema/mvc"
  
  	<!-- This is where we tells spring security what URL should be protected 
 		and what roles have access to them -->
-		<http pattern="/oauth/token" create-session="stateless"
+	<http pattern="/oauth/token" create-session="stateless"
 		authentication-manager-ref="clientAuthenticationManager"
 		xmlns="http://www.springframework.org/schema/security">
 		<intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
@@ -81,12 +81,13 @@ xmlns:mvc="http://www.springframework.org/schema/mvc"
 
 	<!-- This is simple authentication manager, with a hardcoded user/password 
 		combination. We can replace this with a user defined service to get few users 
+				<user name="beingjavaguys" password="spring@java" authorities="IS_AUTHENTICATED_FULLY" />
 		credentials from DB -->
 	<authentication-manager alias="authenticationManager"
 		xmlns="http://www.springframework.org/schema/security">
 		<authentication-provider>
 			<user-service>
-				<user name="beingjavaguys" password="spring@java" authorities="ROLE_APP" />
+				<user name="beingjavaguys" password="spring@java" authorities="IS_AUTHENTICATED_FULLY" />
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>
@@ -95,6 +96,8 @@ xmlns:mvc="http://www.springframework.org/schema/mvc"
 		class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
 		<constructor-arg ref="clientDetails" />
 	</bean>
+	
+   <!-- <bean id="clientDetails" class="com.service.vudq.provider.ClientDetailsServiceImpl"/> --> 
 
 
 	<!-- This defined token store, we have used inmemory tokenstore for now 

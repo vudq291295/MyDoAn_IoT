@@ -1,11 +1,11 @@
-package com.base.vudq.bo;
+package com.tce.spring.oauth2.bo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.base.vudq.dto.UserDTO;
+import com.tce.spring.oauth2.DTO.UserDTO;
 
 import vudq.service.base.model.BaseFWModelImpl;
 
