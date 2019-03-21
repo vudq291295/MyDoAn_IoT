@@ -33,7 +33,7 @@
     <!-- Cors -->
     <filter>
     	<filter-name>CorsFilter</filter-name>
-    	<filter-class>com.tce.spring.oauth2.filters.CorsFilter</filter-class>
+    	<filter-class>com.dqv.spring.oauth2.filters.CorsFilter</filter-class>
     </filter>
     
     <filter-mapping>

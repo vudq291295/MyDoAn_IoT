@@ -1,4 +1,4 @@
-package com.tce.spring.oauth2.DTO;
+package com.dqv.spring.oauth2.DTO;
 
 public class User {
 	private Long id;

@@ -21,30 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *******************************************************************************/
-package com.tce.spring.oauth2.filters;
+package com.dqv.spring.oauth2.controller;
 
-import java.io.IOException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.dqv.spring.oauth2.DAO.UserDAO;
 
-import org.springframework.web.filter.OncePerRequestFilter;
+@Controller
+public class LoginController {
 
-public class CorsFilter extends OncePerRequestFilter {
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView login(
+			@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout) {
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-		 	response.setHeader("Access-Control-Allow-Origin", "*");
-		    response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
-		    response.setHeader("Access-Control-Allow-Headers", "x-requested-with, Content-Type, Authorization");
-		    response.setHeader("Access-Control-Max-Age", "3600");
-		    if (!"OPTIONS".equals(request.getMethod())) {
-		    	filterChain.doFilter(request, response);
-		    } else {
-		    }
+		ModelAndView model = new ModelAndView();
+		if (error != null) {
+			model.addObject("error", "Invalid username and password!");
+		}
+		if (logout != null) {
+			model.addObject("msg", "You've been logged out successfully.");
+		}
+		model.setViewName("login");
+		return model;
 	}
-
 }

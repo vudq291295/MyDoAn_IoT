@@ -22,7 +22,7 @@
         <property name="dataSource" ref = "dataSource"/>
 		<property name="annotatedClasses">
 			<list>
-				<value>com.tce.spring.oauth2.bo.UserBO</value>
+				<value>com.dqv.spring.oauth2.bo.UserBO</value>
 			</list>
 		</property>
         
@@ -32,7 +32,7 @@
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
         </property>
-        <property name="packagesToScan" value="com.tce.spring.oauth2.bo"/>
+        <property name="packagesToScan" value="com.dqv.spring.oauth2.bo"/>
         <property name="configLocation">
             <value>classpath:hibernate.cfg.xml</value>
         </property>        
@@ -45,7 +45,7 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
     
-   	 <bean id="userDAO" class="com.tce.spring.oauth2.DAO.UserDAO">
+   	 <bean id="userDAO" class="com.dqv.spring.oauth2.DAO.UserDAO">
 	     <property name="sessionFactory" ref="sessionFactory" />
 	 </bean>
     

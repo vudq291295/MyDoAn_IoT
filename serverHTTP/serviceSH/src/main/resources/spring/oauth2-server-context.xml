@@ -16,11 +16,11 @@
 		  http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="com.tce.spring.oauth2.controller" />
-	<context:component-scan base-package="com.tce.spring.oauth2.provider" />
-		<context:component-scan base-package="com.tce.spring.oauth2.DAO" />
-	     <context:component-scan base-package="com.tce.spring.oauth2" />
-          <context:component-scan base-package="com.tce.spring.oauth2.DAO" />
+	<context:component-scan base-package="com.dqv.spring.oauth2.controller" />
+	<context:component-scan base-package="com.dqv.spring.oauth2.provider" />
+		<context:component-scan base-package="com.dqv.spring.oauth2.DAO" />
+	     <context:component-scan base-package="com.dqv.spring.oauth2" />
+          <context:component-scan base-package="com.dqv.spring.oauth2.DAO" />
      
 	
 	<mvc:annotation-driven />
@@ -130,7 +130,7 @@
 		<property name="filterProcessesUrl" value="/logout" />
 	</bean>
 
-	<bean id="logoutSuccessHandler" class="com.tce.spring.oauth2.handlers.CustomLogoutSuccessHandler">
+	<bean id="logoutSuccessHandler" class="com.dqv.spring.oauth2.handlers.CustomLogoutSuccessHandler">
 		<property name="defaultTargetUrl" value="/login?logout"	/>
 	</bean>
 	

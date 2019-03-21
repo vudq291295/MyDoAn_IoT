@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *******************************************************************************/
-package com.tce.spring.oauth2.controller;
+package com.dqv.spring.oauth2.controller;
 
 import java.security.Principal;
 

@@ -21,28 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *******************************************************************************/
-package com.tce.spring.oauth2.handlers;
+package com.dqv.spring.oauth2.filters;
 
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-/**
- * Same as {@link SimpleUrlLogoutSuccessHandler} but retrieve targetUrl form the request target_url parameter
- *
- */
-public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler{
+public class CorsFilter extends OncePerRequestFilter {
 
-	private static final String LOGOUT_URL_PARAMETER = "target_url";
-	
 	@Override
-	protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response) {
-		String logoutRedirectUrl = request.getParameter(LOGOUT_URL_PARAMETER);
-		if (logoutRedirectUrl != null && !logoutRedirectUrl.isEmpty()) {
-			setTargetUrlParameter(LOGOUT_URL_PARAMETER);
-		}
-		return super.determineTargetUrl(request, response);
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		 	response.setHeader("Access-Control-Allow-Origin", "*");
+		    response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+		    response.setHeader("Access-Control-Allow-Headers", "x-requested-with, Content-Type, Authorization");
+		    response.setHeader("Access-Control-Max-Age", "3600");
+		    if (!"OPTIONS".equals(request.getMethod())) {
+		    	filterChain.doFilter(request, response);
+		    } else {
+		    }
 	}
-	
+
 }

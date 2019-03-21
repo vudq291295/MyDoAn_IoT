@@ -1,4 +1,4 @@
-package com.tce.spring.oauth2.business;
+package com.dqv.spring.oauth2.business;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
-import com.tce.spring.oauth2.DAO.UserDAO;
-import com.tce.spring.oauth2.DTO.UserDTO;
-import com.tce.spring.oauth2.bo.UserBO;
+import com.dqv.spring.oauth2.DAO.UserDAO;
+import com.dqv.spring.oauth2.DTO.UserDTO;
+import com.dqv.spring.oauth2.bo.UserBO;
 
 
 @Service("userBusinessImpl")

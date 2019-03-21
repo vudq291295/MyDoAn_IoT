@@ -1,4 +1,4 @@
-package com.tce.spring.oauth2.provider;
+package com.dqv.spring.oauth2.provider;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.tce.spring.oauth2.DAO.UserDAO;
-import com.tce.spring.oauth2.bo.UserBO;
-import com.tce.spring.oauth2.business.UserBusinessImpl;
+import com.dqv.spring.oauth2.DAO.UserDAO;
+import com.dqv.spring.oauth2.bo.UserBO;
+import com.dqv.spring.oauth2.business.UserBusinessImpl;
 
 
 @Service

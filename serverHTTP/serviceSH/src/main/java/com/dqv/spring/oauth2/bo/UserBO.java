@@ -1,11 +1,11 @@
-package com.tce.spring.oauth2.bo;
+package com.dqv.spring.oauth2.bo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.tce.spring.oauth2.DTO.UserDTO;
+import com.dqv.spring.oauth2.DTO.UserDTO;
 
 
 @Entity

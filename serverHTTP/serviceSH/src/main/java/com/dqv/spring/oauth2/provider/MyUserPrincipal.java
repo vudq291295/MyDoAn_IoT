@@ -1,12 +1,13 @@
-package com.tce.spring.oauth2.provider;
+package com.dqv.spring.oauth2.provider;
 
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import com.tce.spring.oauth2.bo.UserBO;
+import com.dqv.spring.oauth2.bo.UserBO;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public class MyUserPrincipal implements UserDetails{
 	

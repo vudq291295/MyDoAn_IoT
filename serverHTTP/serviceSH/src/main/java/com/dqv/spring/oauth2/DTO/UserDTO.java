@@ -1,8 +1,8 @@
-package com.tce.spring.oauth2.DTO;
+package com.dqv.spring.oauth2.DTO;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.tce.spring.oauth2.bo.UserBO;
+import com.dqv.spring.oauth2.bo.UserBO;
 
 
 @XmlRootElement(name = "USERBO")

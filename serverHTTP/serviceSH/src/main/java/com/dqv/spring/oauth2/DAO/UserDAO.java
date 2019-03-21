@@ -1,9 +1,9 @@
-package com.tce.spring.oauth2.DAO;
+package com.dqv.spring.oauth2.DAO;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tce.spring.oauth2.bo.UserBO;
+import com.dqv.spring.oauth2.bo.UserBO;
 
 import java.util.List;
 
