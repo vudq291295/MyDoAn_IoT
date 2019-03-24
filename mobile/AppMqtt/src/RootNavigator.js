@@ -1,5 +1,6 @@
 import { StackNavigator, TabNavigator, createStackNavigator } from 'react-navigation';
-import Home from './screens/home/home'
+import Home from './screens/home/home';
+import Login from './screens/login/Login';
 
 const MainNavigator = TabNavigator(
   {
@@ -27,10 +28,13 @@ const RootNavigator = StackNavigator(
     Main: {
       screen: MainNavigator
     },
+    Login:{
+      screen: Login
+    }
   },
   {
-    headerMode: 'none'
-    //initialRouteName: 'Login',
+    headerMode: 'none',
+    initialRouteName: 'Login'
   }
 );
 export default RootNavigator;
