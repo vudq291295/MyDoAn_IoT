@@ -4,6 +4,7 @@
 #include <EEPROM.h>
 #include <ESP8266WebServer.h>
 #include <PubSubClient.h>
+#include <Wire.h>
 
 const IPAddress apIP(192, 168, 1, 1);
 const char* apSSID = "ESP8266_SETUP";
@@ -20,16 +21,17 @@ long lastMsg = 0;
 char msg[50];
 int value = 0;
 int OUTPUT_LED = 5;
+const char* mqtt_server = "192.168.100.11";
 
 void setup() {
   Serial.begin(115200);
   EEPROM.begin(512);
+  Wire.begin(); // Khởi tạo thư viện i2c
   delay(10);
   if (restoreConfig()) {
     if (checkConnection()) {
       settingMode = false;
       startWebServer();
-
       //set broker mqtt
       client.setServer(mqtt_server, 1884);
       client.setCallback(callback);
@@ -56,9 +58,7 @@ void loop() {
     lastMsg = now;
     ++value;
     snprintf (msg, 50, "hello world #%ld", value);
-//    Serial.print("Publish message: ");
-//    Serial.println(msg);
-//    client.publish("outTopic", msg);
+
   }
 }
 // config webserver for wifi
@@ -237,28 +237,53 @@ String urlDecode(String input) {
 
 
 // config for mqtt
+char roomAss[8] = {};
+char port[8] = {}; 
+
+
+
 void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
+    Serial.print("Message arrived [");
+  Serial.print(strlen(topic));
+  Serial.println("] ");
+  int numOfIndex = 0;
+  int indexRoomss =0;
+  int indexPort = 0;
+  for (int i = 0; i < strlen(topic); i++) {
+    if(numOfIndex == 0){
+      if(topic[i] == '/')
+      {
+        numOfIndex++;
+      }
+    }
+    else if(numOfIndex == 1){
+      if(topic[i] == '/')
+      {
+        numOfIndex++;
+      }
+      else{
+        roomAss[indexRoomss] = topic[i];
+        indexRoomss++;
+      }
+    }
+    else if(numOfIndex == 2){
+        port[indexPort] = topic[i];
+        indexPort++;
+    }
+  }
+      Serial.println(roomAss);
+  
   for (int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
+          port[indexPort] = (char)payload[i];
+            indexPort++;
   }
-  Serial.println();
-
-  // Switch on the LED if an 1 was received as first character
-  if ((char)payload[0] == '1') {
-        Serial.println(OUTPUT_LED);
-        Serial.println("LOW");
-
-    digitalWrite(OUTPUT_LED, LOW);   // Turn the LED on (Note that LOW is the voltage level
-    // but actually the LED is on; this is because
-    // it is active low on the ESP-01)
-  } else {
-            Serial.println(OUTPUT_LED);
-        Serial.println("HIGH");
-    digitalWrite(OUTPUT_LED, HIGH);  // Turn the LED off by making the voltage HIGH
-  }
+  
+  Serial.println(port);
+  int roomNum = atoi(roomAss);
+  Serial.println(roomNum);
+  Wire.beginTransmission(roomNum); // Bắt đầu truyền dữ liệu về địa chỉ số 6
+  Wire.write(port); // Truyền ký tự H
+  Wire.endTransmission(); // kết thúc truyền dữ liệu
 
 }
 
@@ -271,13 +296,13 @@ void reconnect() {
     String clientId = "ESP8266Client-";
     clientId += String(random(0xffff), HEX);
     // Attempt to connect
-    if (client.connect(clientId.c_str(),"admin","admin")) {
+    if (client.connect(clientId.c_str(),"vudq","1")) {
       Serial.println("connected");
       // Once connected, publish an announcement...
       client.publish("outTopic", "hello world");
       // ... and resubscribe
     Serial.print("subscribe ne`.");
-      client.subscribe("inTopic");
+      client.subscribe("DV1/#");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
