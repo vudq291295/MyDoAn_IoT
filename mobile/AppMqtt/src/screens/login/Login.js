@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Platform, StyleSheet, Text, Alert, View, TouchableOpacity, TextInput, Image
+  Platform, StyleSheet, Text, Alert, View, TouchableOpacity, TextInput, Image, ImageBackground
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Card } from 'react-native-elements';
 import styles from './styles';
 import { login, setToken } from '../../actions';
+const backgroundImage = require('../../ultils/images/cafe3.png');
 
 class Login extends PureComponent {
   static navigationOptions = {
@@ -36,7 +37,7 @@ class Login extends PureComponent {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ImageBackground source={backgroundImage} style={{width: '100%', height: '100%'}, styles.container}>
         <Card title="Đăng nhập">
           <Input
             placeholder=' Tài khoản'
@@ -63,22 +64,22 @@ class Login extends PureComponent {
             inputStyle={styles.txtInput}
             onChangeText={(password) => this.setState({ password: password })}
           />
-           <WhiteSpace size="xl"/>
+          <WhiteSpace size="xl"/>
           <TouchableOpacity onPress={this._onSubmit} style={styles.btnLogin}>
             <Text style={styles.txtLogin}>Đăng nhập</Text>
           </TouchableOpacity>
         </Card>
         <Toast
-            ref="toast"
-            style={{backgroundColor:'#f4f4f4'}}
-            position='top'
-            positionValue={100}
-            fadeInDuration={750}
-            fadeOutDuration={1000}
-            opacity={0.8}
-            textStyle={{color:'red'}}
-        />
-      </View>
+              ref="toast"
+              style={{backgroundColor:'#f4f4f4'}}
+              position='top'
+              positionValue={100}
+              fadeInDuration={750}
+              fadeOutDuration={1000}
+              opacity={0.8}
+              textStyle={{color:'red'}}
+          />
+      </ImageBackground>
     );
   }
 }

@@ -21,7 +21,6 @@ const initialState = {
     message:''
 }
 export default (state = initialState, action) => {
-    console.log('state', state);
     switch (action.type) {
         case types.LOGIN: {
             return {

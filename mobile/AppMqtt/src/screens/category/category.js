@@ -2,19 +2,15 @@ import React, { Component } from 'react';
 import { View, Text, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 
-import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Button } from '@ant-design/react-native';
-
 
 const myIcon = (<Icon name="home" size={20} />)
 
-class Home extends Component {
+class Category extends Component {
     render() {
         return (
             <View>
-                <Text>Hello mqtt</Text>
-                <Button type="primary">primary</Button>
+                <Text>Category</Text>
             </View>
         );
     }
@@ -27,4 +23,4 @@ const mapStateToProps = state => {
     return {
     };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Category);
