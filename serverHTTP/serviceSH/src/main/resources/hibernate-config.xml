@@ -10,7 +10,7 @@
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/control_equipment"/>
         <property name="username" value="root"/>
-        <property name="password" value="Admin@123"/>
+        <property name="password" value="admin@123"/>
   <!--       <property name="acquireIncrement" value="2"/>
         <property name="minPoolSize" value="10"/>
         <property name="maxPoolSize" value="50"/>
@@ -23,6 +23,8 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.dqv.spring.oauth2.bo.UserBO</value>
+				<value>com.dqv.spring.oauth2.bo.RoomBO</value>
+				
 			</list>
 		</property>
         
@@ -46,6 +48,10 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
     
    	 <bean id="userDAO" class="com.dqv.spring.oauth2.DAO.UserDAO">
+	     <property name="sessionFactory" ref="sessionFactory" />
+	 </bean>
+    
+   	 <bean id="roomDAO" class="com.dqv.spring.oauth2.DAO.RoomDAO">
 	     <property name="sessionFactory" ref="sessionFactory" />
 	 </bean>
     

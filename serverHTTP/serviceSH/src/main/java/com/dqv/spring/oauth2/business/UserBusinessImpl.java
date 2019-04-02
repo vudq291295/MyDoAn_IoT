@@ -25,25 +25,6 @@ public class UserBusinessImpl implements UserBusiness{
 	}
 
 	@Override
-	public List<UserDTO> getAllUser() {
-		// TODO Auto-generated method stub
-		List<UserBO> lstUserBO = userDAO.getAllUsers();
-		
-//		return convertListModeltoDTO(lstUserBO);
-		return null;
-	}
-
-	@Override
-	public UserDTO getUserByUP(UserDTO dto) {
-		UserDTO obj = new UserDTO();
-		UserBO temp = new UserBO();
-//		temp = userDAO.getUserByUP(dto.toModel());
-		obj.setUserName(temp.getUserName());
-		// TODO Auto-generated method stub
-		return obj;
-	}
-
-	@Override
 	public UserBO findUserByUsername(String bo) {
 		System.out.println("userBusinessImpl "+bo );
 		UserBO temp = new UserBO();

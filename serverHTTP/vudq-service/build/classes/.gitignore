@@ -1,0 +1,5 @@
+/com/
+/datasources.properties
+/hibernate-config.xml
+/hibernate.cfg.xml
+/spring-beans.xml

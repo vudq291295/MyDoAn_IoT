@@ -10,9 +10,5 @@ public interface UserBusiness {
 	
     long count();
     
-    List<UserDTO> getAllUser();
-
-    UserDTO getUserByUP(UserDTO dto);
-
     UserBO findUserByUsername(String bo);
 }
