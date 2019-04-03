@@ -1,17 +1,22 @@
 package com.dqv.spring.oauth2.bo;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
-//@Entity
-//@Table(name = "script_has_equipment")
-public class ScriptHasEquimentBO {
-    public int scripID;
+@Entity
+@Table(name = "script_has_equipment")
+public class ScriptHasEquimentBO implements Serializable{
+    private static final long serialVersionUID = 1L;
+	public int scripID;
     public int equipmentID;
     public int status;
     
-//    @Column(name = "script_id")
+    @Id
+    @Column(name = "script_id")
 	public int getScripID() {
 		return scripID;
 	}
@@ -19,7 +24,8 @@ public class ScriptHasEquimentBO {
 		this.scripID = scripID;
 	}
 	
-//    @Column(name = "equipment_id")
+    @Id
+    @Column(name = "equipment_id")
 	public int getEquipmentID() {
 		return equipmentID;
 	}
@@ -27,7 +33,7 @@ public class ScriptHasEquimentBO {
 		this.equipmentID = equipmentID;
 	}
 	
-//    @Column(name = "status")
+    @Column(name = "status")
 	public int getStatus() {
 		return status;
 	}

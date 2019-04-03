@@ -54,6 +54,15 @@
    	 <bean id="roomDAO" class="com.dqv.spring.oauth2.DAO.RoomDAO">
 	     <property name="sessionFactory" ref="sessionFactory" />
 	 </bean>
+	 
+    <bean id="epuipmentDAO" class="com.dqv.spring.oauth2.DAO.EpuipmentDAO">
+	     <property name="sessionFactory" ref="sessionFactory" />
+	 </bean>
+    
+    <bean id="scriptDAO" class="com.dqv.spring.oauth2.DAO.ScriptDAO">
+	     <property name="sessionFactory" ref="sessionFactory" />
+	 </bean>
+    
     
 </beans>
 
