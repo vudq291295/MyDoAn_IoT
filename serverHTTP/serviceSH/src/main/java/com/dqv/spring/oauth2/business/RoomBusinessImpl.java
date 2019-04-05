@@ -33,4 +33,25 @@ public class RoomBusinessImpl implements RoomBusiness{
 			return false;
 		}
 	}
+	
+	@Override
+	public boolean updateRoom(RoomBO bo) {
+		if(roomDAO.updateRoom(bo)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean deleteRoom(RoomBO bo) {
+		if(roomDAO.deleteRoom(bo)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 }

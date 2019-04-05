@@ -36,4 +36,26 @@ public class RoomController {
 		}
 	}
 
+	@RequestMapping(value = "/updateRoom", method = RequestMethod.POST)
+	@ResponseBody 
+	public ResponseEntity updateRoom(RoomBO bo) {
+		if(roomBusinessImpl.updateRoom(bo)) {
+			return new ResponseEntity(true,HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity(false,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@RequestMapping(value = "/deleteRoom", method = RequestMethod.POST)
+	@ResponseBody 
+	public ResponseEntity deleteRoom(RoomBO bo) {
+		if(roomBusinessImpl.deleteRoom(bo)) {
+			return new ResponseEntity(true,HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity(false,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 }

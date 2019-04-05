@@ -9,4 +9,8 @@ public interface RoomBusiness {
 	List<RoomBO> getAllRoom();
 	
 	boolean insertRoom(RoomBO bo); 
+	
+	boolean updateRoom(RoomBO bo);
+	
+	boolean deleteRoom(RoomBO bo);
 }
