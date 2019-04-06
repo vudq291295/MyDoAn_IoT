@@ -6,7 +6,7 @@
     <session-factory name="123">
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.password">admin@123</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/control_equipment</property>
+        <property name="hibernate.connection.url">jdbc:mysql://14.160.26.174:3306/control_equipment</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.default_schema">control_equipment</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>

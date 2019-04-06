@@ -8,7 +8,7 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/control_equipment"/>
+        <property name="url" value="jdbc:mysql://14.160.26.174:3306/control_equipment"/>
         <property name="username" value="root"/>
         <property name="password" value="admin@123"/>
   <!--       <property name="acquireIncrement" value="2"/>

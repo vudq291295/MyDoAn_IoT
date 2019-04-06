@@ -22,8 +22,8 @@ public class EquipmentController {
 	@Autowired
 	public EquipmentBusinessImpl equipmentBusinessImpl;
 	
-	@RequestMapping(value = "/getAllRoom", method = RequestMethod.GET)
-	public ResponseEntity<List<EquipmentBO>> getAllRoom() {
+	@RequestMapping(value = "/getAllEpuipment", method = RequestMethod.GET)
+	public ResponseEntity<List<EquipmentBO>> getAllEpuipment() {
 		List<EquipmentBO> result = equipmentBusinessImpl.getAllEpuipment();
 		return new ResponseEntity<List<EquipmentBO>>(result,HttpStatus.OK);
 	}

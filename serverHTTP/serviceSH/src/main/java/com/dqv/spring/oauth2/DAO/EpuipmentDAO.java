@@ -43,6 +43,19 @@ public class EpuipmentDAO {
 			}
 	    }
 
+		public List<EquipmentBO> getEpuipmentByScript(int scripID) {
+			try {
+		        Session session = this.sessionFactory.getCurrentSession();
+		        Query query = session.createQuery("from EquipmentBO where roomId in (select equipmentID from ScriptHasEquimentBO where scripID = :scripID)");
+		        query.setParameter("scripID", scripID);
+		        List<EquipmentBO> result=  query.list();
+		        return result;
+			}
+			catch (Exception e) {
+		        return null;
+			}
+	    }
+
 		public boolean insertEpuipment(EquipmentBO bo) {
 			try {
 		        Session session = this.sessionFactory.getCurrentSession();
