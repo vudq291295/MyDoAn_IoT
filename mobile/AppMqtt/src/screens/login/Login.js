@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import {
-  Platform, StyleSheet, Text, Alert, View, TouchableOpacity, TextInput, Image, ImageBackground
+  Platform, StyleSheet, Text, Alert, View, TouchableOpacity, TextInput, Image, ImageBackground, ToastAndroid, AsyncStorage
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Toast, {DURATION} from 'react-native-easy-toast';
-import { WhiteSpace} from '@ant-design/react-native';
+import { WhiteSpace } from '@ant-design/react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Card } from 'react-native-elements';
 import styles from './styles';
@@ -26,6 +26,26 @@ class Login extends PureComponent {
     }
   }
 
+  // await componentWillMount(){
+  //   try {
+  //     const value = await AsyncStorage.getItem('userGd');
+  //     if (value !== null) {
+  //       console.log('value', value);
+  //       this.navigationToMain();
+  //     }
+  //   } catch (error) {
+  //     return null;
+  //   }
+  // }
+
+  componentWillReceiveProps(newProps){
+    const { user } = newProps;
+    if(user && user.data.success){
+      ToastAndroid.show('Đăng nhập thành công !', ToastAndroid.SHORT);
+      this.navigationToMain();
+    }
+  }
+
   _onSubmit = () => {
     const { username, password } = this.state;
     if (username === '' || password === '') {
@@ -34,6 +54,16 @@ class Login extends PureComponent {
       this.props.onLogin(username, password);
     }
   }
+
+  navigationToMain = () => {
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'drawerScreen' })
+      ]
+    })
+    this.props.navigation.dispatch(resetAction)
+  };
 
   render() {
     return (

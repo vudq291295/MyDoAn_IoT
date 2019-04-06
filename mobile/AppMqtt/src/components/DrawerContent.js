@@ -10,9 +10,14 @@ const list = [
     path: 'Home'
   },
   {
-    title: 'Danh mục',
-    icon: 'flight-takeoff',
-    path: 'Category'
+    title: 'Danh sách phòng',
+    icon: 'home',
+    path: 'Room'
+  },
+  {
+    title: 'Đăng xuất',
+    icon: 'input',
+    path: 'loginScreen'
   }
 ]
 
@@ -34,7 +39,7 @@ export class DrawerContent extends Component {
         <View style={{'backgroundColor': '#dbdcdd'}}>
           {
             list.map((item, i) => (
-              <View>
+              <View key={i}>
                 <ListItem
                   key={i}
                   title={item.title}

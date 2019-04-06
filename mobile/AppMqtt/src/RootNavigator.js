@@ -3,7 +3,7 @@ import {Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import Home from './screens/home/home';
-import Category from './screens/category/category';
+import Room from './screens/room/room';
 import Login from './screens/login/Login';
 import {DrawerContent} from './components';
 
@@ -11,11 +11,12 @@ const Main = DrawerNavigator({
   Home: {
     screen: Home,
   },
-  Category: {
-    screen: Category
+  Room: {
+    screen: Room
   }
 },{
-  contentComponent: DrawerContent
+  contentComponent: DrawerContent,
+  initialRouteName: 'Home',
 });
 
 const DrawerNavigation = StackNavigator({
@@ -29,21 +30,14 @@ const DrawerNavigation = StackNavigator({
     })
   });
 
-  // login stack
-const LoginStack = StackNavigator({
-  loginScreen: { screen: Login },
-}, {
-  headerMode: 'none'
-})
-
 const RootNavigator = StackNavigator(
   {
-    loginStack: { screen: LoginStack },
-    drawerStack: { screen: DrawerNavigation }
+    loginScreen: { screen: Login },
+    drawerScreen: { screen: DrawerNavigation }
   },
   {
     headerMode: 'none',
-    initialRouteName: 'drawerStack'
+    initialRouteName: 'loginScreen'
   }
 );
 export default RootNavigator;

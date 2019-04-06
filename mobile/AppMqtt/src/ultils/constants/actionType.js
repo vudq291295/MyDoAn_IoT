@@ -1,5 +1,7 @@
 const types = {
   LOGIN: 'LOGIN',
   LOGIN_ERROR: 'LOGIN_ERROR',
+  GETROOM_SUCCESS: 'GETROOM_SUCCESS',
+  GETROOM_ERROR: 'GETROOM_ERROR'
 };
 export default types;

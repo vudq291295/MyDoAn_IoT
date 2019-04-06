@@ -4,6 +4,8 @@ import * as _service from '../services/acountService';
 
 const loginSuccess = item => ({ type: types.LOGIN, payload: item });
 
+const getRoomSuccess = item => ({type: types.GETROOM_SUCCESS, payload: item});
+
 // const getTokenSuccess = item => ({ type: types.TOKEN, payload: item });
 
 const loginError = err => {
@@ -29,4 +31,17 @@ const setToken = (token)=>dispatch=>{
   _service.setDefaultTokenHeader(token);
 }
 
-export { login, logout , setToken};
+const room = ()=> async dispatch=>{
+  const result = await _service.getAllRoom();
+  if (result) {
+    if(result!==undefined|| result.success){
+      dispatch(getRoomSuccess(result));
+    }else{
+      dispatch(loginError(result.message));
+    }
+  } else {
+    dispatch(loginError("Đăng nhập thất bại"));
+  }
+}
+
+export { login, logout , setToken, room};

@@ -1,5 +1,4 @@
 import types from '../ultils/constants/actionType';
-// import { initialState } from '../store';
 
 const initialState = {
     success : false,
@@ -10,14 +9,9 @@ const initialState = {
 }
 export default (state = initialState, action) => {
     switch (action.type) {
-        case types.LOGIN: {
+        case types.GETROOM_SUCCESS: {
             return {
-               data: action.payload
-            };
-        }
-        case types.LOGIN_ERROR: {
-            return {
-                message: action.message
+               listData: action.payload
             };
         }
         default:

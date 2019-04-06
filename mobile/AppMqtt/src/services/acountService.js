@@ -1,8 +1,13 @@
-import axios from 'axios';
 import url, { HOST } from '../ultils/constants/api';
 import { AsyncStorage } from "react-native";
+import { _service } from './commonService';
+import axios from 'axios';
 
-const _service = axios.create({
+const setDefaultTokenHeader = (token)=>{
+  _service.defaults.headers.Authorization = "Bearer " + token;
+}
+
+var service = axios.create({
   baseURL: HOST,
   timeout: 5000,
   headers: {
@@ -10,30 +15,11 @@ const _service = axios.create({
   }
 });
 
-const _retrieveData = async (name) => {
-  try {
-    const value = await AsyncStorage.getItem(name);
-    if (value !== null) {
-      return value;
-    }
-   } catch (error) {
-      return {
-        error : 'false'
-      }
-   }
-}
-
-const setDefaultTokenHeader = (token)=>{
-  _service.defaults.headers.Authorization = "Bearer " + token;
-}
-
 const login = async (username, password) => {
   try {
-    var infoCurrentUser ={
-      token: {},
-      user: {},
+    var result = {
       success: false,
-      message: "Đăng nhập thất bại"
+      message: 'Thất bại!'
     }
     var data = {
       username : username,
@@ -42,22 +28,18 @@ const login = async (username, password) => {
       client_id: 'test',
       client_secret: 'test',
     };
-    const result = await _service.post(url.LOGIN, toParams(data));
+    const result = await service.post(url.LOGIN, toParams(data));
     if(result){
       var token = result.data.access_token;
       setDefaultTokenHeader(token);
-      const infoUser = await _service.get(url.USERINFO);
       try {
-        var infoCurrentUser = {
-          token: token,
-          user: infoUser.data,
-          success: true
-        }
-        AsyncStorage.setItem('appmqtt', infoCurrentUser);
+        AsyncStorage.setItem('token-appmqtt', token);
+        result.success = true;
+        result.message = "Thành công!";
+        return result;
       } catch (error) {
-        
       }
-      return infoCurrentUser;
+      return result;
     }
   } catch (error) {
     console.log('error', error);
