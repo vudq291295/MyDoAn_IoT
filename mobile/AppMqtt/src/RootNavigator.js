@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import Home from './screens/home/home';
 import Room from './screens/room/room';
+import FormRoom from './screens/room/formRoom';
 import Login from './screens/login/Login';
 import {DrawerContent} from './components';
 
@@ -13,6 +14,9 @@ const Main = DrawerNavigator({
   },
   Room: {
     screen: Room
+  },
+  formRoomScreen: {
+    screen: FormRoom
   }
 },{
   contentComponent: DrawerContent,

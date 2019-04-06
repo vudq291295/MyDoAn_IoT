@@ -19,6 +19,36 @@ const getAllRoom = async ()=>{
   }
 }
 
+const insertRoom = async (param)=>{
+  const result = await _service.post(url.INSERTROOM, param);
+  if(result){
+    return result;
+  }else{
+      return null;
+  }
+}
+
+const updateRoom = async (param)=>{
+  const result = await _service.post(url.UPDATEROOM, param);
+  if(result){
+    return result;
+  }else{
+      return null;
+  }
+}
+
+const deleteRoom = async (param)=>{
+  const result = await _service.post(url.DELETEROOM, param);
+  if(result){
+    return result;
+  }else{
+      return null;
+  }
+}
+
 export {
-  getAllRoom
+  getAllRoom,
+  insertRoom,
+  updateRoom,
+  deleteRoom
 };
