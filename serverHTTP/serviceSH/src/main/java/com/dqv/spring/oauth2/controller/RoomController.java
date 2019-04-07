@@ -19,13 +19,13 @@ public class RoomController {
 	@Autowired
 	private RoomBusinessImpl roomBusinessImpl;
 	
-	@RequestMapping(value = "/getAllRoom", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAllRoom", method = RequestMethod.GET, produces = { "application/json" })
 	public ResponseEntity<List<RoomBO>> getAllRoom() {
 		List<RoomBO> result = roomBusinessImpl.getAllRoom();
 		return new ResponseEntity<List<RoomBO>>(result,HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/insertRoom", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertRoom", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody 
 	public ResponseEntity insertRoom(RoomBO bo) {
 		if(roomBusinessImpl.insertRoom(bo)) {
@@ -36,7 +36,7 @@ public class RoomController {
 		}
 	}
 
-	@RequestMapping(value = "/updateRoom", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateRoom", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody 
 	public ResponseEntity updateRoom(RoomBO bo) {
 		if(roomBusinessImpl.updateRoom(bo)) {
@@ -47,7 +47,7 @@ public class RoomController {
 		}
 	}
 
-	@RequestMapping(value = "/deleteRoom", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteRoom", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody 
 	public ResponseEntity deleteRoom(RoomBO bo) {
 		if(roomBusinessImpl.deleteRoom(bo)) {
