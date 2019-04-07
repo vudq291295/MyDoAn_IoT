@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,21 +23,21 @@ public class EquipmentController {
 	@Autowired
 	public EquipmentBusinessImpl equipmentBusinessImpl;
 	
-	@RequestMapping(value = "/getAllEpuipment", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAllEpuipment", method = RequestMethod.GET, produces = { "application/json" })
 	public ResponseEntity<List<EquipmentBO>> getAllEpuipment() {
 		List<EquipmentBO> result = equipmentBusinessImpl.getAllEpuipment();
 		return new ResponseEntity<List<EquipmentBO>>(result,HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getEpuipmentByRoom/{idRoom}", method = RequestMethod.GET)
+	@RequestMapping(value = "/getEpuipmentByRoom/{idRoom}", method = RequestMethod.GET, produces = { "application/json" })
 	public ResponseEntity<List<EquipmentBO>> getEpuipmentByRoom(@PathVariable(value="idRoom") int idRoom) {
 		List<EquipmentBO> result = equipmentBusinessImpl.getEpuipmentByRoom(idRoom);
 		return new ResponseEntity<List<EquipmentBO>>(result,HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/insertEpuipment", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertEpuipment", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody 
-	public ResponseEntity insertEpuipment(EquipmentBO bo) {
+	public ResponseEntity insertEpuipment(@RequestBody EquipmentBO bo) {
 		if(equipmentBusinessImpl.insertEpuipment(bo)) {
 			return new ResponseEntity(true,HttpStatus.OK);
 		}
@@ -45,9 +46,9 @@ public class EquipmentController {
 		}
 	}
 
-	@RequestMapping(value = "/updateEpuipment", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateEpuipment", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody 
-	public ResponseEntity updateEpuipment(EquipmentBO bo) {
+	public ResponseEntity updateEpuipment(@RequestBody EquipmentBO bo) {
 		if(equipmentBusinessImpl.updateEpuipment(bo)) {
 			return new ResponseEntity(true,HttpStatus.OK);
 		}
@@ -56,9 +57,9 @@ public class EquipmentController {
 		}
 	}
 
-	@RequestMapping(value = "/deleteEpuipment", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteEpuipment", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody 
-	public ResponseEntity deleteEpuipment(EquipmentBO bo) {
+	public ResponseEntity deleteEpuipment(@RequestBody EquipmentBO bo) {
 		if(equipmentBusinessImpl.deleteEpuipment(bo)) {
 			return new ResponseEntity(true,HttpStatus.OK);
 		}
