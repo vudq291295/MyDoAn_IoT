@@ -13,8 +13,18 @@ public class EquipmentBO {
     public String name;
     public int portOutput;
     public int roomId;
-    
-    @Id
+    public int status;
+
+    @Column(name = "status")
+    public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	@Id
     @Column(name = "id")
 	public int getId() {
 		return id;
