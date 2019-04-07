@@ -3,16 +3,17 @@ package com.dqv.spring.oauth2.business;
 import java.util.List;
 
 import com.dqv.spring.oauth2.bo.EquipmentBO;
+import com.dqv.spring.oauth2.helper.Response;
 
 public interface EquipmentBusiness {
 
-	List<EquipmentBO> getAllEpuipment();
+	Response<List<EquipmentBO>> getAllEpuipment();
 	
-	List<EquipmentBO> getEpuipmentByRoom(int idRoom);
+	Response<List<EquipmentBO>> getEpuipmentByRoom(int idRoom);
 	
-	boolean insertEpuipment(EquipmentBO bo);
+	Response<Boolean> insertEpuipment(EquipmentBO bo);
 	
-	boolean updateEpuipment(EquipmentBO bo);
+	Response<Boolean> updateEpuipment(EquipmentBO bo);
 	
-	boolean deleteEpuipment(EquipmentBO bo);
+	Response<Boolean> deleteEpuipment(EquipmentBO bo);
 }

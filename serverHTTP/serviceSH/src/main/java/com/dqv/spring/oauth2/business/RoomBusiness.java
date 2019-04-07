@@ -3,14 +3,15 @@ package com.dqv.spring.oauth2.business;
 import java.util.List;
 
 import com.dqv.spring.oauth2.bo.RoomBO;
+import com.dqv.spring.oauth2.helper.Response;
 
 public interface RoomBusiness {
 	
-	List<RoomBO> getAllRoom();
+	Response<List<RoomBO>> getAllRoom();
 	
-	boolean insertRoom(RoomBO bo); 
+	Response<Boolean> insertRoom(RoomBO bo); 
 	
-	boolean updateRoom(RoomBO bo);
+	Response<Boolean> updateRoom(RoomBO bo);
 	
-	boolean deleteRoom(RoomBO bo);
+	Response<Boolean> deleteRoom(RoomBO bo);
 }

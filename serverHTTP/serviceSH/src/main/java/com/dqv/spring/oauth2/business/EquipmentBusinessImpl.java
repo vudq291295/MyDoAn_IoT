@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.dqv.spring.oauth2.DAO.EpuipmentDAO;
 import com.dqv.spring.oauth2.bo.EquipmentBO;
+import com.dqv.spring.oauth2.bo.RoomBO;
+import com.dqv.spring.oauth2.helper.Response;
 
 @Service("equipmentBusinessImpl")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -19,47 +21,96 @@ public class EquipmentBusinessImpl implements EquipmentBusiness{
 	EpuipmentDAO epuipmentDAO;
 
 	@Override
-	public List<EquipmentBO> getAllEpuipment() {
+	public Response<List<EquipmentBO>> getAllEpuipment() {
+		Response<List<EquipmentBO>> result = new Response<>();
 		List<EquipmentBO> temp = new ArrayList<EquipmentBO>();
 		temp = epuipmentDAO.getAllEpuipment();
-		return temp;
+		result.error = false;
+		result.data = temp;
+		return result;
 	}
 
 	@Override
-	public List<EquipmentBO> getEpuipmentByRoom(int idRoom) {
+	public Response<List<EquipmentBO>> getEpuipmentByRoom(int idRoom) {
+		Response<List<EquipmentBO>> result = new Response<>();
 		List<EquipmentBO> temp = new ArrayList<EquipmentBO>();
 		temp = epuipmentDAO.getEpuipmentByRoom(idRoom);
-		return temp;
+		result.error = false;
+		result.data = temp;
+		return result;
 	}
 
 	@Override
-	public boolean insertEpuipment(EquipmentBO bo) {
-		if(epuipmentDAO.insertEpuipment(bo)) {
-			return true;
+	public Response<Boolean> insertEpuipment(EquipmentBO bo) {
+		Response<Boolean> result = new Response<>();
+		if(epuipmentDAO.isTrung(bo.getRoomId(), bo.getPortOutput())){
+        	result.error = true;
+        	result.message = "Đã tồn tại phòng với kênh "+bo.getPortOutput();
+
 		}
 		else {
-			return false;
+			if(epuipmentDAO.insertEpuipment(bo)) {
+		        result.error = false;
+		        result.message = "Thành công";
+
+			}
+			else {
+	        	result.error = true;
+	        	result.message = "Đã xảy ra lỗi trong quá trình thêm mới";
+			}
 		}
+		return result;
 	}
 
 	@Override
-	public boolean updateEpuipment(EquipmentBO bo) {
-		if(epuipmentDAO.updateEpuipment(bo)) {
-			return true;
+	public Response<Boolean> updateEpuipment(EquipmentBO bo) {
+		Response<Boolean> result = new Response<>();
+		EquipmentBO currentBO = epuipmentDAO.getEquipmentByID(bo.getId());
+		System.out.println(currentBO.getName());
+		if(bo.getRoomId() == currentBO.getRoomId() && bo.getPortOutput() == currentBO.getPortOutput()) {
+			if(epuipmentDAO.updateEpuipment(bo)) {
+		        result.error = false;
+		        result.message = "Thành công";
+
+			}
+			else {
+	        	result.error = true;
+	        	result.message = "Đã xảy ra lỗi trong quá trình thêm mới";
+			}
 		}
 		else {
-			return false;
+			if(epuipmentDAO.isTrung(bo.getRoomId(), bo.getPortOutput())){
+	        	result.error = true;
+	        	result.message = "Đã tồn tại phòng với kênh "+bo.getPortOutput();
+			}
+			else {
+				if(epuipmentDAO.updateEpuipment(bo)) {
+			        result.error = false;
+			        result.message = "Thành công";
+
+				}
+				else {
+		        	result.error = true;
+		        	result.message = "Đã xảy ra lỗi trong quá trình thêm mới";
+				}
+			}
 		}
+		return result;
 	}
 
 	@Override
-	public boolean deleteEpuipment(EquipmentBO bo) {
+	public Response<Boolean> deleteEpuipment(EquipmentBO bo) {
+		Response<Boolean> result = new Response<>();
 		if(epuipmentDAO.deleteEpuipment(bo)) {
-			return true;
+	        result.error = false;
+	        result.message = "Thành công";
+
 		}
 		else {
-			return false;
+        	result.error = true;
+        	result.message = "Đã xảy ra lỗi trong quá trình xóa";
 		}
+		return result;
 	}
 	
 	

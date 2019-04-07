@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dqv.spring.oauth2.bo.EquipmentBO;
 import com.dqv.spring.oauth2.bo.RoomBO;
 import com.dqv.spring.oauth2.business.EquipmentBusinessImpl;
+import com.dqv.spring.oauth2.helper.Response;
 
 @RestController
 @RequestMapping("/api/equipment")
@@ -24,47 +25,55 @@ public class EquipmentController {
 	public EquipmentBusinessImpl equipmentBusinessImpl;
 	
 	@RequestMapping(value = "/getAllEpuipment", method = RequestMethod.GET, produces = { "application/json" })
-	public ResponseEntity<List<EquipmentBO>> getAllEpuipment() {
-		List<EquipmentBO> result = equipmentBusinessImpl.getAllEpuipment();
-		return new ResponseEntity<List<EquipmentBO>>(result,HttpStatus.OK);
+	public ResponseEntity getAllEpuipment() {
+		Response<List<EquipmentBO>> result = new Response<>();
+		result = equipmentBusinessImpl.getAllEpuipment();
+		return new ResponseEntity(result,HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/getEpuipmentByRoom/{idRoom}", method = RequestMethod.GET, produces = { "application/json" })
-	public ResponseEntity<List<EquipmentBO>> getEpuipmentByRoom(@PathVariable(value="idRoom") int idRoom) {
-		List<EquipmentBO> result = equipmentBusinessImpl.getEpuipmentByRoom(idRoom);
-		return new ResponseEntity<List<EquipmentBO>>(result,HttpStatus.OK);
+	public ResponseEntity getEpuipmentByRoom(@PathVariable(value="idRoom") int idRoom) {
+		Response<List<EquipmentBO>> result = new Response<>();
+		result = equipmentBusinessImpl.getEpuipmentByRoom(idRoom);
+		return new ResponseEntity(result,HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/insertEpuipment", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody 
 	public ResponseEntity insertEpuipment(@RequestBody EquipmentBO bo) {
-		if(equipmentBusinessImpl.insertEpuipment(bo)) {
-			return new ResponseEntity(true,HttpStatus.OK);
+		Response<Boolean> result = new Response<>();
+		result = equipmentBusinessImpl.insertEpuipment(bo);
+		if(!result.error) {
+			return new ResponseEntity(result,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity(false,HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity(result,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@RequestMapping(value = "/updateEpuipment", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody 
 	public ResponseEntity updateEpuipment(@RequestBody EquipmentBO bo) {
-		if(equipmentBusinessImpl.updateEpuipment(bo)) {
-			return new ResponseEntity(true,HttpStatus.OK);
+		Response<Boolean> result = new Response<>();
+		result = equipmentBusinessImpl.updateEpuipment(bo);
+		if(!result.error) {
+			return new ResponseEntity(result,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity(false,HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity(result,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@RequestMapping(value = "/deleteEpuipment", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody 
 	public ResponseEntity deleteEpuipment(@RequestBody EquipmentBO bo) {
-		if(equipmentBusinessImpl.deleteEpuipment(bo)) {
-			return new ResponseEntity(true,HttpStatus.OK);
+		Response<Boolean> result = new Response<>();
+		result = equipmentBusinessImpl.deleteEpuipment(bo);
+		if(!result.error) {
+			return new ResponseEntity(result,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity(false,HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity(result,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

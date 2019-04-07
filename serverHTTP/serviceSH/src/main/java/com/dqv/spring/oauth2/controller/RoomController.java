@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dqv.spring.oauth2.bo.RoomBO;
 import com.dqv.spring.oauth2.business.RoomBusinessImpl;
+import com.dqv.spring.oauth2.helper.Response;
 
 @RestController
 @RequestMapping("/api/room")
@@ -21,42 +22,49 @@ public class RoomController {
 	private RoomBusinessImpl roomBusinessImpl;
 	
 	@RequestMapping(value = "/getAllRoom", method = RequestMethod.GET, produces = { "application/json" })
-	public ResponseEntity<List<RoomBO>> getAllRoom() {
-		List<RoomBO> result = roomBusinessImpl.getAllRoom();
-		return new ResponseEntity<List<RoomBO>>(result,HttpStatus.OK);
+	public ResponseEntity getAllRoom() {
+		Response<List<RoomBO>> result = new Response<>();
+		result = roomBusinessImpl.getAllRoom();
+		return new ResponseEntity(result,HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/insertRoom", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody 
 	public ResponseEntity insertRoom(@RequestBody RoomBO bo) {
 		System.out.println("name "+bo.getName());
-		if(roomBusinessImpl.insertRoom(bo)) {
-			return new ResponseEntity(true,HttpStatus.OK);
+		Response<Boolean> result = new Response<>();
+		result = roomBusinessImpl.insertRoom(bo);
+		if(!result.error) {
+			return new ResponseEntity(result,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity(false,HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity(result,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@RequestMapping(value = "/updateRoom", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody 
 	public ResponseEntity updateRoom(@RequestBody RoomBO bo) {
-		if(roomBusinessImpl.updateRoom(bo)) {
-			return new ResponseEntity(true,HttpStatus.OK);
+		Response<Boolean> result = new Response<>();
+		result = roomBusinessImpl.updateRoom(bo);
+		if(!result.error) {
+			return new ResponseEntity(result,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity(false,HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity(result,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@RequestMapping(value = "/deleteRoom", method = RequestMethod.POST, produces = { "application/json" })
 	@ResponseBody 
 	public ResponseEntity deleteRoom(@RequestBody RoomBO bo) {
-		if(roomBusinessImpl.deleteRoom(bo)) {
-			return new ResponseEntity(true,HttpStatus.OK);
+		Response<Boolean> result = new Response<>();
+		result = roomBusinessImpl.deleteRoom(bo);
+		if(!result.error) {
+			return new ResponseEntity(result,HttpStatus.OK);
 		}
 		else {
-			return new ResponseEntity(false,HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity(result,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
