@@ -8,9 +8,11 @@
   },
   "dependencies": {
     "@ant-design/react-native": "^3.1.5",
+    "@eyezon/react-native-mqtt": "0.0.5",
     "axios": "^0.18.0",
     "react": "16.6.3",
     "react-native": "0.58.6",
+    "react-native-autocomplete-input": "^3.6.0",
     "react-native-dialog": "^5.6.0",
     "react-native-easy-toast": "^1.2.0",
     "react-native-elements": "^1.1.0",
@@ -22,7 +24,8 @@
     "redux": "^3.7.2",
     "redux-axios-middleware": "^4.0.0",
     "redux-persist": "^5.6.12",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "toggle-switch-react-native": "^2.0.2"
   },
   "devDependencies": {
     "babel-core": "7.0.0-bridge.0",

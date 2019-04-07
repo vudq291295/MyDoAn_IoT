@@ -7,7 +7,7 @@ const API = {
   INSERTROOM: '/api/room/insertRoom',
   UPDATEROOM: '/api/room/updateRoom',
   DELETEROOM: '/api/room/deleteRoom',
-  GETALLROOM: '/api/equipment/getAllRoom',
+  GETALLROOM: '/api/equipment/getAllEpuipment',
   GETEQUIPMENTBYROOM: '/api/equipment/getEpuipmentByRoom',
   INSERTEQUIPMENT: '/api/equipment/insertEpuipment',
   UPDATEEQUIPMENT: '/api/equipment//updateEpuipment',

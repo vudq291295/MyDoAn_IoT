@@ -12,8 +12,8 @@ const toParams = function ObjectsToParams(obj) {
 
 const getAllEquipment = async ()=>{
   const result = await _service.get(url.GETALLROOM);
-  if(result){
-    return result;
+  if(result && result.status == 200 && !result.data.error){
+    return result.data;
   }else{
       return null;
   }
@@ -21,8 +21,8 @@ const getAllEquipment = async ()=>{
 
 const getEquipmentsByRoom = async (id)=>{
   const result = await _service.get(url.GETEQUIPMENTBYROOM+"/"+id);
-  if(result){
-    return result;
+  if(result && result.status == 200 && !result.data.error){
+    return result.data;
   }else{
       return null;
   }
@@ -31,8 +31,8 @@ const getEquipmentsByRoom = async (id)=>{
 
 const insertEquipment = async (param)=>{
   const result = await _service.post(url.INSERTEQUIPMENT, param);
-  if(result){
-    return result;
+  if(result && result.status == 200 && !result.data.error){
+    return result.data;
   }else{
       return null;
   }
@@ -40,8 +40,8 @@ const insertEquipment = async (param)=>{
 
 const updateEquipment = async (param)=>{
   const result = await _service.post(url.UPDATEEQUIPMENT, param);
-  if(result){
-    return result;
+  if(result && result.status == 200 && !result.data.error){
+    return result.data;
   }else{
       return null;
   }
@@ -49,8 +49,8 @@ const updateEquipment = async (param)=>{
 
 const deleteEquipment = async (param)=>{
   const result = await _service.post(url.DELETEEQUIPMENT, param);
-  if(result){
-    return result;
+  if(result && result.status == 200 && !result.data.error){
+    return result.data;
   }else{
       return null;
   }

@@ -12,8 +12,8 @@ const toParams = function ObjectsToParams(obj) {
 
 const getAllRoom = async ()=>{
   const result = await _service.get(url.GETROOM);
-  if(result){
-    return result;
+  if(result && result.status == 200 && !result.data.error){
+    return result.data;
   }else{
       return null;
   }
@@ -21,8 +21,8 @@ const getAllRoom = async ()=>{
 
 const insertRoom = async (param)=>{
   const result = await _service.post(url.INSERTROOM, param);
-  if(result){
-    return result;
+  if(result && result.status == 200 && !result.data.error){
+    return result.data;
   }else{
       return null;
   }
@@ -30,8 +30,8 @@ const insertRoom = async (param)=>{
 
 const updateRoom = async (param)=>{
   const result = await _service.post(url.UPDATEROOM, param);
-  if(result){
-    return result;
+  if(result && result.status == 200 && !result.data.error){
+    return result.data;
   }else{
       return null;
   }
@@ -39,8 +39,8 @@ const updateRoom = async (param)=>{
 
 const deleteRoom = async (param)=>{
   const result = await _service.post(url.DELETEROOM, param);
-  if(result){
-    return result;
+  if(result && result.status == 200 && !result.data.error){
+    return result.data;
   }else{
       return null;
   }

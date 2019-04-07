@@ -57,14 +57,14 @@ class FormEquipment extends Component {
     }
 
     componentWillReceiveProps(newProps){
-        const {room} = newProps;
-        if(room && room.insert){
+        const {equipment} = newProps;
+        if(equipment && equipment.insert){
             ToastAndroid.show('Thêm mới thành công!', ToastAndroid.SHORT);
-            this.props.navigation.navigate('Room');
+            this.props.navigation.navigate('Equipment');
         }
-        if(room && room.update){
+        if(equipment && equipment.update){
             ToastAndroid.show('Sửa thành công!', ToastAndroid.SHORT);
-            this.props.navigation.navigate('Room');
+            this.props.navigation.navigate('Equipment');
         }
     }
 

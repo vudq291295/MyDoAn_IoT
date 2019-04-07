@@ -46,6 +46,10 @@ class Equipment extends Component {
         this.setState({ isDialog: true, itemSeleted: item });
     }
 
+    _handleCancel(){
+        this.setState({ isDialog: false });
+    }
+
     _handleEdit(){
         this.setState({ isDialog: false });
         this.props.navigation.navigate('formEquipmentScreen', {data: this.state.itemSeleted});
@@ -94,6 +98,7 @@ class Equipment extends Component {
                     <Dialog.Title>Thực hiện</Dialog.Title>
                     <Dialog.Button label="Sửa" onPress={()=>this._handleEdit()}/>
                     <Dialog.Button label="Xóa" onPress={()=>this._handleDelete()}/>
+                    <Dialog.Button label="Đóng" onPress={()=>this._handleCancel()}/>
                 </Dialog.Container>
             </View>
         );

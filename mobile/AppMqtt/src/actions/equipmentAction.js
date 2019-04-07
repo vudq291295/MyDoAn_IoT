@@ -51,8 +51,8 @@ const insertEquipment = (param)=> async dispatch=>{
 }
 
 //update
-const updateEquipmentSuccess = item => ({type: types.UPDATE_ROOM_SUCCESS, payload: item});
-const updateEquipmentError = err => ({type: types.UPDATE_ROOM_ERROR, payload: err});
+const updateEquipmentSuccess = item => ({type: types.UPDATE_EQUIPMENT_SUCCESS, payload: item});
+const updateEquipmentError = err => ({type: types.UPDATE_EQUIPMENT_ERROR, payload: err});
 const updateEquipment = (param)=> async dispatch=>{
   const result = await _service.updateEquipment(param);
   if (result) {
@@ -67,8 +67,8 @@ const updateEquipment = (param)=> async dispatch=>{
 }
 
 //delete
-const deleteEquipmentSuccess = item => ({type: types.DELETE_ROOM_SUCCESS, payload: item});
-const deleteEquipmentError = err => ({type: types.DELETE_ROOM_ERROR, payload: err});
+const deleteEquipmentSuccess = item => ({type: types.DELETE_EQUIPMENT_SUCCESS, payload: item});
+const deleteEquipmentError = err => ({type: types.DELETE_EQUIPMENT_ERROR, payload: err});
 const deleteEquipment = (param)=> async dispatch=>{
   const result = await _service.deleteEquipment(param);
   if (result) {

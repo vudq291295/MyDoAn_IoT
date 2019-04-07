@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Card } from 'react-native-elements';
 import styles from './styles';
 import { login, setToken } from '../../actions';
-const backgroundImage = require('../../ultils/images/cafe3.png');
+const backgroundImage = require('../../ultils/images/cafe3.jpeg');
 
 class Login extends PureComponent {
   static navigationOptions = {
