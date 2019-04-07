@@ -15,8 +15,13 @@ const list = [
     path: 'Room'
   },
   {
+    title: 'Danh sách thiết bị',
+    icon: 'extension',
+    path: 'Equipment'
+  },
+  {
     title: 'Đăng xuất',
-    icon: 'input',
+    icon: 'exit-to-app',
     path: 'loginScreen'
   }
 ]

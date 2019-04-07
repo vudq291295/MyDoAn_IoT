@@ -6,6 +6,11 @@ const API = {
   GETROOM: '/api/room/getAllRoom',
   INSERTROOM: '/api/room/insertRoom',
   UPDATEROOM: '/api/room/updateRoom',
-  DELETEROOM: '/api/room/deleteRoom'
+  DELETEROOM: '/api/room/deleteRoom',
+  GETALLROOM: '/api/equipment/getAllRoom',
+  GETEQUIPMENTBYROOM: '/api/equipment/getEpuipmentByRoom',
+  INSERTEQUIPMENT: '/api/equipment/insertEpuipment',
+  UPDATEEQUIPMENT: '/api/equipment//updateEpuipment',
+  DELETEEQUIPMENT: '/api/equipment//deleteEpuipment'
 };
 export default API;

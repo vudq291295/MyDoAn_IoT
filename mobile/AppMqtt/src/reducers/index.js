@@ -1,6 +1,7 @@
 import RootNavigator from '../RootNavigator';
 import LoginReducer from './LoginReducer';
 import roomReducer from './roomReducer';
+import equipmentReducer from './equipmentReducer';
 
 const nav = (state, action) => {
     const newState = RootNavigator.router.getStateForAction(action, state);
@@ -11,5 +12,6 @@ const nav = (state, action) => {
 export default ({
     nav,
     LoginReducer,
-    roomReducer
+    roomReducer,
+    equipmentReducer
 });

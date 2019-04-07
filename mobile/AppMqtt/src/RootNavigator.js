@@ -5,6 +5,8 @@ import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import Home from './screens/home/home';
 import Room from './screens/room/room';
 import FormRoom from './screens/room/formRoom';
+import Equipment from './screens/equipment/equipment';
+import FormEquipment from './screens/equipment/formEquipment';
 import Login from './screens/login/Login';
 import {DrawerContent} from './components';
 
@@ -17,6 +19,12 @@ const Main = DrawerNavigator({
   },
   formRoomScreen: {
     screen: FormRoom
+  },
+  Equipment: {
+    screen: Equipment
+  },
+  formEquipmentScreen: {
+    screen: FormEquipment
   }
 },{
   contentComponent: DrawerContent,
