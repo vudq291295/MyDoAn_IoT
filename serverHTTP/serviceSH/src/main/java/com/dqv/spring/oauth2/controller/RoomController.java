@@ -29,6 +29,7 @@ public class RoomController {
 			  headers = "Accept=application/json")
 	@ResponseBody 
 	public ResponseEntity insertRoom(RoomBO bo) {
+		System.out.println("name "+bo.getName());
 		if(roomBusinessImpl.insertRoom(bo)) {
 			return new ResponseEntity(true,HttpStatus.OK);
 		}
