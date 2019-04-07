@@ -25,7 +25,8 @@ public class RoomController {
 		return new ResponseEntity<List<RoomBO>>(result,HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/insertRoom", method = RequestMethod.POST, produces = { "application/json" })
+	@RequestMapping(value = "/insertRoom", method = RequestMethod.POST, produces = { "application/json" }, 
+			  headers = "Accept=application/json")
 	@ResponseBody 
 	public ResponseEntity insertRoom(RoomBO bo) {
 		if(roomBusinessImpl.insertRoom(bo)) {
