@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#33be6d</color>
+    <color name="colorPrimaryLight">#33be6d</color>
+    <color name="colorPrimaryDark">#188A48</color>
+    <color name="colorAccentDark">#101924</color>
+    <color name="colorAccent" >#15212f</color>
+    <color name="background">#ebebeb</color>
+    <color name="bd_edittext">#33757575</color>
+    <color name="text_dktv">#757575</color>
+    <color name="white">#FFFFFF</color>
+    <color name="buton_login">#33be6d</color>
+    <color name="press_button_login">#188A48</color>
+    <color name="bg_item_news">#131313</color>
+    <color name="text_hint">#4DFFFFFF</color>
+    <color name="text_color">#333</color>
+    <color name="chu_nhat">#707070</color>
+    <color name="start_button_profile">#f33d54</color>
+    <color name="end_button_profile">#f15a22</color>
+    <color name="list_divider">#dedede</color>
+    <color name="bg_bubble_self">#E1E1E1</color>
+    <color name="green">#00CC00</color>
+    <color name="bg_rw">#e9efe6</color>
+    <color name="darkGray">#6c6c6c</color>
+    <color name="tittle">#5f9f5f</color>
+
+
+</resources>

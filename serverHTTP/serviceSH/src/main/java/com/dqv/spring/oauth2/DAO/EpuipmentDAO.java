@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dqv.spring.oauth2.DTO.EquipmentDTO;
 import com.dqv.spring.oauth2.bo.EquipmentBO;
 import com.dqv.spring.oauth2.bo.RoomBO;
 
@@ -59,26 +60,64 @@ public class EpuipmentDAO {
 			}
 	    }
 
-		public List<EquipmentBO> getAllEpuipment() {
+		public List<EquipmentDTO> getAllEpuipment() {
 			try {
+				List<EquipmentDTO> lstResul = new ArrayList<>();
 		        Session session = this.sessionFactory.getCurrentSession();
 		        Query query = session.createQuery("from EquipmentBO");
 		        List<EquipmentBO> result=  query.list();
-		        return result;
+		        System.out.println("result "+ result.size() );
+		        if(result.size() > 0) {
+			        for(int i = 0 ; i< result.size();i++) {
+			        	EquipmentDTO model = new EquipmentDTO();
+			        	model.setId(result.get(i).getId());
+			        	model.setName(result.get(i).getName());
+			        	model.setPortOutput(result.get(i).getPortOutput());
+			        	model.setRoomId(result.get(i).getRoomId());
+			        	model.setStatus(result.get(i).getStatus());
+				        Query query2 = session.createQuery("from RoomBO Where id = :id");
+				        query2.setParameter("id", result.get(i).getRoomId());
+				        List<RoomBO> result2 =  query2.list();
+				        if(result2.size()>0) {
+				        	model.setChanel(result2.get(0).getChanel());
+				        }
+				        lstResul.add(model);
+			        }
+		        }
+		        return lstResul;
 			}
 			catch (Exception e) {
 		        return null;
 			}
 	    }
 		
-		public List<EquipmentBO> getEpuipmentByRoom(int idRoom) {
+		public List<EquipmentDTO> getEpuipmentByRoom(int idRoom) {
 			List<EquipmentBO> result = new ArrayList<EquipmentBO>();
+			List<EquipmentDTO> lstResul = new ArrayList<>();
 			try {
 		        Session session = this.sessionFactory.getCurrentSession();
 		        Query query = session.createQuery("from EquipmentBO where roomId = :idRoom");
 		        query.setParameter("idRoom", idRoom);
 		        result =  query.list();
-		        return result;
+		        Query query2 = session.createQuery("from RoomBO Where id = :id");
+		        query2.setParameter("id", idRoom);
+		        List<RoomBO> result2 =  query2.list();
+		        if(result.size() > 0) {
+			        for(int i = 0 ; i< result.size();i++) {
+			        	EquipmentDTO model = new EquipmentDTO();
+			        	model.setId(result.get(i).getId());
+			        	model.setName(result.get(i).getName());
+			        	model.setPortOutput(result.get(i).getPortOutput());
+			        	model.setRoomId(result.get(i).getRoomId());
+			        	model.setStatus(result.get(i).getStatus());
+				        if(result2.size()>0) {
+				        	model.setChanel(result2.get(0).getChanel());
+				        }
+				        lstResul.add(model);
+			        }
+		        }
+
+		        return lstResul;
 			}
 			catch (Exception e) {
 		        return null;

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Notification">
+        <menu>
+            <item
+                android:id="@+id/nav_noti_inbox"
+                android:icon="@drawable/ic_inbox"
+                android:title="@string/inbox" />
+            <item
+                android:id="@+id/nav_noti_sent"
+                android:icon="@drawable/ic_sent"
+                android:title="@string/message" />
+            <item
+                android:id="@+id/nav_noti_new_mess"
+                android:title="@string/new_message"
+                />
+            <item
+                android:id="@+id/nav_noti_back_home"
+                android:title="@string/cancel"
+                android:icon="@drawable/ic_home"/>
+
+        </menu>
+    </item>
+
+</menu>

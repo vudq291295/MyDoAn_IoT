@@ -21,7 +21,7 @@ long lastMsg = 0;
 char msg[50];
 int value = 0;
 int OUTPUT_LED = 5;
-const char* mqtt_server = "192.168.100.11";
+const char* mqtt_server = "192.168.100.7";
 
 void setup() {
   Serial.begin(115200);

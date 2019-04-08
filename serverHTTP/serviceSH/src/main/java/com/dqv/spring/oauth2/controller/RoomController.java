@@ -21,14 +21,14 @@ public class RoomController {
 	@Autowired
 	private RoomBusinessImpl roomBusinessImpl;
 	
-	@RequestMapping(value = "/getAllRoom", method = RequestMethod.GET, produces = { "application/json" })
+	@RequestMapping(value = "/getAllRoom", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
 	public ResponseEntity getAllRoom() {
 		Response<List<RoomBO>> result = new Response<>();
 		result = roomBusinessImpl.getAllRoom();
 		return new ResponseEntity(result,HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/insertRoom", method = RequestMethod.POST, produces = { "application/json" })
+	@RequestMapping(value = "/insertRoom", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody 
 	public ResponseEntity insertRoom(@RequestBody RoomBO bo) {
 		System.out.println("name "+bo.getName());
@@ -42,7 +42,7 @@ public class RoomController {
 		}
 	}
 
-	@RequestMapping(value = "/updateRoom", method = RequestMethod.POST, produces = { "application/json" })
+	@RequestMapping(value = "/updateRoom", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody 
 	public ResponseEntity updateRoom(@RequestBody RoomBO bo) {
 		Response<Boolean> result = new Response<>();
@@ -55,7 +55,7 @@ public class RoomController {
 		}
 	}
 
-	@RequestMapping(value = "/deleteRoom", method = RequestMethod.POST, produces = { "application/json" })
+	@RequestMapping(value = "/deleteRoom", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody 
 	public ResponseEntity deleteRoom(@RequestBody RoomBO bo) {
 		Response<Boolean> result = new Response<>();

@@ -2,14 +2,15 @@ package com.dqv.spring.oauth2.business;
 
 import java.util.List;
 
+import com.dqv.spring.oauth2.DTO.EquipmentDTO;
 import com.dqv.spring.oauth2.bo.EquipmentBO;
 import com.dqv.spring.oauth2.helper.Response;
 
 public interface EquipmentBusiness {
 
-	Response<List<EquipmentBO>> getAllEpuipment();
+	Response<List<EquipmentDTO>> getAllEpuipment();
 	
-	Response<List<EquipmentBO>> getEpuipmentByRoom(int idRoom);
+	Response<List<EquipmentDTO>> getEpuipmentByRoom(int idRoom);
 	
 	Response<Boolean> insertEpuipment(EquipmentBO bo);
 	

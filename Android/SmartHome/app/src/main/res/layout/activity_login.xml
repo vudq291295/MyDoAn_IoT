@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="#f63a3c"
+    android:backgroundTintMode="multiply"
+    android:alpha="0.8"
+    tools:context=".Activity.LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="268dp"
+            android:layout_height="72dp"
+            />
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/usernameET"
+        android:layout_width="299dp"
+        android:layout_height="64dp"
+
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="8dp"
+        android:autofillHints="@string/username"
+        android:background="@drawable/login_edit_text"
+        android:drawableLeft="@drawable/account"
+        android:inputType="textAutoComplete"
+        android:textAlignment="center"
+        android:textColor="@color/bg_item_news"
+        android:textColorHint="@color/bg_item_news"
+        android:textSize="@dimen/text_size_20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <EditText
+        android:id="@+id/password_login_ET"
+        android:layout_width="299dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="8dp"
+
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:autofillHints="@string/password"
+        android:background="@drawable/login_edit_text"
+        android:drawableLeft="@drawable/padlock"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textColor="@color/bg_item_news"
+        android:textColorHint="@color/bg_item_news"
+        android:textSize="@dimen/text_size_20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernameET" />
+
+    <Button
+        android:id="@+id/Btn_login"
+        android:layout_width="254dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_login"
+        android:text="@string/login"
+        android:textAlignment="center"
+        android:textColor="#FFFF"
+        android:textSize="@dimen/text_size_20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_login_ET" />
+
+
+</android.support.constraint.ConstraintLayout>

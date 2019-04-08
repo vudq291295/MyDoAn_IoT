@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.RoomActivity">
+    <include
+        android:id="@+id/toolbarRoom"
+        layout="@layout/appbar_dktv"
+        />
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_below="@+id/toolbarRoom"
+        android:id="@+id/list_room"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:background="@color/background">
+
+    </android.support.v7.widget.RecyclerView>
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_fab_room"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_title="Thêm mới phòng"
+        fab:fab_icon="@drawable/add_icon"
+        fab:fab_stroke_visible="true"
+        fab:paddingEnd="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        fab:fab_colorPressed="@color/colorPrimary"/>
+
+</RelativeLayout>

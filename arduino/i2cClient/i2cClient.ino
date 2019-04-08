@@ -6,7 +6,7 @@ char mss[8] = "";
 void setup()
 {
    Serial.begin(115200);
-  Wire.begin(6); // Khởi tạo thư viện i2c địa chỉ 6
+  Wire.begin(20); // Khởi tạo thư viện i2c địa chỉ 6
   Wire.onReceive(receiveEvent); // khởi tạo chế độ nhận tín hiệu từ boad chủ
   pinMode(13,OUTPUT);
   digitalWrite(13,LOW);

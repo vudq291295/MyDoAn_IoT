@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <corners android:radius="15dp" />
+            <gradient android:endColor="@color/press_button_login" android:startColor="@color/press_button_login" />
+            <padding android:bottom="7dp" android:left="7dp" android:right="7dp" android:top="7dp" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <corners android:radius="15dp" />
+            <gradient android:endColor="@color/buton_login" android:startColor="@color/buton_login" />
+            <padding android:bottom="7dp" android:left="7dp" android:right="7dp" android:top="7dp" />
+        </shape>
+    </item>
+</selector>

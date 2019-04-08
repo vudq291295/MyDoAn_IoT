@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorPrimary222222" format="color" />
+    <attr name="colorPrimaryDark" format="color" />
+
+    <!--<declare-styleable name="CustomWidget">-->
+        <!--<attr name="colorPrimary" format="color" />-->
+        <!--<attr name="colorPrimaryDark" format="color" />-->
+    <!--</declare-styleable>-->
+</resources>

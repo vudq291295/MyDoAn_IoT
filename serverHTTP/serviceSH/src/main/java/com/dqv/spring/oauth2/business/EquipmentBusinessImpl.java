@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 import com.dqv.spring.oauth2.DAO.EpuipmentDAO;
+import com.dqv.spring.oauth2.DTO.EquipmentDTO;
 import com.dqv.spring.oauth2.bo.EquipmentBO;
 import com.dqv.spring.oauth2.bo.RoomBO;
 import com.dqv.spring.oauth2.helper.Response;
@@ -21,9 +22,9 @@ public class EquipmentBusinessImpl implements EquipmentBusiness{
 	EpuipmentDAO epuipmentDAO;
 
 	@Override
-	public Response<List<EquipmentBO>> getAllEpuipment() {
-		Response<List<EquipmentBO>> result = new Response<>();
-		List<EquipmentBO> temp = new ArrayList<EquipmentBO>();
+	public Response<List<EquipmentDTO>> getAllEpuipment() {
+		Response<List<EquipmentDTO>> result = new Response<>();
+		List<EquipmentDTO> temp = new ArrayList<EquipmentDTO>();
 		temp = epuipmentDAO.getAllEpuipment();
 		result.error = false;
 		result.data = temp;
@@ -31,9 +32,9 @@ public class EquipmentBusinessImpl implements EquipmentBusiness{
 	}
 
 	@Override
-	public Response<List<EquipmentBO>> getEpuipmentByRoom(int idRoom) {
-		Response<List<EquipmentBO>> result = new Response<>();
-		List<EquipmentBO> temp = new ArrayList<EquipmentBO>();
+	public Response<List<EquipmentDTO>> getEpuipmentByRoom(int idRoom) {
+		Response<List<EquipmentDTO>> result = new Response<>();
+		List<EquipmentDTO> temp = new ArrayList<EquipmentDTO>();
 		temp = epuipmentDAO.getEpuipmentByRoom(idRoom);
 		result.error = false;
 		result.data = temp;

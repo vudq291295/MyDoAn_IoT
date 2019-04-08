@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dqv.spring.oauth2.DTO.EquipmentDTO;
 import com.dqv.spring.oauth2.bo.EquipmentBO;
 import com.dqv.spring.oauth2.bo.RoomBO;
 import com.dqv.spring.oauth2.business.EquipmentBusinessImpl;
@@ -24,21 +25,21 @@ public class EquipmentController {
 	@Autowired
 	public EquipmentBusinessImpl equipmentBusinessImpl;
 	
-	@RequestMapping(value = "/getAllEpuipment", method = RequestMethod.GET, produces = { "application/json" })
+	@RequestMapping(value = "/getAllEpuipment", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
 	public ResponseEntity getAllEpuipment() {
-		Response<List<EquipmentBO>> result = new Response<>();
+		Response<List<EquipmentDTO>> result = new Response<>();
 		result = equipmentBusinessImpl.getAllEpuipment();
 		return new ResponseEntity(result,HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getEpuipmentByRoom/{idRoom}", method = RequestMethod.GET, produces = { "application/json" })
+	@RequestMapping(value = "/getEpuipmentByRoom/{idRoom}", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
 	public ResponseEntity getEpuipmentByRoom(@PathVariable(value="idRoom") int idRoom) {
-		Response<List<EquipmentBO>> result = new Response<>();
+		Response<List<EquipmentDTO>> result = new Response<>();
 		result = equipmentBusinessImpl.getEpuipmentByRoom(idRoom);
 		return new ResponseEntity(result,HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/insertEpuipment", method = RequestMethod.POST, produces = { "application/json" })
+	@RequestMapping(value = "/insertEpuipment", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody 
 	public ResponseEntity insertEpuipment(@RequestBody EquipmentBO bo) {
 		Response<Boolean> result = new Response<>();
@@ -51,7 +52,7 @@ public class EquipmentController {
 		}
 	}
 
-	@RequestMapping(value = "/updateEpuipment", method = RequestMethod.POST, produces = { "application/json" })
+	@RequestMapping(value = "/updateEpuipment", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody 
 	public ResponseEntity updateEpuipment(@RequestBody EquipmentBO bo) {
 		Response<Boolean> result = new Response<>();
@@ -64,7 +65,7 @@ public class EquipmentController {
 		}
 	}
 
-	@RequestMapping(value = "/deleteEpuipment", method = RequestMethod.POST, produces = { "application/json" })
+	@RequestMapping(value = "/deleteEpuipment", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody 
 	public ResponseEntity deleteEpuipment(@RequestBody EquipmentBO bo) {
 		Response<Boolean> result = new Response<>();
