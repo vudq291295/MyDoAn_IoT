@@ -14,10 +14,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/white"
-
         android:orientation="vertical">
         <ImageView
-            android:id="@+id/imgEquipMain"
+            android:id="@+id/bg_item_news"
             android:padding="0dp"
             android:layout_width="fill_parent"
             android:maxHeight="200dp"
@@ -34,7 +33,8 @@
             <LinearLayout
                 android:id="@+id/resource"
                 android:layout_width="fill_parent"
-                android:layout_height="30dp">
+                android:layout_height="30dp"
+                android:orientation="horizontal">
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
             </LinearLayout>
             <TextView
                 android:layout_marginTop="10dp"
-                android:id="@+id/twNameEquipMain"
+                android:id="@+id/item_tittle_Equip"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/resource"
@@ -88,11 +88,11 @@
                 android:textColor="#000000"
                 />
             <TextView
-                android:id="@+id/twStatusEquipMain"
+                android:id="@+id/item_des_Equip"
                 android:layout_marginTop="@dimen/margin_12dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/twNameEquipMain"
+                android:layout_below="@+id/item_tittle_Equip"
                 android:paddingBottom="8dp"
                 android:maxLines="3"
                 android:ellipsize="end"
@@ -100,6 +100,7 @@
                 android:textSize="@dimen/text_size_12sp"
                 android:textColor="#000000"
                 />
+
         </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -2,7 +2,9 @@ package com.dqv.smarthome.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +15,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,12 +32,16 @@ import com.dqv.smarthome.Adapter.MainAdapter;
 import com.dqv.smarthome.Adapter.RoomAdapter;
 import com.dqv.smarthome.Application.MyApplication;
 import com.dqv.smarthome.ConnSqlite.SQLiteHandler;
+import com.dqv.smarthome.Dialog.DialogEquipment;
+import com.dqv.smarthome.Dialog.ManagerDialog;
 import com.dqv.smarthome.Model.EquipmentModel;
 import com.dqv.smarthome.Model.RoomModel;
 import com.dqv.smarthome.Model.UrlModel;
 import com.dqv.smarthome.Model.UserModel;
 import com.dqv.smarthome.Mqtt.MqttHelper;
 import com.dqv.smarthome.R;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
@@ -50,12 +58,18 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     public static String TAG = MainActivity.class.getSimpleName();
     public String urlGetAllEquipment = UrlModel.url_getALlEquipment;
+    public String urlGetAllEquipmentByRoom = UrlModel.url_getALlEquipmentByRoom;
+
+    public String urlGetAllRoom = UrlModel.url_getALlRoomn;
 
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private View navHeader;
     private TextView txtName, txtWebsite, twHome;
+    public FloatingActionsMenu fam;
+    public FloatingActionButton fammm;
+
 
     public static int navItemIndex = 0;
     public SQLiteHandler db;
@@ -64,6 +78,28 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<EquipmentModel> listTG = new ArrayList<EquipmentModel>();
     MainAdapter mainAdapter;
     String currentToken = "";
+    int currentRoomID = 0;
+    FragmentManager fm;
+
+    View.OnClickListener btnClickListner = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.fab_tonghop:
+                    getAllEquipment();
+                    currentRoomID = -1;
+                    fam.collapse();
+                    break;
+                default:
+                    currentRoomID = v.getId();
+                    getAllEquipmentByRoomId(currentRoomID);
+                    fam.collapse();
+                    break;
+            }
+            Log.d(TAG, "onClick currentRoomID : " + currentRoomID);
+
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,12 +110,47 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        fm = getSupportFragmentManager();
 
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.main_view);
         navHeader = navigationView.getHeaderView(0);
         txtName = navHeader.findViewById(R.id.name);
+        fam = (FloatingActionsMenu) findViewById(R.id.fab_filter_new);
+        fammm = (FloatingActionButton) findViewById(R.id.fab_fab_main);
+        final ImageView dimmedBackground= (ImageView) findViewById(R.id.dimmedBackground);
+        dimmedBackground.setVisibility(View.GONE);
+        final FloatingActionButton fab_tonghop = (FloatingActionButton) findViewById(R.id.fab_tonghop);
+        fab_tonghop.setOnClickListener(btnClickListner);
 
+        fammm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (fam.isExpanded()) {
+                    fam.collapse();
+//                    fammm.setIcon(R.drawable.filter);
+                } else {
+                    fam.expand();
+//                    fammm.setIcon(R.drawable.cancel_filter);
+                }
+            }
+        });
+
+        fam.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+            @Override
+            public void onMenuExpanded() {
+                dimmedBackground.setVisibility(View.VISIBLE);
+                fammm.setIcon(R.drawable.cancel_filter);
+
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+                dimmedBackground.setVisibility(View.GONE);
+                fammm.setIcon(R.drawable.filter);
+            }
+
+        });
         loadNavHeader();
 
         // initializing navigation menu
@@ -92,10 +163,11 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.list_main);
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mainAdapter = new MainAdapter(listTG,getApplicationContext(),mqttHelper);
+        mainAdapter = new MainAdapter(listTG,getApplicationContext(),mqttHelper,fm);
         mRecyclerView.setAdapter(mainAdapter);
         currentToken = MyApplication.getInstance().getPrefManager().getUser().getToken();
 //        getAllEquipment();
+        getAllRoom();
 
     }
 
@@ -202,6 +274,40 @@ public class MainActivity extends AppCompatActivity {
         //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (navItemIndex == 0) {
+            getMenuInflater().inflate(R.menu.main, menu);
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.addEquip:
+                if(currentRoomID >0){
+                    EquipmentModel model = new EquipmentModel();
+                    model.setRoomId(currentRoomID);
+                    DialogEquipment userInfoDialog = DialogEquipment.newInstance(model);
+                    userInfoDialog.show(fm, null);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),
+                            "Vui lòng chọn phòng muốn thêm mới", Toast.LENGTH_LONG).show();
+
+                }
+
+                return true;
+            default:
+                return false;
+
+        }
+    }
+
     private void logout() {
         MyApplication.getInstance().logout(db);
     }
@@ -226,7 +332,130 @@ public class MainActivity extends AppCompatActivity {
                             model.setRoomId(objTemp.getInt("roomId"));
                             model.setStatus(objTemp.getInt("status"));
                             model.setChanel(objTemp.getInt("chanel"));
+                            model.setNameRoom(objTemp.getString("nameRoom"));
 
+                            listTG.add(model);
+                        }
+                        mainAdapter.notifyDataSetChanged();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Toast.makeText(getApplicationContext(),
+                            ex+"", Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "onResponse() returned: " + ex);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "onErrorResponse() returned: " + error);
+
+                if(error.networkResponse.statusCode == 401){
+                    MyApplication.getInstance().logout(db);
+                    Toast.makeText(getApplicationContext(),
+                            "Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại!!!", Toast.LENGTH_LONG).show();
+
+                }
+                Toast.makeText(getApplicationContext(),
+                        error.networkResponse.statusCode+"", Toast.LENGTH_LONG).show();
+
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                super.getHeaders();
+                Map<String,String> params = new HashMap<String,String>();
+                params.put("Authorization", "Bearer "+currentToken);
+                return params;
+            }
+        };
+        MyApplication.getInstance().addToRequestQueue(request,TAG);
+    }
+    int count;
+
+    public void getAllRoom(){
+        final ArrayList<RoomModel> listTG = new ArrayList<RoomModel>();
+        StringRequest request = new StringRequest(Request.Method.GET, urlGetAllRoom, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "onResponse() returned: " + response);
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    if(!jObj.getBoolean("error")){
+                        JSONArray jsonArray = jObj.getJSONArray("data");
+                        for(int i =0 ;i<jsonArray.length();i++){
+                            JSONObject objTemp = jsonArray.getJSONObject(i);
+                            RoomModel roomModel = new RoomModel();
+                            roomModel.setId(objTemp.getInt("id"));
+                            roomModel.setName(objTemp.getString("name"));
+                            roomModel.setChanel(objTemp.getInt("chanel"));
+                            roomModel.setCountEquipment(objTemp.getInt("chanel"));
+
+                            listTG.add(roomModel);
+                        }
+                        if(listTG.size() > 0){
+                            for (int i =0 ;i < listTG.size();i++){
+                                count = i;
+                                FloatingActionButton fab = new FloatingActionButton(getApplicationContext());
+                                fab.setId(listTG.get(count).getId());
+                                fab.setTitle(listTG.get(i).getName());
+                                fab.setColorNormal(getResources().getColor(R.color.colorPrimary));
+                                fab.setIcon(R.drawable.house);
+                                fab.setOnClickListener(btnClickListner);
+
+                                fam.addButton(fab);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Toast.makeText(getApplicationContext(),
+                            ex+"", Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "onResponse() returned: " + ex);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),
+                        error+"", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onErrorResponse() returned: " + error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                super.getHeaders();
+                Map<String,String> params = new HashMap<String,String>();
+                params.put("Authorization", "Bearer "+currentToken);
+                return params;
+            }
+        };
+        MyApplication.getInstance().addToRequestQueue(request,TAG);
+    }
+
+    public void getAllEquipmentByRoomId(int roomId){
+        listTG.clear();
+        mainAdapter.notifyDataSetChanged();
+        StringRequest request = new StringRequest(Request.Method.GET, urlGetAllEquipmentByRoom+"/"+roomId, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "onResponse() returned: " + response);
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    if(!jObj.getBoolean("error")){
+                        JSONArray jsonArray = jObj.getJSONArray("data");
+                        for(int i =0 ;i<jsonArray.length();i++){
+                            JSONObject objTemp = jsonArray.getJSONObject(i);
+                            EquipmentModel model = new EquipmentModel();
+                            model.setName(objTemp.getString("name"));
+                            model.setId(objTemp.getInt("id"));
+                            model.setPortOutput(objTemp.getInt("portOutput"));
+                            model.setRoomId(objTemp.getInt("roomId"));
+                            model.setStatus(objTemp.getInt("status"));
+                            model.setChanel(objTemp.getInt("chanel"));
+                            model.setNameRoom(objTemp.getString("nameRoom"));
                             listTG.add(model);
                         }
                         mainAdapter.notifyDataSetChanged();
@@ -265,4 +494,6 @@ public class MainActivity extends AppCompatActivity {
         };
         MyApplication.getInstance().addToRequestQueue(request,TAG);
     }
+
+
 }

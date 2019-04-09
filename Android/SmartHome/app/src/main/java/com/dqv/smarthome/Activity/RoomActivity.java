@@ -1,6 +1,7 @@
 package com.dqv.smarthome.Activity;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dqv.smarthome.Adapter.RoomAdapter;
 import com.dqv.smarthome.Application.MyApplication;
+import com.dqv.smarthome.Dialog.ManagerDialog;
 import com.dqv.smarthome.Model.RoomModel;
 import com.dqv.smarthome.Model.UrlModel;
 import com.dqv.smarthome.Model.UserModel;
@@ -40,13 +42,14 @@ public class RoomActivity extends AppCompatActivity {
     private Toolbar toolbar;
     public RecyclerView mRecycleview; // bien recycleview
     public FloatingActionButton fammm;
-
+    FragmentManager fm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
         toolbar = (Toolbar) findViewById(R.id.toolbarRoom);
         mRecycleview = (RecyclerView) findViewById(R.id.list_room);
+        fm = getSupportFragmentManager();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -79,9 +82,13 @@ public class RoomActivity extends AppCompatActivity {
         fammm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(intent);
+//                startActivity(intent);
+                ManagerDialog userInfoDialog = ManagerDialog.newInstance(new RoomModel());
+                userInfoDialog.show(fm, null);
+
             }
         });
+
 
     }
 
@@ -98,12 +105,13 @@ public class RoomActivity extends AppCompatActivity {
                         for(int i =0 ;i<jsonArray.length();i++){
                             JSONObject objTemp = jsonArray.getJSONObject(i);
                             RoomModel roomModel = new RoomModel();
+                            roomModel.setId(objTemp.getInt("id"));
                             roomModel.setName(objTemp.getString("name"));
                             roomModel.setChanel(objTemp.getInt("chanel"));
                             roomModel.setCountEquipment(objTemp.getInt("chanel"));
                             listTG.add(roomModel);
                         }
-                        recyclerView.setAdapter(new RoomAdapter(listTG,getApplicationContext()));
+                        recyclerView.setAdapter(new RoomAdapter(listTG,getApplicationContext(),fm));
                     }
                 }
                 catch (Exception ex)

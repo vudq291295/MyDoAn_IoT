@@ -34,7 +34,8 @@
             <LinearLayout
                 android:id="@+id/resource"
                 android:layout_width="fill_parent"
-                android:layout_height="30dp">
+                android:layout_height="30dp"
+                android:orientation="horizontal">
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
@@ -53,6 +54,28 @@
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:background="@color/colorPrimary"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="end">
+                    <ImageView
+                        android:id="@+id/imgEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="8dp"
+                        android:src="@drawable/pencil_edit_button"/>
+                    <ImageView
+                        android:id="@+id/imgDelete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textEnd"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="8dp"
+                        android:background="@drawable/delete_icon"
+                        android:gravity="end"/>
                 </LinearLayout>
             </LinearLayout>
             <TextView
@@ -78,6 +101,7 @@
                 android:textSize="@dimen/text_size_12sp"
                 android:textColor="#000000"
                 />
+
         </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

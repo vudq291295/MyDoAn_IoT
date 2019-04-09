@@ -3,6 +3,15 @@ package com.dqv.smarthome.Model;
 public class RoomModel {
     public String name;
     public int countEquipment,chanel;
+    public int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

@@ -2,7 +2,7 @@ package com.dqv.smarthome.Model;
 
 public class UrlModel {
     public static String domain = "http://14.160.26.174:6060/service-sh/";
-    public static String iruMQTT = "tcp://192.168.1.99:1884";
+    public static String iruMQTT = "tcp://14.160.26.174:1884";
 
 //    public static String domain = "https://viefund.partnercenter.ca/VClient/VClient.asmx/";
 
@@ -12,9 +12,16 @@ public class UrlModel {
     public static String url_getCurrentUser = domain + "userinfo";// dang nhap
     // Room
     public static String url_getALlRoomn = domain + "api/room/getAllRoom";// dang nhap
+    public static String url_insertRoomn = domain + "api/room/insertRoom";// dang nhap
+    public static String url_updateRoomn = domain + "api/room/updateRoom";// dang nhap
+    public static String url_deleteRoomn = domain + "api/room/deleteRoom";// dang nhap
 
 
     //equipment
     public static String url_getALlEquipment = domain + "api/equipment/getAllEpuipment";// dang nhap
+    public static String url_insertEquipment = domain + "api/equipment/insertEpuipment";// dang nhap
+    public static String url_updateEquipment = domain + "api/equipment/updateEpuipment";// dang nhap
+    public static String url_deleteEquipment = domain + "api/equipment/deleteEpuipment";// dang nhap
+    public static String url_getALlEquipmentByRoom = domain + "api/equipment/getEpuipmentByRoom/";// dang nhap
 
 }

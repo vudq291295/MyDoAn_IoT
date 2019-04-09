@@ -21,7 +21,7 @@ long lastMsg = 0;
 char msg[50];
 int value = 0;
 int OUTPUT_LED = 5;
-const char* mqtt_server = "192.168.1.99";
+const char* mqtt_server = "14.160.26.174";
 
 void setup() {
   Serial.begin(115200);
@@ -85,7 +85,7 @@ boolean restoreConfig() {
     }
     Serial.print("Password: ");
     Serial.println(pass);
-    WiFi.begin("TECH_ROOM", "AAssdd12@123");
+    WiFi.begin(ssid.c_str(), pass.c_str());
     return true;
   }
   else {
@@ -244,9 +244,7 @@ String urlDecode(String input) {
 }
 
 
-// config for mqtt
-char roomAss[8] = {};
-char port[8] = {}; 
+
 
 
 
@@ -257,6 +255,9 @@ void callback(char* topic, byte* payload, unsigned int length) {
   int numOfIndex = 0;
   int indexRoomss =0;
   int indexPort = 0;
+// config for mqtt
+char roomAss[8] = {};
+char port[8] = {}; 
   for (int i = 0; i < strlen(topic); i++) {
     if(numOfIndex == 0){
       if(topic[i] == '/')
@@ -271,6 +272,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
       }
       else{
         roomAss[indexRoomss] = topic[i];
+        Serial.println(roomAss);
         indexRoomss++;
       }
     }

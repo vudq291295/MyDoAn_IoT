@@ -13,12 +13,16 @@ public class MainHolder extends RecyclerView.ViewHolder{
     public ImageView imageView;
     public TextView mTittle;
     public TextView mStatus;
+    public ImageView imageViewEdit;
+    public ImageView imageViewDelete;
 
     public MainHolder(@NonNull View itemView) {
         super(itemView);
         imageView = (ImageView) itemView.findViewById(R.id.imgEquipMain);
         mTittle = (TextView) itemView.findViewById(R.id.twNameEquipMain);
         mStatus = (TextView) itemView.findViewById(R.id.twStatusEquipMain);
+        imageViewEdit = (ImageView) itemView.findViewById(R.id.imgEditEquip);
+        imageViewDelete = (ImageView) itemView.findViewById(R.id.imgDeleteEquip);
 
     }
 

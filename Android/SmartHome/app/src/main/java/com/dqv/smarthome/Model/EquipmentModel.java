@@ -3,9 +3,18 @@ package com.dqv.smarthome.Model;
 public class EquipmentModel {
     public int id;
     public String name;
+    public String nameRoom;
     public int portOutput;
     public int roomId;
     public int status,chanel;
+
+    public String getNameRoom() {
+        return nameRoom;
+    }
+
+    public void setNameRoom(String nameRoom) {
+        this.nameRoom = nameRoom;
+    }
 
     public int getId() {
         return id;

@@ -64,5 +64,8 @@
         <item name="Color">@color/colorPrimary</item>
     </style>
 
-
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/login_edit_text</item>
+        <item name="android:textColor">@color/text_color</item>
+    </style>
 </resources>

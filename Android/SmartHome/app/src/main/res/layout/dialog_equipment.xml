@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activity.AddRoomActivity">
-    <include
-        android:id="@+id/toolbarAddRoom"
-        layout="@layout/appbar_dktv"
-        />
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="1000dp"
+    android:minHeight="250dp"
+    >
+    <TextView
+        android:text="Sửa"
+        android:id="@+id/dialogTittleEquip"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"/>
+    <TextView
+        android:text="Tên phòng"
+        android:id="@+id/currentPhongEquip"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="8dp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +37,7 @@
             android:gravity="center"
             android:text="Tên phòng:"/>
         <EditText
-            android:id="@+id/etNamePhong"
+            android:id="@+id/etSuaNameEquip"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8px"/>
@@ -38,7 +53,7 @@
             android:gravity="center"
             android:text="Kênh:"/>
         <EditText
-            android:id="@+id/etKenhPhong"
+            android:id="@+id/etSuaKenhEquip"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="number"
@@ -50,18 +65,26 @@
         android:orientation="horizontal"
         android:layout_margin="8dp">
         <Button
-            android:id="@+id/btnLuuAddRoom"
+            android:id="@+id/btnUpdateDialogEquip"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_login"
+            android:textColor="@color/white"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_margin="8dp"
             android:text="Lưu"/>
         <Button
+            android:id="@+id/btnDeleteDialogEquip"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_login"
+            android:textColor="@color/white"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="Hủy"/>
     </LinearLayout>
+
 
 </LinearLayout>
