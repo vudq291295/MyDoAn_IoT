@@ -6,7 +6,7 @@
 #include <PubSubClient.h>
 #include <Wire.h>
 
-const IPAddress apIP(192, 168, 1, 1);
+const IPAddress apIP(192, 168, 4, 1);
 const char* apSSID = "ESP8266_SETUP";
 boolean settingMode;
 String ssidList;
@@ -21,7 +21,7 @@ long lastMsg = 0;
 char msg[50];
 int value = 0;
 int OUTPUT_LED = 5;
-const char* mqtt_server = "192.168.100.7";
+const char* mqtt_server = "192.168.1.99";
 
 void setup() {
   Serial.begin(115200);
@@ -37,6 +37,11 @@ void setup() {
       client.setCallback(callback);
       return;
     }
+    else{
+      
+    }
+      settingMode = true;
+      setupMode();
   }
   settingMode = true;
   setupMode();
@@ -47,11 +52,14 @@ void loop() {
     dnsServer.processNextRequest();
   }
   webServer.handleClient();
-  
- if (!client.connected()) {
-    reconnect();
+
+  if (WiFi.status() == WL_CONNECTED){
+     if (!client.connected()) {
+        reconnect();
+      }
+      client.loop();
   }
-  client.loop();
+
 
   long now = millis();
   if (now - lastMsg > 2000) {
@@ -77,7 +85,7 @@ boolean restoreConfig() {
     }
     Serial.print("Password: ");
     Serial.println(pass);
-    WiFi.begin(ssid.c_str(), pass.c_str());
+    WiFi.begin("TECH_ROOM", "AAssdd12@123");
     return true;
   }
   else {

@@ -1,8 +1,8 @@
 package com.dqv.smarthome.Model;
 
 public class UrlModel {
-    public static String domain = "http://192.168.100.7:8080/service-sh/";
-    public static String iruMQTT = "tcp://192.168.100.7:1884";
+    public static String domain = "http://14.160.26.174:6060/service-sh/";
+    public static String iruMQTT = "tcp://192.168.1.99:1884";
 
 //    public static String domain = "https://viefund.partnercenter.ca/VClient/VClient.asmx/";
 
