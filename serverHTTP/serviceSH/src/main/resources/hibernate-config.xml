@@ -63,6 +63,9 @@
 	     <property name="sessionFactory" ref="sessionFactory" />
 	 </bean>
     
+        <bean id="menuDAO" class="com.dqv.spring.oauth2.DAO.MenuDAO">
+	     <property name="sessionFactory" ref="sessionFactory" />
+	 </bean>
     
 </beans>
 
