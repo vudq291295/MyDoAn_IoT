@@ -80,6 +80,8 @@ public class EpuipmentDAO {
 				        List<RoomBO> result2 =  query2.list();
 				        if(result2.size()>0) {
 				        	model.setChanel(result2.get(0).getChanel());
+				        	model.setNameRoom(result2.get(0).getName());
+
 				        }
 				        lstResul.add(model);
 			        }
@@ -112,6 +114,8 @@ public class EpuipmentDAO {
 			        	model.setStatus(result.get(i).getStatus());
 				        if(result2.size()>0) {
 				        	model.setChanel(result2.get(0).getChanel());
+				        	model.setNameRoom(result2.get(0).getName());
+
 				        }
 				        lstResul.add(model);
 			        }

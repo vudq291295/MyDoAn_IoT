@@ -3,10 +3,20 @@ package com.dqv.spring.oauth2.DTO;
 public class EquipmentDTO {
     public int id;
     public String name;
+    public String nameRoom;
     public int portOutput;
     public int roomId;
     public int status;
     public int chanel;
+    
+    
+    
+	public String getNameRoom() {
+		return nameRoom;
+	}
+	public void setNameRoom(String nameRoom) {
+		this.nameRoom = nameRoom;
+	}
 	public int getId() {
 		return id;
 	}

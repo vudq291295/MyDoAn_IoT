@@ -28,7 +28,7 @@ public class RoomController {
 		return new ResponseEntity(result,HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/insertRoom", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
+	@RequestMapping(value = "/insertRoom", method = RequestMethod.POST, produces = { "application/json;application/x-www-form-urlencoded;charset=UTF-8" })
 	@ResponseBody 
 	public ResponseEntity insertRoom(@RequestBody RoomBO bo) {
 		System.out.println("name "+bo.getName());
