@@ -1,0 +1,16 @@
+<style type="text/css">
+    .block-modal {
+        position:   fixed;
+        z-index:    9999;
+        top:        0;
+        left:       0;
+        height:     100%;
+        width:      100%;
+        background: rgba( 255, 255, 255, .8 ) url('views/layouts/loadingGif.gif') 50% 50% no-repeat;
+    }
+</style>
+<div ui-view="viewHeader"></div>
+<div ui-view="viewMain" id="page-wrapper" class="container" style="background-color:#FFF;"></div>
+<div ui-view="viewFooter"></div>
+<div class="block-modal" ng-show="blockModalService.isBlocked"></div>
+<toaster-container toaster-options="{'limit':1,'close-button':false, 'time-out':{ 'toast-success':1000,'toast-warning': 2000, 'toast-error': 0 } }"></toaster-container>

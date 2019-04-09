@@ -1,0 +1,486 @@
+.content-body{
+    padding-top : 50px;
+    padding-bottom : 50px;
+}
+
+.headerAttributes{
+    text-align:left;
+    font-weight:bold;
+}
+.headerText{
+	color:black;
+	padding-bottom:7px;
+}
+/* To Dropdown navbar dropdown on hover */
+body {
+    background-color: #f0f0f0 !important;
+    font-size: 13px !important;
+}
+
+.btn {
+    font-size: 13px !important;
+    padding: 5px 12px !important;
+}
+
+.well {
+    background-color: #f9f9f9;
+    border: #eee;
+}
+
+.navbar-nav > li:hover > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+    .dropdown-submenu > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -6px;
+        margin-left: -1px;
+        -webkit-border-radius: 0 6px 6px 6px;
+        -moz-border-radius: 0 6px 6px;
+        border-radius: 0 6px 6px 6px;
+    }
+
+    .dropdown-submenu:hover > .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-submenu > a:after {
+        display: block;
+        content: " ";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #ccc;
+        margin-top: 5px;
+        margin-right: -10px;
+    }
+
+    .dropdown-submenu:hover > a:after {
+        border-left-color: #fff;
+    }
+
+    .dropdown-submenu.pull-left {
+        float: none;
+    }
+
+        .dropdown-submenu.pull-left > .dropdown-menu {
+            left: -100%;
+            margin-left: 10px;
+            -webkit-border-radius: 6px 0 6px 6px;
+            -moz-border-radius: 6px 0 6px 6px;
+            border-radius: 6px 0 6px 6px;
+        }
+
+.navbar {
+    min-height: 40px;
+}
+
+.navbar-nav > li > a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#page-wrapper {
+    margin: 0  auto !important;
+            margin-top: 150px !important;
+    
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.well {
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.form-control {
+    height: 30px;
+    padding: 3px 9px;
+}
+
+.table th, s.table th a, table th a:visited {
+    color: #1996ce;
+}
+
+.navbar-inverse {
+    position: fixed;
+    width: 100%;
+    background-color: #00802b;
+    z-index: 500;
+    top: 53px;
+    left: 0;
+}
+
+.top-hd {
+    position: fixed;
+    width: 100%;
+    z-index: 500;
+    top: 0px;
+}
+
+#mainApp {
+    /* margin-top: 130px; */
+}
+
+.container {
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: white;
+}
+
+.btn-primary {
+    background-color: #009933;
+    border: 0;
+}
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: #931d23;
+        border: 0;
+    }
+
+.table th, s.table th a, table th a:visited, table th a {
+    color: #d13342 !important;
+}
+
+.modal-dialog {
+    width: 800px;
+    margin: 75px auto;
+}
+
+.modal.fade .modal-dialog {
+    -webkit-transform: scale(0.1);
+    -moz-transform: scale(0.1);
+    -ms-transform: scale(0.1);
+    transform: scale(0.1);
+    top: 310px;
+    opacity: 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal.fade.in .modal-dialog {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform: translate3d(0, -300px, 0);
+    transform: translate3d(0, -300px, 0);
+    opacity: 1;
+}
+
+.app-modal-window .modal-dialog {
+    width: 94%;
+    margin-top: 0px;
+    font-size: 12px;
+}
+
+    .app-modal-window .modal-dialog .modal-content .modal-body {
+        overflow: auto;
+        /*height: 80vh;*/
+    }
+
+.app-modal-window-1 .modal-dialog {
+    width: 70%;
+    margin-top: 0px;
+    font-size: 12px;
+}
+
+.app-modal-window-2 .modal-dialog {
+    width: 50%;
+    margin-top: 0px;
+    font-size: 12px;
+}
+
+.lg-style-input {
+    width: 22%;
+    padding-left: 10px;
+    float: left;
+}
+
+.lg-3-style-input {
+    width: 31%;
+    padding-left: 10px;
+    float: left;
+}
+
+.lg-4-style-input {
+    width: 12%;
+    padding-left: 10px;
+    float: left;
+}
+
+.lg-6-style-input {
+    width: 40%;
+    padding-left: 10px;
+    float: left;
+}
+
+.lg-7-style-input {
+    width: 52%;
+    padding-left: 10px;
+    float: left;
+}
+
+.lg-8-style-input {
+    width: 55%;
+    padding-left: 10px;
+    float: left;
+}
+
+.lg-12-style-input {
+    width: 64%;
+    padding-left: 10px;
+    float: left;
+}
+
+.md-4-style-input {
+    width: 65%;
+    padding-left: 10px;
+    float: left;
+}
+
+.md-6-style-input {
+    width: 80%;
+    padding-left: 10px;
+    float: left;
+}
+
+.md-8-style-input {
+    width: 83.5%;
+    padding-left: 10px;
+    float: left;
+}
+
+.md-12-style-input {
+    width: 88%;
+    padding-left: 10px;
+    float: left;
+}
+
+.lg-style-label-input {
+    width: 120px;
+    float: left;
+}
+
+.style-label-input {
+    width: 70px;
+    float: left;
+}
+
+.sm-style-label-input {
+    width: 100px;
+    float: left;
+}
+
+.md-style-label-input {
+    width: 110px;
+    float: left;
+}
+
+.bg-style-label-input {
+    width: 140px;
+    float: left;
+}
+
+.hp-style-label-input {
+    width: 200px;
+    float: left;
+}
+
+.hp-mtk-style-label-input {
+    width: 230px;
+    float: left;
+}
+
+.final-style-label-input {
+    width: 400px;
+    float: left;
+}
+
+.date-style-label-input {
+    width: 40px;
+    float: left;
+}
+
+
+.button-close {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    border-radius: 100% 100% 100% 100%;
+    background: #A52A2A;
+}
+
+.panel-heading {
+    position: relative;
+}
+
+.x-close {
+    left: 50%;
+    top: 50% !important;
+    transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.75);
+    transition: all 0.1s ease-in;
+}
+
+    .x-close:hover {
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.94);
+    }
+
+.add-input-zone {
+    position: relative;
+}
+
+.button-calender {
+    width: 30px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    position: absolute;
+    text-align: center;
+    z-index: 11;
+    border-radius: 0 5px 5px 0;
+    background: #931D23;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+}
+
+    .button-calender:before {
+        content: "\f133";
+        font-family: FontAwesome;
+        position: absolute;
+        font-weight: 900;
+        font-size: 15px;
+        top: 45%;
+        color: rgb(244, 255, 249);
+        transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 11;
+    }
+
+.align-right {
+    text-align: right;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.tdAction a {
+    margin-right: 5px;
+}
+
+.numberInput {
+    width: 100%;
+    text-align: right;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+.font-italic {
+    font-style: italic;
+}
+.font-2style {
+    font-weight: bold;
+    font-style: italic;
+}
+
+.badge:hover {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.badge-error {
+  background-color: #b94a48;
+}
+.badge-error:hover {
+  background-color: #953b39;
+}
+.badge-warning {
+  background-color: #f89406;
+}
+.badge-warning:hover {
+  background-color: #c67605;
+}
+.badge-success {
+  background-color: #468847;
+}
+.badge-success:hover {
+  background-color: #356635;
+}
+.badge-info {
+  background-color: #3a87ad;
+}
+.badge-info:hover {
+  background-color: #2d6987;
+}
+.badge-inverse {
+  background-color: #333333;
+}
+.badge-inverse:hover {
+  background-color: #1a1a1a;
+}
+.bold {
+    font-weight: bold !important;
+}
+.italic {
+    font-style: italic !important;
+}
+.thongTu03_donvi{
+	width: 4%;
+	text-align:center;
+}
+.thongTu03_3_column{
+	width: 6%;
+	text-align:center;
+}
+.thongTu03_number{
+	text-align:center;
+}
+.thongTu03_2_column{
+	width: 4%;
+	text-align:center;
+}
+.thongTu03_multiple_column{
+	width: 10%;
+	text-align:center;
+}
+.thongTu03_ghichu{
+	width: 5%;
+	text-align:center;
+}
+td.text-right.button-add{
+	width: 2%;
+}
+td.text-right.button-remove{
+	width: 2%;
+}
+.header-text{
+	text-align:center;
+}
+.input-data{
+	padding: 0 0;
+}

@@ -1,0 +1,75 @@
+﻿<style type="text/css">
+    a {
+        cursor: pointer;
+    }
+
+</style>
+
+<div class="container-fluid" style="padding-top: 15px !important; padding-bottom: 15px !important">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>Danh mục phòng</h2>
+            <div style="padding: 20px 0px;">
+                <button prevent-default class="btn btn-primary" title="Thêm mới" ng-click="create()"  style="float: left;margin-right: 10px;">{{config.label.btnCreate}}</button>
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="filtered.Summary" ng-enter="doSearch()">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" prevent-default title="Tìm kiếm" ng-click="doSearch()" ><span class="fa fa-search"></span>&ensp;{{config.label.btnSearch}}</button>
+                        <button class="btn btn-default" prevent-default title="Tải lại trang" ng-click="refresh()" ><span class="fa fa-refresh"></span>&ensp;{{config.label.btnRefresh}}</button>
+                        <button class="btn btn-default" prevent-default title="Xuất Excel" ng-click="export()"><span class="fa fa-download"></span>&ensp;Xuất Excel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th width="10%">Hành động</th>
+                            <th width="100px">STT</th>
+
+                            <th>
+                                <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                                    Tên phòng
+                                    <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                                </a>
+                            </th>
+                            <th>
+                                <a ng-click="sortType = 'chanel'; sortReverse = !sortReverse">
+                                    Kênh
+                                    <span ng-show="sortType == 'chanel' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'chanel' && sortReverse" class="fa fa-caret-up"></span>
+                                </a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-show="data==NULL ||data.length<=0">
+                            <td colspan="8" style="background-color: #e2e2e2;">
+                                <p>Không có dữ liệu</p>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in data | orderBy:sortType:sortReverse track by $index ">
+                            <td style="text-align: center;">
+                                <a class="fa fa-search" placeholder="Thêm mới" ng-click="detail(item)" ></a> &nbsp;&nbsp;&nbsp;
+                                <a class="fa fa-pencil" placeholder="Sửa" ng-click="edit(item)" ></a> &nbsp;&nbsp;&nbsp;
+                                <a class="fa fa-remove" placeholder="Xóa" ng-click="delete(item)"></a>
+                            </td>
+                            <td>{{$index+1}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.chanel}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: right;" ng-if="accessList.View">
+                    <uib-pagination class="no-margin-vertical pagination-sm" ng-model="paged.currentPage"
+                                    ng-change="pageChanged()"
+                                    items-per-page="paged.itemsPerPage" ng-if="paged.totalItems > 0" total-items="paged.totalItems" max-size="paged.maxSize"
+                                    boundary-links="true" num-pages="paged.totalPage"
+                                    previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                    </uib-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

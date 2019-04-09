@@ -1,0 +1,113 @@
+﻿{
+    font-size:10px;
+    font-family:'Times New Roman';
+}
+ th,
+ td {
+    padding: 2px;
+}
+
+ .header-report {
+    margin-bottom: 30px;
+}
+
+ .header-report table,
+ .infor-report table {
+        width: 100%;
+        padding-left: 20px;
+        border: 0;
+    }
+
+ .infor-report {
+    padding-left: 10px;
+}
+
+ .data-report table {
+    width: 100%;
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+ .data-report table thead tr th,
+ .data-report table tbody.data-detail tr td {
+    border: 1px solid;
+
+}
+ .data-report table tbody.data-detail tr td{
+    font-size:9px !important;
+}
+
+ .infor-report table tr td {
+    position: relative;
+}
+
+ .dotted-description {
+    position: absolute;
+    width: calc(100% - 110px);
+    border-bottom: 1px dotted;
+}
+
+ .signature-place table {
+    width: 100%;
+}
+
+ .signature-place .date-time {
+    float: right;
+    font-style: italic;
+    padding: 10px 30px 5px 10px;
+}
+
+ .signature-place table thead tr th {
+    text-align: center;
+}
+
+ .signature-place table tbody tr td {
+    text-align: center;
+}
+
+ .end-page {
+    height: 100px;
+}
+
+ .label-info-report {
+    float: left;
+    font-weight: bold;
+}
+
+ .info-company-top-left {
+    float: left;
+    text-align: left;
+    font-weight: bold;
+}
+
+ .info-datereport-top-right {
+    float: right;
+    text-align: right;
+    font-style: italic;
+}
+
+ .name-report {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px !important;
+    padding: 5px;
+}
+
+ .info-contract-attachment {
+    text-align: center;
+    font-style: italic;
+}
+
+ .text-center {
+    text-align: center;
+    font-weight: bold;
+}
+
+ .name-tong-hop {
+    text-align: right;
+    font-weight: bold;
+}
+
+ .value-tong-hop {
+    text-align: right;
+}

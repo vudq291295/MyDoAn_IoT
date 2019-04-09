@@ -12,6 +12,8 @@ public class EquipmentJDBC {
 	public EquipmentJDBC() {
 		con = ConnectDatabase.getConnectDatabase();
 	}
+	
+	
 
 	
 }
