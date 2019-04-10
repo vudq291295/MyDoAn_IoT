@@ -29,13 +29,13 @@ define([
     'filters/common',
     'directives/common',
     'ngNotify',
-    'moment'
+    'moment',
+    'angularPaho'
 ], function (jquery, jqueryui, angular,state_auth,state_danhmuc) {
     'use strict';
     var app = angular.module('myApp', ['oc.lazyLoad', 'ui.router', 'InterceptorModule', 'LocalStorageModule', 'ui.bootstrap', 'configModule', 'tempDataModule',
         'angular-loading-bar', 'ngAnimate', 'common-filter', 'common-directive', 'ngResource', 'angular.filter', 'angular-cache', 'toaster',
-        'ngFileUpload', 'ngSanitize', 'dynamicNumber', 'cp.ngConfirm', , 'ngNotify']);
-
+        'ngFileUpload', 'ngSanitize', 'dynamicNumber', 'cp.ngConfirm', 'angularPaho','ngNotify']);
     app.service('securityService', ['$http', 'configService', function ($http, configService) {
         var result = {
             getAccessList: function (mcn) {
@@ -264,9 +264,7 @@ define([
 
             var lststate = [];
             lststate = lststate.concat(state_auth).concat(state_danhmuc);
-            console.log('lststate',lststate);
             angular.forEach(lststate, function (state) {
-            	console.log(state.moduleUrl);
                 $stateProvider.state(state.name, {
                     url: state.url,
                     parent: state.parent,

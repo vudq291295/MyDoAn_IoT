@@ -1,31 +1,36 @@
-define(['angular'], function (angular) {
-    var app = angular.module('dmPhongModule', []);
-    app.factory('dmPhongService', ['$http', 'configService', function ($http, configService) {
-        var serviceUrl = configService.rootUrlWebApi + '/room';
+define(['angular','ui-bootstrap', 'controllers/dm/DmPhongController'], function (angular) {
+    'use strict';
+    var app = angular.module('dmThietBiModule', ['ui.bootstrap','dmPhongModule']);
+    app.factory('dmThietBiService', ['$http', 'configService', function ($http, configService) {
+        var serviceUrl = configService.rootUrlWebApi + '/equipment';
         var result = {
-    		getAllRoom: function () {
-                return $http.get(serviceUrl + '/getAllRoom');
+    		getAllEpuipment: function () {
+                return $http.get(serviceUrl + '/getAllEpuipment');
             },
-            insertRoom : function (data) {
-                return $http.post(serviceUrl + '/insertRoom',data);
+            getEpuipmentByRoom: function (data) {
+                return $http.get(serviceUrl + '/getEpuipmentByRoom/'+data);
             },
-            updateRoom : function (data) {
-                return $http.post(serviceUrl + '/updateRoom',data);
+            insertEpuipment : function (data) {
+                return $http.post(serviceUrl + '/insertEpuipment',data);
             },
-            deleteRoom : function (data) {
-                return $http.post(serviceUrl + '/deleteRoom',data);
+            updateEpuipment : function (data) {
+                return $http.post(serviceUrl + '/updateEpuipment',data);
+            },
+            deleteEpuipment : function (data) {
+                return $http.post(serviceUrl + '/deleteEpuipment',data);
             },
         }
         return result;
     }]);
     
-    app.controller('DmPhongViewCtrl', ['$scope','dmPhongService','configService','$uibModal',
-    	function ($scope,service,configService,$uibModal) {
+    app.controller('dmThietBiViewCtrl', ['$scope','dmThietBiService','configService','dmPhongService','$uibModal',
+    	function ($scope,service,configService,dmPhongService,$uibModal) {
         $scope.config = {
                 label: angular.copy(configService.label)
         }
+
     	function filterData() {
-    		service.getAllRoom().then(function (response) {
+    		service.getAllEpuipment().then(function (response) {
             	console.log(response);
                 if (response && response.data && response.data.data.length > 0) {
                     $scope.data = angular.copy(response.data.data);
@@ -51,8 +56,8 @@ define(['angular'], function (angular) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
                 size: 'md',
-                templateUrl: configService.buildUrl('danhmuc/dmPhong', 'add'),
-                controller: 'DmPhongCreateCtrl',
+                templateUrl: configService.buildUrl('danhmuc/dmThietBi', 'add'),
+                controller: 'dmThietBiCreateCtrl',
                 resolve: {}
             });
 
@@ -65,8 +70,8 @@ define(['angular'], function (angular) {
         $scope.edit = function (target) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
-                templateUrl: configService.buildUrl('danhmuc/dmPhong', 'edit'),
-                controller: 'DmPhongEditCtrl',
+                templateUrl: configService.buildUrl('danhmuc/dmThietBi', 'edit'),
+                controller: 'dmThietBiEditCtrl',
                 resolve: {
                     targetData: function () {
                         return target;
@@ -85,8 +90,8 @@ define(['angular'], function (angular) {
         $scope.detail = function (target) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
-                templateUrl: configService.buildUrl('danhmuc/dmPhong', 'detail'),
-                controller: 'DmPhongDetailCtrl',
+                templateUrl: configService.buildUrl('danhmuc/dmThietBi', 'detail'),
+                controller: 'dmThietBiDetailCtrl',
                 resolve: {
                     targetData: function () {
                         return target;
@@ -106,8 +111,8 @@ define(['angular'], function (angular) {
         $scope.delete = function (target) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
-                templateUrl: configService.buildUrl('danhmuc/dmPhong', 'delete'),
-                controller: 'DmPhongDeleteCtrl',
+                templateUrl: configService.buildUrl('danhmuc/dmThietBi', 'delete'),
+                controller: 'dmThietBiDeleteCtrl',
                 resolve: {
                     targetData: function () {
                         return target;
@@ -127,18 +132,32 @@ define(['angular'], function (angular) {
 
     }]);
     
-    app.controller('DmPhongCreateCtrl', ['$scope', '$uibModalInstance', '$location', 'dmPhongService', 'configService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'ngNotify',
-        function ($scope, $uibModalInstance, $location, service, configService, $state, tempDataService, $filter, $uibModal, $log, ngNotify) {
+    app.controller('dmThietBiCreateCtrl', ['$scope', '$uibModalInstance', '$location', 'dmThietBiService', 'configService','dmPhongService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'ngNotify',
+        function ($scope, $uibModalInstance, $location, service, configService,dmPhongService, $state, tempDataService, $filter, $uibModal, $log, ngNotify) {
             $scope.config = angular.copy(configService);
             $scope.tempData = tempDataService.tempData;
             $scope.target = {};
             $scope.isLoading = false;
             $scope.title = function () { return 'Thêm mới phòng'; };
-
+//            $scope.lstPhong = [];
+            function loadDataPhong (){
+            	dmPhongService.getAllRoom().then(function (response) {
+                	console.log(response);
+                    if (response && response.data && response.data.data.length > 0) {
+                        $scope.lstPhong = angular.copy(response.data.data);
+                        console.log($scope.lstPhong);
+                    } else {
+                        console.log(response);
+                    }
+                }, function (response) {
+                    console.log(response);
+                });      
+        	}
+            loadDataPhong ();
             $scope.save = function () {
 //            	$scope.target.chanel = $scope.target.chanel+"";
             	var myJSON = JSON.stringify($scope.target);
-                service.insertRoom($scope.target).then(function (successRes) {
+                service.insertEpuipment($scope.target).then(function (successRes) {
                 	console.log(successRes);
                     if (successRes && successRes.status === 200 && !successRes.data.error) {
                         ngNotify.set(successRes.data.message, { type: 'success' });
@@ -161,8 +180,8 @@ define(['angular'], function (angular) {
             };
         }]);
 
-    app.controller('DmPhongEditCtrl', ['$scope', '$uibModalInstance', '$location', 'dmPhongService', 'configService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'targetData', 'ngNotify',
-        function ($scope, $uibModalInstance, $location, service, configService, $state, tempDataService, $filter, $uibModal, $log, targetData, ngNotify) {
+    app.controller('dmThietBiEditCtrl', ['$scope', '$uibModalInstance', '$location', 'dmThietBiService', 'configService','dmPhongService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'targetData', 'ngNotify',
+        function ($scope, $uibModalInstance, $location, service, configService,dmPhongService, $state, tempDataService, $filter, $uibModal, $log, targetData, ngNotify) {
             $scope.target = targetData;
             $scope.tempData = tempDataService.tempData;
             $scope.config = angular.copy(configService);
@@ -170,9 +189,30 @@ define(['angular'], function (angular) {
             $scope.isLoading = false;
 
             $scope.title = function () { return 'Cập nhật phòng'; };
+            function loadDataPhong (){
+            	dmPhongService.getAllRoom().then(function (response) {
+                	console.log(response);
+                    if (response && response.data && response.data.data.length > 0) {
+                        $scope.lstPhong = angular.copy(response.data.data);
+                        console.log($scope.lstPhong);
+                    } else {
+                        console.log(response);
+                    }
+                }, function (response) {
+                    console.log(response);
+                });      
+        	}
+            loadDataPhong ();
 
             $scope.save = function () {
-                service.updateRoom($scope.target).then(function (successRes) {
+            	var postData = {};
+            	postData.id = $scope.target.id;
+            	postData.roomId = $scope.target.roomId;
+            	postData.name= $scope.target.name;
+            	postData.status= $scope.target.status;
+            	postData.portOutput= $scope.target.portOutput;
+
+                service.updateEpuipment(postData).then(function (successRes) {
                     if (successRes && successRes.status == 200 && !successRes.data.Error) {
                         ngNotify.set(successRes.data.Message, { type: 'success' });
                         $uibModalInstance.close($scope.target);
@@ -191,19 +231,33 @@ define(['angular'], function (angular) {
             };
 
         }]);
-    app.controller('DmPhongDetailCtrl', ['$scope', '$uibModalInstance', '$location', 'dmPhongService', 'configService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'targetData',
-	function ($scope, $uibModalInstance, $location, service, configService, $state, tempDataService, $filter, $uibModal, $log, targetData) {
+    app.controller('dmThietBiDetailCtrl', ['$scope', '$uibModalInstance', '$location', 'dmThietBiService', 'configService','dmPhongService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'targetData',
+	function ($scope, $uibModalInstance, $location, service, configService,dmPhongService, $state, tempDataService, $filter, $uibModal, $log, targetData) {
 	    $scope.tempData = tempDataService.tempData;
 	    $scope.config = tempDataService.config;
 	    $scope.target = targetData;
 	    $scope.title = function () { return 'Chi tiết phòng'; };
+        function loadDataPhong (){
+        	dmPhongService.getAllRoom().then(function (response) {
+            	console.log(response);
+                if (response && response.data && response.data.data.length > 0) {
+                    $scope.lstPhong = angular.copy(response.data.data);
+                    console.log($scope.lstPhong);
+                } else {
+                    console.log(response);
+                }
+            }, function (response) {
+                console.log(response);
+            });      
+    	}
+        loadDataPhong ();
 
 	    $scope.cancel = function () {
 	        $uibModalInstance.dismiss('cancel');
 	    };
 
 	}]);
-    app.controller('DmPhongDeleteCtrl', ['$scope', '$uibModalInstance', '$location', 'dmPhongService', 'configService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'targetData', 'ngNotify',
+    app.controller('dmThietBiDeleteCtrl', ['$scope', '$uibModalInstance', '$location', 'dmThietBiService', 'configService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'targetData', 'ngNotify',
         function ($scope, $uibModalInstance, $location, service, configService, $state, tempDataService, $filter, $uibModal, $log, targetData, ngNotify) {
             $scope.target = targetData;
             $scope.config = angular.copy(configService);
@@ -213,7 +267,13 @@ define(['angular'], function (angular) {
             $scope.title = function () { return 'Bạn có muốn xóa '+$scope.target.name; };
 
             $scope.save = function () {
-                service.deleteRoom($scope.target).then(function (successRes) {
+            	var postData = {};
+            	postData.id = $scope.target.id;
+            	postData.roomId = $scope.target.roomId;
+            	postData.name= $scope.target.name;
+            	postData.status= $scope.target.status;
+            	postData.portOutput= $scope.target.portOutput;
+                service.deleteEpuipment(postData).then(function (successRes) {
                     if (successRes && successRes.status == 200 && !successRes.data.Error) {
                         ngNotify.set(successRes.data.Message, { type: 'success' });
                         $uibModalInstance.close($scope.target);

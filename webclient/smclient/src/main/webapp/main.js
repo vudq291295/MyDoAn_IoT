@@ -20,7 +20,9 @@ require.config({
         'dynamic-number': 'utils/dynamic-number.min',
         'angular-confirm': 'utils/angular-confirm/angular-confirm.min',
         'ngNotify': 'lib/ng-notify/ng-notify.min',
-        'moment': 'lib/moment'
+        'moment': 'lib/moment',
+        'angularPaho': 'lib/mqtt/angular-paho',
+//        'browserMqtt': 'lib/mqtt/browserMqtt'
 
     },
     shim: {
@@ -48,7 +50,10 @@ require.config({
         'dynamic-number': ['angular'],
         'angular-confirm': ['angular'],
         'ngNotify': ['angular'],
-        'moment': ['angular']
+        'moment': ['angular'],
+        'angularPaho': ['angular'],
+//        'browserMqtt': ['angular'],
+
     },
     waitSeconds: 0
 });

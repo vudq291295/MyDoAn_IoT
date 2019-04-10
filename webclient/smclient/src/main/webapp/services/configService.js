@@ -24,12 +24,12 @@
 		};
 
 		result.buildLayouts = function (folder) {
-			return this.rootUrlWeb + "/views/" + folder + "/";
+			return this.rootUrlWeb + "/smclient/views/" + folder + "/";
 		};
 
 		result.buildUrl = function (folder, file) {
 			var d = new Date();
-			return this.rootUrlWeb + "/views/" + folder + "/" + file + ".html?time=" + d.getTime();
+			return this.rootUrlWeb + "/smclient/views/" + folder + "/" + file + ".html?time=" + d.getTime();
 		};
 		result.pageDefault = {
 			totalItems: 0,

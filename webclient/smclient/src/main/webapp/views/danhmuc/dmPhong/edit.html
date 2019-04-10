@@ -6,33 +6,26 @@
         <form role="form" name="_form">
             <div class="row form-group">
                 <div class="col-lg-6">
-                    <label>Mã loại thanh tra <span style="color: red"> (*)</span> </label>
-                    <input type="text" class="form-control" ng-model="target.MA_TUDIEN" name="MA_TUDIEN" maxlength="50" readonly>
-                    <span style="color:red" ng-show="_form.MA_TUDIEN.$dirty && _form.MA_TUDIEN.$invalid">
-                        <span ng-show="_form.MA_TUDIEN.$error.required">Không được để trống</span>
-                        <span ng-show="_form.MA_TUDIEN.$error.maxlength">Bạn không được nhập quá 50 ký tự</span>
+                    <label>Tên phòng <span style="color: red"> (*)</span> </label>
+                    <input type="text" class="form-control" ng-model="target.name" id="name" name="name" required>
+                    <span style="color:red" ng-show="_form.name.$dirty && _form.name.$invalid">
+                        <span ng-show="_form.name.$error.required">Không được để trống</span>
+                        <span ng-show="_form.name.$error.maxlength">Bạn không được nhập quá 50 ký tự</span>
                     </span>
                 </div>
                 <div class="col-lg-6">
-                    <label>Tên loại thanh tra <span style="color: red"> (*)</span> </label>
-                    <input type="text" class="form-control" ng-model="target.TEN_TUDIEN" name="TEN_TUDIEN" maxlength="240" required>
-                    <span style="color:red" ng-show="_form.TEN_TUDIEN.$dirty && _form.TEN_TUDIEN.$invalid">
-                        <span ng-show="_form.TEN_TUDIEN.$error.required">Không được để trống</span>
-                        <span ng-show="_form.TEN_TUDIEN.$error.maxlength">Bạn không được nhập quá 240 ký tự</span>
+                    <label>Kênh <span style="color: red"> (*)</span> </label>
+                    <input type="text"  awnum="number-int" class="form-control" ng-model="target.chanel" name="chanel" required>
+                    <span style="color:red" ng-show="_form.chanel.$dirty && _form.chanel.$invalid">
+                        <span ng-show="_form.chanel.$error.required">Không được để trống</span>
+                        <span ng-show="_form.chanel.$error.maxlength">Bạn không được nhập quá 240 ký tự</span>
                     </span>
                 </div>
             </div>
-            <div class="row form-group">
-                <div class="col-lg-6">
-                    <label>Trạng thái</label>
-                    <select ng-model="target.TRANG_THAI" ng-options="item.value as item.text for item in tempData('statusStr') " class="form-control"></select>
-                </div>
-            </div>
-
         </form>
     </div>
     <div class="modal-footer">
-        <button prevent-default type="submit" class="btn btn-primary" ng-disabled="_form.$invalid" ng-click="save()">Lưu</button>
-        <button prevent-default class="btn btn-default" ng-click="cancel()">Hủy</button>
+        <button prevent-default type="submit" class="btn btn-primary" ng-disabled="_form.$invalid" ng-click="save()">{{config.label.btnSubmit}}</button>
+        <button prevent-default class="btn btn-default" ng-click="cancel()">{{config.label.btnCancel}}</button>
     </div>
 </div>

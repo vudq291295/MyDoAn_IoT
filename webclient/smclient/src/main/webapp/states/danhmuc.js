@@ -15,7 +15,20 @@ define([
                 }
             },
             moduleUrl: controlUrl + "DmPhongController.js"
-        }
+        },
+        {
+            name: 'dmThietBi',
+            url: '/dmThietBi',
+            parent: 'layout',
+            abstract: false,
+            views: {
+                'viewMain@root': {
+                    templateUrl: layoutUrl + "dmThietBi/index.html",
+                    controller: "dmThietBiViewCtrl as ctrl"
+                }
+            },
+            moduleUrl: controlUrl + "DmThietBiController.js"
+        },
     ];
     return states;
 });

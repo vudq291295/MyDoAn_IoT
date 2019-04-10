@@ -8,7 +8,7 @@
 <div class="container-fluid" style="padding-top: 15px !important; padding-bottom: 15px !important">
     <div class="row">
         <div class="col-lg-12">
-            <h2>Danh mục phòng</h2>
+            <h2>Danh mục thiết bị</h2>
             <div style="padding: 20px 0px;">
                 <button prevent-default class="btn btn-primary" title="Thêm mới" ng-click="create()"  style="float: left;margin-right: 10px;">{{config.label.btnCreate}}</button>
                 <div class="input-group">
@@ -25,7 +25,13 @@
                         <tr>
                             <th width="10%">Hành động</th>
                             <th width="100px">STT</th>
-
+                            <th>
+                                <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                                    Tên thiết bị
+                                    <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+                                    <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+                                </a>
+                            </th>
                             <th>
                                 <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
                                     Tên phòng
@@ -35,7 +41,7 @@
                             </th>
                             <th>
                                 <a ng-click="sortType = 'chanel'; sortReverse = !sortReverse">
-                                    Kênh
+                                    Chân điều khiển
                                     <span ng-show="sortType == 'chanel' && !sortReverse" class="fa fa-caret-down"></span>
                                     <span ng-show="sortType == 'chanel' && sortReverse" class="fa fa-caret-up"></span>
                                 </a>
@@ -56,7 +62,8 @@
                             </td>
                             <td>{{$index+1}}</td>
                             <td>{{item.name}}</td>
-                            <td>{{item.chanel}}</td>
+                            <td>{{item.nameRoom}}</td>
+                            <td>{{item.portOutput}}</td>
                         </tr>
                     </tbody>
                 </table>
