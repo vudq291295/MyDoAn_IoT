@@ -1,0 +1,153 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema control_equipment
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema control_equipment
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `control_equipment` DEFAULT CHARACTER SET utf8 ;
+USE `control_equipment` ;
+
+-- -----------------------------------------------------
+-- Table `control_equipment`.`room`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `control_equipment`.`room` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NULL DEFAULT NULL,
+  `chanel` INT(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`, `chanel`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 27
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `control_equipment`.`equipment`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `control_equipment`.`equipment` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL DEFAULT NULL,
+  `port_output` INT(11) NULL DEFAULT NULL,
+  `room_id` INT(11) NOT NULL,
+  `status` INT(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`, `room_id`),
+  INDEX `fk_equipment_room1_idx` (`room_id` ASC) VISIBLE,
+  CONSTRAINT `fk_equipment_room1`
+    FOREIGN KEY (`room_id`)
+    REFERENCES `control_equipment`.`room` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 31
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `control_equipment`.`menu`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `control_equipment`.`menu` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `ma_menu` VARCHAR(45) NOT NULL,
+  `ten_menu` VARCHAR(200) NULL DEFAULT NULL,
+  `ma_cha` VARCHAR(45) NULL DEFAULT NULL,
+  `stt` VARCHAR(45) NULL DEFAULT NULL,
+  `trangthai` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 6
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `control_equipment`.`script`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `control_equipment`.`script` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `control_equipment`.`script_has_equipment`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `control_equipment`.`script_has_equipment` (
+  `script_id` INT(11) NOT NULL,
+  `script_unit_id` INT(11) NOT NULL,
+  `equipment_id` INT(11) NOT NULL,
+  `equipment_unit_idunit` INT(11) NOT NULL,
+  `status` INT(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`script_id`, `script_unit_id`, `equipment_id`, `equipment_unit_idunit`),
+  INDEX `fk_script_has_equipment_equipment1_idx` (`equipment_id` ASC, `equipment_unit_idunit` ASC) VISIBLE,
+  INDEX `fk_script_has_equipment_script1_idx` (`script_id` ASC, `script_unit_id` ASC) VISIBLE,
+  CONSTRAINT `fk_script_has_equipment_equipment1`
+    FOREIGN KEY (`equipment_id`)
+    REFERENCES `control_equipment`.`equipment` (`id`),
+  CONSTRAINT `fk_script_has_equipment_script1`
+    FOREIGN KEY (`script_id`)
+    REFERENCES `control_equipment`.`script` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `control_equipment`.`user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `control_equipment`.`user` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `full_name` VARCHAR(200) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `control_equipment`.`user_has_equipment`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `control_equipment`.`user_has_equipment` (
+  `user_id` INT(11) NOT NULL,
+  `equipment_idequipment` INT(11) NOT NULL,
+  `status` INT(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`, `equipment_idequipment`),
+  INDEX `fk_user_has_equipment_equipment1_idx` (`equipment_idequipment` ASC) VISIBLE,
+  INDEX `fk_user_has_equipment_user1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_user_has_equipment_equipment1`
+    FOREIGN KEY (`equipment_idequipment`)
+    REFERENCES `control_equipment`.`equipment` (`id`),
+  CONSTRAINT `fk_user_has_equipment_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `control_equipment`.`user` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `control_equipment`.`enviroment`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `control_equipment`.`enviroment` (
+  `id` INT NOT NULL,
+  `ma_moitruong` VARCHAR(45) NULL,
+  `ten_moitruong` VARCHAR(45) NULL,
+  `room_id` INT NOT NULL,
+  `gia_tri` DECIMAL(5,2) NULL,
+  `thoi_diem` DATETIME NULL,
+  PRIMARY KEY (`id`, `room_id`))
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
