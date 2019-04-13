@@ -28,9 +28,9 @@ define(['angular'], function (angular) {
 				$http({ method: 'get', url: configService.apiServiceBaseUri + "/userinfo", headers: { 'Authorization': 'Bearer '+token } }).then(function (response) {
 					console.log(response);
 					if(response && response.status===200 && response.data){
-						var userStored = response.data;
+						var userStored = response.data.user;
 						userStored.access_token = token;
-						userService.SetCurrentUser(response.data); 
+						userService.SetCurrentUser(userStored); 
 						$state.go('home');
 					}
 				}, function (response) {

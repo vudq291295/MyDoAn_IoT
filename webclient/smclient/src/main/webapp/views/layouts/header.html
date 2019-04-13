@@ -1,46 +1,55 @@
-﻿<!--Navigation-->
-<div class="container-fluid top-hd" style="height: 53px; background-color: #009933;">
-    <div class="container">
-        <div class="container">
-            <img src="imgs/logoIoT.png" style="height: 40px; margin: 7px 10px 7px 0px; float: left;"/>
-            <span class="brand" style="float: left; line-height: 40px; margin-top: 7px; font-size: 18px; font-weight: bold; color:white';"><font color="#002080">QUẢN LÝ THIẾT BỊ ĐIỀU KHIỂN TỪ XA, ỨNG DỤNG IoT</font></span>
+﻿
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-laugh-wink"></i>
         </div>
-    </div>
-</div>
-<!--End Nav-->
-<!-- MENU---->
-<div class="collapse navbar-collapse">
-    <nav class="navbar navbar-inverse">
-        <div class="container menu">
-            <div class="navbar-header" ng-if="currentUser" style="height: 38px;">
-                <ul class="nav navbar-nav">
-                    <li dropdown ng-repeat="data in treeMenu.Children">
-                        <a href="#" dropdown-toggle>{{data.tenMenu}}<b ng-if="data.Children && data.Children.length > 0" class='caret'></b></a>
-                        <tree ng-if="data.Children && data.Children.length>0" tree='data.Children'></tree>
-                    </li>
-                </ul>
-                <div class="navbar-custom-menu" style="position: fixed; right: 0px; margin: 5px 170px;">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown user user-menu">
-                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                <div data-toggle="tooltip" data-placement="left" title="Thông tin tài khoản">
-                                    <span class="glyphicon glyphicon-user"></span>&nbsp;
-                                </div>
-                            </a>
-                            <ul class="dropdown-menu" style="margin: -7px -96px; font-size: 13px; padding: 13px 19px; color: #333;">
-                                <li class="user-header">
-                                    <p><i class="fa fa-user" aria-hidden="true" title="Tài khoản">&nbsp;&nbsp;&nbsp;{{currentUser.username}}</i></p>
-                                </li>
-                                <li class="user-footer"><div class="pull-left"></div></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="pull-right" ng-if="currentUser">
-                <a class="btn btn-default" style="margin: 4px 44px; position: fixed; right: 0px;" ng-click="logOut()"><span class="glyphicon glyphicon-off"></span>&nbsp;Đăng xuất</a>
-            </div>
+        <div class="sidebar-brand-text mx-3">Smart Home</div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Chức năng
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item" ng-repeat="data in treeMenu.Children">
+        <a class="nav-link collapsed" data-toggle="collapse" data-target="#{{data.maMenu}}" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>{{data.tenMenu}}</span>
+        </a>
+        <div id="{{data.maMenu}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">{{data.tenMenu}}</h6>
+            <a ng-repeat="data2 in data.Children" class="collapse-item" ui-sref="{{data2.maMenu}}">{{data2.tenMenu}}</a>
+          </div>
         </div>
-    </nav>
-</div>
-<!--End Nav-->
+      </li>
+
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->

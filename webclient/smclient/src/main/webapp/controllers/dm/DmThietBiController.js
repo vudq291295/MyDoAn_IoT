@@ -53,10 +53,12 @@ define(['angular','ui-bootstrap', 'controllers/dm/DmPhongController'], function 
         };
         
         $scope.create = function () {
+        	var a = configService.buildUrl('danhmuc/dmThietBi', 'add');
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
-                size: 'md',
-                templateUrl: configService.buildUrl('danhmuc/dmThietBi', 'add'),
+                size: 'lg',
+                windowClass : 'show app-modal-window',
+            	templateUrl: a ,
                 controller: 'dmThietBiCreateCtrl',
                 resolve: {}
             });
@@ -70,6 +72,7 @@ define(['angular','ui-bootstrap', 'controllers/dm/DmPhongController'], function 
         $scope.edit = function (target) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
+                windowClass : 'show app-modal-window',
                 templateUrl: configService.buildUrl('danhmuc/dmThietBi', 'edit'),
                 controller: 'dmThietBiEditCtrl',
                 resolve: {
@@ -90,6 +93,7 @@ define(['angular','ui-bootstrap', 'controllers/dm/DmPhongController'], function 
         $scope.detail = function (target) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
+                windowClass : 'show app-modal-window',
                 templateUrl: configService.buildUrl('danhmuc/dmThietBi', 'detail'),
                 controller: 'dmThietBiDetailCtrl',
                 resolve: {
@@ -111,6 +115,7 @@ define(['angular','ui-bootstrap', 'controllers/dm/DmPhongController'], function 
         $scope.delete = function (target) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
+                windowClass : 'show app-modal-window',
                 templateUrl: configService.buildUrl('danhmuc/dmThietBi', 'delete'),
                 controller: 'dmThietBiDeleteCtrl',
                 resolve: {

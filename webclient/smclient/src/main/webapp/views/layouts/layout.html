@@ -9,8 +9,34 @@
         background: rgba( 255, 255, 255, .8 ) url('views/layouts/loadingGif.gif') 50% 50% no-repeat;
     }
 </style>
+
+<div id = "wrapper">
+<div ui-view="viewHeader"></div>
+<div id="content-wrapper" class="d-flex flex-column">
+	<div id="content">
+		<div ui-view="viewFooter"></div>
+		<div ui-view="viewMain" id="page-wrapper" class="container" style="padding-top: 16px;background-color:#FFF;padding-bottom: 16px;"></div>
+	</div>
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2019</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+</div>
+</div>
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+<!-- 
 <div ui-view="viewHeader"></div>
 <div ui-view="viewMain" id="page-wrapper" class="container" style="background-color:#FFF;"></div>
 <div ui-view="viewFooter"></div>
 <div class="block-modal" ng-show="blockModalService.isBlocked"></div>
-<toaster-container toaster-options="{'limit':1,'close-button':false, 'time-out':{ 'toast-success':1000,'toast-warning': 2000, 'toast-error': 0 } }"></toaster-container>
+<toaster-container toaster-options="{'limit':1,'close-button':false, 'time-out':{ 'toast-success':1000,'toast-warning': 2000, 'toast-error': 0 } }"></toaster-container> -->

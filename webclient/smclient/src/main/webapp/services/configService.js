@@ -7,6 +7,8 @@
 		var rootUrl = 'http://' + hostname + ':' + port;
 		//var rootUrlApi = 'http://localhost:2912';
 		var rootUrlApi = 'http://14.160.26.174:6060/service-sh';
+		var domainWS = '14.160.26.174';
+		var portWS = 11884;
 		if (!port) {
 			rootUrl = 'http://' + hostname;
 		}
@@ -14,6 +16,8 @@
 		var result = {
 			rootUrlWeb: rootUrl,
 			rootUrlWebApi: rootUrlApi + '/api',
+			rootUrlWS : domainWS,
+			rootPortWS : portWS,
 			apiServiceBaseUri: rootUrlApi,
 			dateFormat: 'dd/MM/yyyy',
 			delegateEvent: function ($event) {

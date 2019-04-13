@@ -3,8 +3,12 @@ require.config({
     paths: {
         'jquery': 'utils/kendo/js/jquery.min',
         'jquery-ui': 'utils/jquery-ui/jquery-ui.min',
-        'bootstrap': 'lib/bootstrap.min',
-        'angular': 'utils/kendo/js/angular.min',
+        'bootStrapBundel' : 'vendor/bootstrap/js/bootstrap.bundle.min',
+        'jqueryEasey' :'vendor/jquery-easing/jquery.easing.min',
+        'sbAdmin2' : 'js/sb-admin-2.min',
+        'chartSbAdmin2' : 'vendor/chart.js/Chart.min',
+/*        'bootstrap': 'lib/bootstrap.min',
+*/        'angular': 'utils/kendo/js/angular.min',
         'angular-animate': 'lib/angular-animate.min',
         'angular-resource': 'lib/angular-resource.min',
         'angular-sanitize': 'lib/angular-sanitize.min',
@@ -29,10 +33,14 @@ require.config({
         'jquery': {
             exports: '$'
         },
+        'bootStrapBundel': ['jquery'],
+        'jqueryEasey': ['jquery'],
+        'sbAdmin2': ['jquery'],
+        'chartSbAdmin2': ['jquery'],
         'jquery-ui': ['jquery'],
-        'bootstrap': ['jquery'],
-        'angular': {
-            deps: ['jquery', 'bootstrap'],
+/*        'bootstrap': ['jquery'],
+*/        'angular': {
+            deps: ['jquery'],
             exports: 'angular'
         },
         'ocLazyLoad': ['angular'],
@@ -53,7 +61,6 @@ require.config({
         'moment': ['angular'],
         'angularPaho': ['angular'],
 //        'browserMqtt': ['angular'],
-
     },
     waitSeconds: 0
 });

@@ -8,6 +8,7 @@ define([
     'angular',
     'states/auth',
     'states/danhmuc',
+    'states/dieuKhien',
     'config/config',
     'ocLazyLoad',
     'uiRouter',
@@ -30,10 +31,15 @@ define([
     'directives/common',
     'ngNotify',
     'moment',
-    'angularPaho'
-], function (jquery, jqueryui, angular,state_auth,state_danhmuc) {
+    'angularPaho',
+    'bootStrapBundel',
+    'jqueryEasey',
+    'sbAdmin2',
+    'chartSbAdmin2',
+
+], function (jquery, jqueryui, angular,state_auth,state_danhmuc,state_dieukhien) {
     'use strict';
-    var app = angular.module('myApp', ['oc.lazyLoad', 'ui.router', 'InterceptorModule', 'LocalStorageModule', 'ui.bootstrap', 'configModule', 'tempDataModule',
+    var app = angular.module('myApp', ['oc.lazyLoad', 'ui.router','ui.bootstrap', 'InterceptorModule', 'LocalStorageModule', 'configModule', 'tempDataModule',
         'angular-loading-bar', 'ngAnimate', 'common-filter', 'common-directive', 'ngResource', 'angular.filter', 'angular-cache', 'toaster',
         'ngFileUpload', 'ngSanitize', 'dynamicNumber', 'cp.ngConfirm', 'angularPaho','ngNotify']);
     app.service('securityService', ['$http', 'configService', function ($http, configService) {
@@ -208,7 +214,8 @@ define([
                         controller: "HeaderCtrl as ctrl"
                     },
                     'viewFooter': {
-                        templateUrl: layoutUrl + "views/layouts/footer.html"
+                        templateUrl: layoutUrl + "views/layouts/footer.html",
+                        controller: "leftCtrl as ctrl"
                     }
 
                 },
@@ -216,10 +223,12 @@ define([
                     loadModule: [
                         '$ocLazyLoad', '$q', function ($ocLazyLoad, $q) {
                             var deferred = $q.defer();
-                            require(['controllers/layouts/header-controller'],
-                                function (headerModule) {
+                            require(['controllers/layouts/left-controller','controllers/layouts/header-controller'],
+                                function (leftModule,headerModule) {
                                     deferred.resolve();
                                     $ocLazyLoad.inject(headerModule.name);
+                                    $ocLazyLoad.inject(leftModule.name);
+
                                 });
                             return deferred.promise;
                         }
@@ -263,7 +272,7 @@ define([
             });
 
             var lststate = [];
-            lststate = lststate.concat(state_auth).concat(state_danhmuc);
+            lststate = lststate.concat(state_auth).concat(state_danhmuc).concat(state_dieukhien);
             angular.forEach(lststate, function (state) {
                 $stateProvider.state(state.name, {
                     url: state.url,

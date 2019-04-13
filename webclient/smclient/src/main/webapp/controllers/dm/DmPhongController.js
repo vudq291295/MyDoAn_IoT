@@ -19,8 +19,8 @@ define(['angular'], function (angular) {
         return result;
     }]);
     
-    app.controller('DmPhongViewCtrl', ['$scope','dmPhongService','configService','$uibModal',
-    	function ($scope,service,configService,$uibModal) {
+    app.controller('DmPhongViewCtrl', ['$scope','$uibModal','dmPhongService','configService','$uibModal',
+    	function ($scope,$uibModal,service,configService,$uibModal) {
         $scope.config = {
                 label: angular.copy(configService.label)
         }
@@ -51,6 +51,7 @@ define(['angular'], function (angular) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
                 size: 'md',
+                windowClass : 'show app-modal-window',
                 templateUrl: configService.buildUrl('danhmuc/dmPhong', 'add'),
                 controller: 'DmPhongCreateCtrl',
                 resolve: {}
@@ -65,6 +66,7 @@ define(['angular'], function (angular) {
         $scope.edit = function (target) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
+                windowClass : 'show app-modal-window',
                 templateUrl: configService.buildUrl('danhmuc/dmPhong', 'edit'),
                 controller: 'DmPhongEditCtrl',
                 resolve: {
@@ -85,6 +87,7 @@ define(['angular'], function (angular) {
         $scope.detail = function (target) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
+                windowClass : 'show app-modal-window',
                 templateUrl: configService.buildUrl('danhmuc/dmPhong', 'detail'),
                 controller: 'DmPhongDetailCtrl',
                 resolve: {
@@ -106,6 +109,7 @@ define(['angular'], function (angular) {
         $scope.delete = function (target) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
+                windowClass : 'show app-modal-window',
                 templateUrl: configService.buildUrl('danhmuc/dmPhong', 'delete'),
                 controller: 'DmPhongDeleteCtrl',
                 resolve: {

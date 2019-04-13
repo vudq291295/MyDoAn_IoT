@@ -89,9 +89,7 @@ body {
 }
 
 #page-wrapper {
-    margin: 0  auto !important;
-            margin-top: 150px !important;
-    
+    margin: 0  auto !important;    
     box-shadow: 0 5px 20px rgba(0,0,0,0.5);
 }
 
