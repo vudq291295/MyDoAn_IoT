@@ -10,12 +10,14 @@ import org.wso2.carbon.identity.oauth2.stub.OAuth2TokenValidationServiceStub;
 import org.wso2.carbon.identity.oauth2.stub.dto.*;
 
 import com.dqv.jdbc.AuthJDBC;
+import com.dqv.jdbc.ConnectDatabase;
 
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -68,19 +70,23 @@ public class Oauth2TokenValidator {
     	logger.info("VUDQ tokenIsValid:" + passwordOrRefreshToken);
 //        OAuth2TokenValidationResponseDTO resp = oAuth2TokenValidationService.validate(req);
     	//logger.info("VUDQ tokenIsValid:" + resp.getAuthorizedUser());
-    	AuthJDBC conn = new AuthJDBC();
+    	Connection connnect = ConnectDatabase.getConnectDatabase();
+    	AuthJDBC conn = new AuthJDBC(connnect);
     	boolean isValid = conn.checkAuth(access_token,passwordOrRefreshToken);
+    	connnect.close();
 //        boolean isValid = resp.getValid();
         return isValid;
     }
 
     public TokenInfo getTokenInfo(String access_token,String passwordOrRefreshToken) throws Exception {
     	logger.info("VUDQ getTokenInfo:" + access_token);
-    	AuthJDBC conn = new AuthJDBC();
+    	Connection connnect = ConnectDatabase.getConnectDatabase();
+    	AuthJDBC conn = new AuthJDBC(connnect);
         OAuth2TokenValidationRequestDTO req = createRequestTokenDTO(access_token);
 
         OAuth2TokenValidationResponseDTO resp = conn.validation(access_token,passwordOrRefreshToken);
     	logger.info("VUDQ getTokenInfo resp:" + resp.getAuthorizedUser());
+    	connnect.close();
 
         String authorizedUser = resp.getAuthorizedUser();
         List<String> scope =  new ArrayList<String>();

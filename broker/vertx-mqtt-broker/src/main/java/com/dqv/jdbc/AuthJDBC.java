@@ -15,8 +15,8 @@ public class AuthJDBC {
     private static Logger logger = LoggerFactory.getLogger(AuthJDBC.class);
 
 	Connection con;
-	public AuthJDBC() {
-		con = ConnectDatabase.getConnectDatabase();
+	public AuthJDBC(Connection con) {
+		this.con = con;
 	}
 	public boolean checkAuth(String username, String pwd) {
 		String QUERY = "select count(*) from user where username = '"+username+"' and password ='"+pwd+"'";

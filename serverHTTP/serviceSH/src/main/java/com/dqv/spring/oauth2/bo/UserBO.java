@@ -15,6 +15,7 @@ public class UserBO {
     public int id;
     public String userName;
     public String passWord;
+    public String fullName;
 
     
     
@@ -34,10 +35,21 @@ public class UserBO {
 //           setUniqueColumn(new String[]{"id"});
 //   }
 
+    
+    
     @Id
     @Column(name = "id")
 	public int getId() {
 		return id;
+	}
+
+	@Column(name = "full_name")
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	@Column(name = "username")
