@@ -90,7 +90,9 @@ public class ScriptDAO {
 		public boolean insertRoom(ScriptDTO dto) {
 			try {
 				ScriptBO bo = dto.toBO();
+				System.out.println(bo.getName());
 		        Session session = this.sessionFactory.getCurrentSession();
+		        
 		        Serializable a = session.save(bo);
 		        System.out.println(a);
 		        return true;

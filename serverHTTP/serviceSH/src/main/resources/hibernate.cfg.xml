@@ -4,11 +4,22 @@
 		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory name="123">
-        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.autocommit">true</property>
+        <property name="dialect">org.hibernate.dialect.OracleDialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <!--<property name = "current_session_context_class">thread</property>-->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="hibernate.jdbc.batch_size">50</property>
+    
+<!--         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.password">admin@123</property>
         <property name="hibernate.connection.url">jdbc:mysql://14.160.26.174:3306/control_equipment</property>
+		<property name="hibernate.connection.useUnicode">true</property> 
+		<property name="hibernate.connection.characterEncoding">UTF-8</property> 
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.default_schema">control_equipment</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property> -->
     </session-factory>
 </hibernate-configuration>

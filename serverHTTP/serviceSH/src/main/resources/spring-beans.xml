@@ -29,6 +29,23 @@
     
     <!-- hibernate integrate -->
      <import resource="hibernate-config.xml" /> 
+       <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+	    <property name="messageConverters">
+	        <array>
+	            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+	                <constructor-arg index="0" name="defaultCharset" value="UTF-8"/>
+	                <property name="supportedMediaTypes"> 
+	                    <list>
+	                        <value>text/plain;charset=UTF-8</value>
+	                        <value>text/html;charset=UTF-8</value>
+	                        <value>application/json;charset=UTF-8</value>
+	                        <value>application/x-www-form-urlencoded;charset=UTF-8</value>
+	                    </list>
+	                </property>
+		        </bean>
+	        </array>
+        </property>
+        </bean>
     
 <!--     <cxf:bus>
         <cxf:properties>

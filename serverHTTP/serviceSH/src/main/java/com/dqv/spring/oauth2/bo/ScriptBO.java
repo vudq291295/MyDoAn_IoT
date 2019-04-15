@@ -9,7 +9,7 @@ import com.dqv.spring.oauth2.DTO.ScriptDTO;
 
 @Entity
 @Table(name = "script")
-public class ScriptBO {
+public class ScriptBO implements java.io.Serializable{
     private static final long serialVersionUID = 1L;
     public int id;
     public String name;

@@ -48,12 +48,10 @@ public class ScriptController {
 	@RequestMapping(value = "/insertScript", method = RequestMethod.POST, produces = { "application/json; charset=utf-8" },
 			consumes="application/json;charset=UTF-8")
 	@ResponseBody 
-	public ResponseEntity insertScript(@RequestBody String bo) {
-		System.out.println(bo); 
-//		System.out.println(encoding);
-//		System.out.println(encoding2);
+	public ResponseEntity insertScript(@RequestBody ScriptDTO bo) {
+		System.out.println(bo.getName()); 
 		Response<Boolean> result = new Response<>();
-//		result = scriptBusinessImpl.insertScript(bo);
+		result = scriptBusinessImpl.insertScript(bo);
 		if(!result.error) {
 			return new ResponseEntity(result,HttpStatus.OK);
 		}

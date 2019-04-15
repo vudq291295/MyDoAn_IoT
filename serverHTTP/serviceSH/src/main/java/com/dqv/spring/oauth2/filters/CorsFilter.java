@@ -38,19 +38,16 @@ public class CorsFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-			System.out.println(request.getContentType());
-			System.out.println(request.getCharacterEncoding());
-			System.out.println(request.getReader().lines().collect(Collectors.joining(System.lineSeparator())));
-
-		
-			request.setCharacterEncoding("utf-8");
-			response.setCharacterEncoding("utf-8");
-		 	response.setHeader("Access-Control-Allow-Origin", "*");
-		    response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
-		    response.setHeader("Access-Control-Allow-Headers", "x-requested-with,Authorization");
-		    response.setHeader("Access-Control-Max-Age", "3600");
+			HttpServletRequest req = (HttpServletRequest) request;
+			HttpServletResponse res = (HttpServletResponse) response;		
+			req.setCharacterEncoding("UTF-8");
+			res.setCharacterEncoding("UTF-8");
+			res.setHeader("Access-Control-Allow-Origin", "*");
+			res.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+			res.setHeader("Access-Control-Allow-Headers", "x-requested-with,Authorization");
+			res.setHeader("Access-Control-Max-Age", "3600");
 		    if (!"OPTIONS".equals(request.getMethod())) {
-		    	filterChain.doFilter(request, response);
+		    	filterChain.doFilter(req, res);
 		    } else {
 		    }
 	}

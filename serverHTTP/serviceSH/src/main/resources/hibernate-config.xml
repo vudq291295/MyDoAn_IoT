@@ -8,10 +8,10 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://14.160.26.174:3306/control_equipment"/>
+        <property name="url" value="jdbc:mysql://14.160.26.174:3306/control_equipment?characterEncoding=utf8"/>
         <property name="username" value="root"/>
         <property name="password" value="admin@123"/>
-  <!--       <property name="acquireIncrement" value="2"/>
+<!--         <property name="acquireIncrement" value="2"/>
         <property name="minPoolSize" value="10"/>
         <property name="maxPoolSize" value="50"/>
         <property name="maxIdleTime" value="600"/>
@@ -32,6 +32,8 @@
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.connection.characterEncoding">utf8</prop> 
+                
             </props>
         </property>
         <property name="packagesToScan" value="com.dqv.spring.oauth2.bo"/>
