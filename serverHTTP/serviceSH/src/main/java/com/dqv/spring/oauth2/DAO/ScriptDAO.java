@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dqv.spring.oauth2.DTO.ScriptDTO;
+import com.dqv.spring.oauth2.DTO.ScriptDetailDTO;
 import com.dqv.spring.oauth2.bo.RoomBO;
 import com.dqv.spring.oauth2.bo.ScriptBO;
 
@@ -43,13 +44,24 @@ public class ScriptDAO {
 		        //get details
 		        Query query2 = session.createQuery("from ScriptHasEquimentBO where scripID = :idScript");
 		        query2.setParameter("idScript", idScript);
-		        List<?> list2 = query.list();
-
+		        List<ScriptDetailDTO> list2 = query.list();
+		        result.setDetails(list2);
 		        return result;
 			}
 			catch (Exception e) {
 		        return null;
 			}
 	    }
-
+		
+		public boolean insertRoom(ScriptDTO bo) {
+			try {
+		        Session session = this.sessionFactory.getCurrentSession();
+		        session.save(bo);
+		        
+		        return true;
+			}
+			catch (Exception e) {
+		        return false;
+			}
+	    }
 }
