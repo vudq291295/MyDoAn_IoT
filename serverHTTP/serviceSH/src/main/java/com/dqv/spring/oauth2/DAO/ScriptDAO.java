@@ -92,9 +92,10 @@ public class ScriptDAO {
 				ScriptBO bo = dto.toBO();
 				System.out.println(bo.getName());
 		        Session session = this.sessionFactory.getCurrentSession();
-		        
-		        Serializable a = session.save(bo);
+//		        Serializable a = session.save(bo);
+		        Integer a = (Integer)session.save(bo);
 		        System.out.println(a);
+		        System.out.println(bo.getId());
 		        return true;
 			}
 			catch (Exception e) {
