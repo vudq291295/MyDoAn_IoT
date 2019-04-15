@@ -5,13 +5,41 @@ public class ScriptDetailDTO {
 	public int scripID;
     public int equipmentID;
     public int status;
-    public int equipmentName;
+    public String equipmentName;
     public int equipmentPort;
+    public int equipmentChanel;
     public int roomID;
-
+    public String roomName;
+    
     public ScriptDetailDTO() {
     	
     }
+
+    
+    
+	public String getRoomName() {
+		return roomName;
+	}
+
+
+
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
+
+
+
+	public int getEquipmentChanel() {
+		return equipmentChanel;
+	}
+
+
+
+	public void setEquipmentChanel(int equipmentChanel) {
+		this.equipmentChanel = equipmentChanel;
+	}
+
+
 
 	public int getScripID() {
 		return scripID;
@@ -37,11 +65,11 @@ public class ScriptDetailDTO {
 		this.status = status;
 	}
 
-	public int getEquipmentName() {
+	public String getEquipmentName() {
 		return equipmentName;
 	}
 
-	public void setEquipmentName(int equipmentName) {
+	public void setEquipmentName(String equipmentName) {
 		this.equipmentName = equipmentName;
 	}
 

@@ -3,13 +3,15 @@ package com.dqv.spring.oauth2.DTO;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dqv.spring.oauth2.bo.ScriptBO;
+
 public class ScriptDTO {
     public int id;
     public String name;
-    public List<ScriptDetailDTO> Details;
+    public List<ScriptDetailDTO> details;
     
     public ScriptDTO() {
-    	Details = new ArrayList<ScriptDetailDTO>();
+    	details = new ArrayList<ScriptDetailDTO>();
     }
 
 	public int getId() {
@@ -29,13 +31,19 @@ public class ScriptDTO {
 	}
 
 	public List<ScriptDetailDTO> getDetails() {
-		return Details;
+		return details;
 	}
 
 	public void setDetails(List<ScriptDetailDTO> details) {
-		Details = details;
+		this.details = details;
 	}
     
+	public ScriptBO toBO() {
+		ScriptBO bo = new ScriptBO();
+		bo.id = this.id;
+		bo.name = this.name;
+		return bo;
+	}
     
 }
 

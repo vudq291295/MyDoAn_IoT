@@ -110,6 +110,11 @@
 		<intercept-url pattern="/**" access="scope=openid" />
 		<custom-filter ref="openidResourceAuthenticationFilter" position="PRE_AUTH_FILTER" />
 		<access-denied-handler ref="oauthAccessDeniedHandler" />
+		<headers>
+				<content-type-options />
+<!-- 				<header />
+ -->		 </headers>
+		
 	</http>
 		
 	<oauth:resource-server id="openidResourceAuthenticationFilter" token-services-ref="tokenServices"

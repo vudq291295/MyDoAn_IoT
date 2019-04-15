@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.dqv.spring.oauth2.DTO.ScriptDTO;
+
 @Entity
 @Table(name = "script")
 public class ScriptBO {
@@ -31,5 +33,10 @@ public class ScriptBO {
 		this.name = name;
 	}
 
-    
+    public ScriptDTO toDTO() {
+    	ScriptDTO result = new ScriptDTO();
+    	result.id = this.id;
+    	result.name = this.name;
+    	return result;
+    }
 }

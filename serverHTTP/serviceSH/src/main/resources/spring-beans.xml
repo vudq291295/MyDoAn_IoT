@@ -2,6 +2,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:cxf="http://cxf.apache.org/core"
        xsi:schemaLocation="
                         http://cxf.apache.org/core 
@@ -11,8 +12,20 @@
                         http://www.springframework.org/schema/context 
                         http://www.springframework.org/schema/context/spring-context.xsd
                         http://www.springframework.org/schema/aop 
-                        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+                        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+                        
+		  http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
     <context:annotation-config />
+    	<context:component-scan base-package="com.dqv.spring.oauth2.controller" />
+	<context:component-scan base-package="com.dqv.spring.oauth2.provider" />
+		<context:component-scan base-package="com.dqv.spring.oauth2.DAO" />
+	     <context:component-scan base-package="com.dqv.spring.oauth2" />
+          <context:component-scan base-package="com.dqv.spring.oauth2.DAO" />
+     
+	
+	<mvc:annotation-driven />
+    <mvc:default-servlet-handler />
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
     
     <!-- hibernate integrate -->
      <import resource="hibernate-config.xml" /> 

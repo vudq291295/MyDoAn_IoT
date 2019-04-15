@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.dqv.spring.oauth2.DTO.ScriptDTO;
+import com.dqv.spring.oauth2.DTO.ScriptDetailDTO;
+
 @Entity
 @Table(name = "script_has_equipment")
 public class ScriptHasEquimentBO implements Serializable{
@@ -41,6 +44,13 @@ public class ScriptHasEquimentBO implements Serializable{
 		this.status = status;
 	}
     
+    public ScriptDetailDTO toDTO() {
+    	ScriptDetailDTO result = new ScriptDetailDTO();
+    	result.scripID = this.scripID;
+    	result.equipmentID = this.equipmentID;
+    	return result;
+    }
+
     
     
 }
