@@ -14,6 +14,8 @@ define(['angular','controllers/dm/DmThietBiController', 'controllers/dm/DmPhongC
     app.controller('dieuKhienThietBiCtrl', ['$scope','$interval','dieuKhienThietBiService','configService','userService','dmThietBiService','dmPhongService',
     	function ($scope,$interval,homeService,configService,userService,dmThietBiService,dmPhongService) {
     	$scope.filtered = {};
+    	$scope.search = {};
+
 		var currentUser = userService.GetCurrentUser();
 		console.log(currentUser);
 		var ip = configService.rootUrlWS;
@@ -70,8 +72,27 @@ define(['angular','controllers/dm/DmThietBiController', 'controllers/dm/DmPhongC
     	  console.log(target);
       }
 
+      $scope.changeRoom = function(){
+    	  if($scope.filtered.MaPhong == -1){
+    		  filterData();
+    	  }
+    	  else{
+  	  		dmThietBiService.getEpuipmentByRoom($scope.filtered.MaPhong).then(function (response) {
+	        	console.log(response);
+	            if (response && response.data && response.data.data.length > 0) {
+	                $scope.data = angular.copy(response.data.data);
+	                console.log($scope.data);
+	            } else {
+	                console.log(response);
+	            }
+	        }, function (response) {
+	            console.log(response);
+	        });
+  			}
+      }
+      
 	  	function filterData() {
-	  		dmThietBiService.getAllEpuipment().then(function (response) {
+	  		dmThietBiService.getAllEpuipment($scope.search).then(function (response) {
 	        	console.log(response);
 	            if (response && response.data && response.data.data.length > 0) {
 	                $scope.data = angular.copy(response.data.data);
@@ -84,8 +105,11 @@ define(['angular','controllers/dm/DmThietBiController', 'controllers/dm/DmPhongC
 	        });
 		};
 		filterData();
+		$scope.doSearch = function(){
+			filterData();
+		}
         function loadDataPhong (){
-        	dmPhongService.getAllRoom().then(function (response) {
+        	dmPhongService.getAllRoom({}).then(function (response) {
             	console.log(response);
                 if (response && response.data && response.data.data.length > 0) {
                     $scope.lstPhong = angular.copy(response.data.data);

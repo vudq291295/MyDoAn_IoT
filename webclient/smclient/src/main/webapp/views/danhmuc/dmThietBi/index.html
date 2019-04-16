@@ -6,9 +6,8 @@
                      <div class="input-group-btn">
                          <button prevent-default class="btn btn-primary" title="Thêm mới" ng-click="create()"  style="float: left;margin-right: 10px;">{{config.label.btnCreate}}</button>
                         <button class="btn btn-secondary" prevent-default title="Tìm kiếm" ng-click="doSearch()" style="float: right;margin-right: 10px;"><span class="fa fa-search"></span>&ensp;{{config.label.btnSearch}}</button>
-                        <button class="btn btn-secondary" prevent-default title="Tải lại trang" ng-click="refresh()" style="float: right;margin-right: 10px;"><span class="fa fa-refresh"></span>&ensp;{{config.label.btnRefresh}}</button>
 	                </div>
-	                 <input type="text" class="form-control form-control-sm" style="width: 70%;" ng-model="filtered.Summary" ng-enter="doSearch()">
+	                 <input type="text" class="form-control form-control-sm" style="width: 70%;" ng-model="search.name" ng-enter="doSearch()">
             </div>
             <div class="card shadow mb-4">
                 <table class="table table-bordered table-hover table-striped">

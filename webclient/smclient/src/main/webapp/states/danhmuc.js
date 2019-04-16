@@ -17,18 +17,31 @@ define([
             moduleUrl: controlUrl + "DmPhongController.js"
         },
         {
-            name: 'dmThietBi',
-            url: '/dmThietBi',
+            name: 'dmKichBan',
+            url: '/dmKichBan',
             parent: 'layout',
             abstract: false,
             views: {
                 'viewMain@root': {
-                    templateUrl: layoutUrl + "dmThietBi/index.html",
-                    controller: "dmThietBiViewCtrl as ctrl"
+                    templateUrl: layoutUrl + "dmKichBan/index.html",
+                    controller: "dmKichBanViewCtrl as ctrl"
                 }
             },
-            moduleUrl: controlUrl + "DmThietBiController.js"
+            moduleUrl: controlUrl + "DmKichBanController.js"
         },
+        {
+	        name: 'dmThietBi',
+	        url: '/dmThietBi',
+	        parent: 'layout',
+	        abstract: false,
+	        views: {
+	            'viewMain@root': {
+	                templateUrl: layoutUrl + "dmThietBi/index.html",
+	                controller: "dmThietBiViewCtrl as ctrl"
+	            }
+	        },
+	        moduleUrl: controlUrl + "DmThietBiController.js"
+	    },
     ];
     return states;
 });

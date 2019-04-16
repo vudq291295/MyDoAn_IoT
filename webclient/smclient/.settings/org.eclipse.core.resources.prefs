@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
+encoding//src/main/webapp/views/danhmuc/dmKichBan/index.html=UTF-8
 encoding//src/main/webapp/views/danhmuc/dmPhong/add.html=UTF-8
 encoding//src/main/webapp/views/danhmuc/dmPhong/delete.html=UTF-8
 encoding//src/main/webapp/views/danhmuc/dmPhong/detail.html=UTF-8

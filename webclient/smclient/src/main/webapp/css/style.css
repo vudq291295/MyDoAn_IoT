@@ -179,6 +179,7 @@ body {
     width: 94%;
     margin-top: 0px;
     font-size: 12px;
+    opacity: 1;
 }
 
     .app-modal-window .modal-dialog .modal-content .modal-body {

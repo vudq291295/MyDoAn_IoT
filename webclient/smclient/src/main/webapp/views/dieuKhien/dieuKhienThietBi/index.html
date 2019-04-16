@@ -316,8 +316,9 @@ ol li{
             <h2>Điều khiển thiết bị</h2>
             <div style="padding: 20px 0px;">
 	            <div class = "input-group">
-		                 <input type="text" class="form-control form-control-sm" style="width: 50%;" ng-model="filtered.Summary" ng-enter="doSearch()">
-		                 <select class="form-control  form-control-sm" ng-model="filtered.MaPhong" style="width: 50%;" ng-options="opt.id as opt.name for opt in lstPhong | orderBy:'id'" name="roomId" required>
+		                 <input type="text" class="form-control form-control-sm" style="width: 40%;margin-right: 4px" ng-model="search.name" ng-enter="doSearch()">
+		                 <select class="form-control  form-control-sm" ng-model="filtered.MaPhong" style="width: 40%"
+		                  ng-options="opt.id as opt.name for opt in lstPhong | orderBy:'id'" name="roomId" required ng-change="changeRoom()">
 		                 	<option value="number:-1" selected> Tất cả</option>
 		                 </select>
 	            </div>

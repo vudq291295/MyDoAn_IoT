@@ -4,8 +4,8 @@ define(['angular','ui-bootstrap', 'controllers/dm/DmPhongController'], function 
     app.factory('dmThietBiService', ['$http', 'configService', function ($http, configService) {
         var serviceUrl = configService.rootUrlWebApi + '/equipment';
         var result = {
-    		getAllEpuipment: function () {
-                return $http.get(serviceUrl + '/getAllEpuipment');
+    		getAllEpuipment: function (data) {
+                return $http.post(serviceUrl + '/getAllEpuipment',data);
             },
             getEpuipmentByRoom: function (data) {
                 return $http.get(serviceUrl + '/getEpuipmentByRoom/'+data);
@@ -28,9 +28,10 @@ define(['angular','ui-bootstrap', 'controllers/dm/DmPhongController'], function 
         $scope.config = {
                 label: angular.copy(configService.label)
         }
+        $scope.search = {};
 
     	function filterData() {
-    		service.getAllEpuipment().then(function (response) {
+    		service.getAllEpuipment($scope.search).then(function (response) {
             	console.log(response);
                 if (response && response.data && response.data.data.length > 0) {
                     $scope.data = angular.copy(response.data.data);
@@ -146,7 +147,7 @@ define(['angular','ui-bootstrap', 'controllers/dm/DmPhongController'], function 
             $scope.title = function () { return 'Thêm mới phòng'; };
 //            $scope.lstPhong = [];
             function loadDataPhong (){
-            	dmPhongService.getAllRoom().then(function (response) {
+            	dmPhongService.getAllRoom({}).then(function (response) {
                 	console.log(response);
                     if (response && response.data && response.data.data.length > 0) {
                         $scope.lstPhong = angular.copy(response.data.data);
@@ -195,7 +196,7 @@ define(['angular','ui-bootstrap', 'controllers/dm/DmPhongController'], function 
 
             $scope.title = function () { return 'Cập nhật phòng'; };
             function loadDataPhong (){
-            	dmPhongService.getAllRoom().then(function (response) {
+            	dmPhongService.getAllRoom({}).then(function (response) {
                 	console.log(response);
                     if (response && response.data && response.data.data.length > 0) {
                         $scope.lstPhong = angular.copy(response.data.data);
@@ -243,7 +244,7 @@ define(['angular','ui-bootstrap', 'controllers/dm/DmPhongController'], function 
 	    $scope.target = targetData;
 	    $scope.title = function () { return 'Chi tiết phòng'; };
         function loadDataPhong (){
-        	dmPhongService.getAllRoom().then(function (response) {
+        	dmPhongService.getAllRoom({}).then(function (response) {
             	console.log(response);
                 if (response && response.data && response.data.data.length > 0) {
                     $scope.lstPhong = angular.copy(response.data.data);
@@ -297,6 +298,99 @@ define(['angular','ui-bootstrap', 'controllers/dm/DmPhongController'], function 
             };
 
         }]);
+
+    /*controller dm chi tieu vudq*/
+    app.controller('dmThietBiSelectMultiData', ['$scope', '$uibModalInstance', '$location', '$http', 'configService', 'dmThietBiService', 'tempDataService', '$filter', '$uibModal', '$log', 'targetData', 'ngNotify',
+    function ($scope, $uibModalInstance, $location, $http, configService, service, tempDataService, $filter, $uibModal, $log, targetData, ngNotify) {
+        $scope.config = angular.copy(configService);
+        $scope.paged = angular.copy(configService.pageDefault);
+        $scope.filtered = angular.copy(configService.filterDefault);
+        $scope.targetData = angular.copy(targetData);
+        $scope.listSelectedData = [];
+        $scope.listCurrentData = angular.copy(targetData);
+        $scope.search = {};
+
+        function filterData() {
+            $scope.isLoading = true;
+            var postdata = { paged: $scope.paged, filtered: $scope.filtered };
+            service.getAllEpuipment($scope.search).then(function (response) {
+                $scope.isLoading = false;
+                if (response && response.data && response.data.data.length > 0) {
+                    $scope.data = angular.copy(response.data.data);
+                    console.log($scope.data);
+                    if ($scope.listCurrentData && $scope.listCurrentData.length > 0) {
+                        for (var i = 0; i < $scope.listCurrentData.length; i++) {
+                            var data = $filter('filter')($scope.data, { id: $scope.listCurrentData[i].equipmentID }, true);
+                            console.log(data);
+                            if (data.length === 1) {
+                            	$scope.listSelectedData.push(data[0]);
+                                $scope.data[$scope.data.indexOf(data[0])].Selected = true;
+                            }
+                        }
+                    }
+
+                } else {
+                    console.log(response);
+                }
+            });
+        };
+        filterData();
+        $scope.doSearch = function () {
+            filterData();
+            console.log($scope.filtered.summary);
+        };
+        $scope.title = function () {
+            return 'Chương';
+        };
+        $scope.sortType = 'TEN';
+        $scope.pageChanged = function () {
+            filterData();
+        };
+        $scope.doCheck = function (item) {
+            if (item) {
+                var tmp = $filter('filter')($scope.listSelectedData, { id: item.id }, true);
+                console.log('item',item);
+                console.log('tmp',tmp);
+                if (item.Selected) {
+                    if (!tmp || tmp.length < 1) {
+                        $scope.listSelectedData.push(item);
+                    }
+                } else {
+                    if (tmp && tmp.length > 0) {
+                        console.log('$scope.listSelectedData.indexOf(tmp[0])', $scope.listSelectedData.indexOf(tmp[0]));
+                        $scope.listSelectedData.splice($scope.listSelectedData.indexOf(tmp[0]), 1);
+                    }
+                }
+            }
+            else {
+                angular.forEach($scope.data, function (v, k) {
+                    $scope.data[k].Selected = $scope.all;
+                    var isSelected = $scope.listSelectedData.some(function (element, index, array) {
+                        if (!element) return false;
+                        return element.equipmentID === v.equipmentID;
+                    });
+
+                    if ($scope.all) {
+                        if (!isSelected) {
+                            $scope.listSelectedData.push($scope.data[k]);
+                        }
+                    } else {
+                        if (isSelected) {
+                            $scope.listSelectedData.splice($scope.data[k], 1);
+                        }
+                    }
+                });
+            }
+            console.log('$scope.listSelectedData', $scope.listSelectedData);
+
+        }
+        $scope.save = function () {
+            $uibModalInstance.close($scope.listSelectedData);
+        };
+        $scope.cancel = function () {
+            $uibModalInstance.close();
+        };
+    }]);
 
     return app;
 });

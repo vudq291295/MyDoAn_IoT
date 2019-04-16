@@ -3,8 +3,8 @@ define(['angular'], function (angular) {
     app.factory('dmPhongService', ['$http', 'configService', function ($http, configService) {
         var serviceUrl = configService.rootUrlWebApi + '/room';
         var result = {
-    		getAllRoom: function () {
-                return $http.get(serviceUrl + '/getAllRoom');
+    		getAllRoom: function (data) {
+                return $http.post(serviceUrl + '/getAllRoom',data);
             },
             insertRoom : function (data) {
                 return $http.post(serviceUrl + '/insertRoom',data);
@@ -24,8 +24,9 @@ define(['angular'], function (angular) {
         $scope.config = {
                 label: angular.copy(configService.label)
         }
+        $scope.search = {};
     	function filterData() {
-    		service.getAllRoom().then(function (response) {
+    		service.getAllRoom($scope.search).then(function (response) {
             	console.log(response);
                 if (response && response.data && response.data.data.length > 0) {
                     $scope.data = angular.copy(response.data.data);

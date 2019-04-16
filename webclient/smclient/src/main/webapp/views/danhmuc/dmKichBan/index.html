@@ -1,33 +1,26 @@
 ﻿<div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <h2>Danh mục phòng</h2>
+            <h2>Danh mục kịch bản</h2>
             <div style="padding: 20px 0px;">
                      <div class="input-group-btn">
                          <button prevent-default class="btn btn-primary" title="Thêm mới" ng-click="create()"  style="float: left;margin-right: 10px;">{{config.label.btnCreate}}</button>
                         <button class="btn btn-secondary" prevent-default title="Tìm kiếm" ng-click="doSearch()" style="float: right;margin-right: 10px;"><span class="fa fa-search"></span>&ensp;{{config.label.btnSearch}}</button>
+                        <button class="btn btn-secondary" prevent-default title="Tải lại trang" ng-click="refresh()" style="float: right;margin-right: 10px;"><span class="fa fa-refresh"></span>&ensp;{{config.label.btnRefresh}}</button>
 	                </div>
 	                 <input type="text" class="form-control form-control-sm" style="width: 70%;" ng-model="search.name" ng-enter="doSearch()">
             </div>
-            <div class="table-responsive">
+            <div class="card shadow mb-4">
                 <table class="table table-bordered table-hover table-striped">
                     <thead>
                         <tr>
-                            <th width="10%">Hành động</th>
+                            <th width="150px">Hành động</th>
                             <th width="100px">STT</th>
-
                             <th>
                                 <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
-                                    Tên phòng
+                                    Tên kịch bản
                                     <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
                                     <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
-                                </a>
-                            </th>
-                            <th>
-                                <a ng-click="sortType = 'chanel'; sortReverse = !sortReverse">
-                                    Kênh
-                                    <span ng-show="sortType == 'chanel' && !sortReverse" class="fa fa-caret-down"></span>
-                                    <span ng-show="sortType == 'chanel' && sortReverse" class="fa fa-caret-up"></span>
                                 </a>
                             </th>
                         </tr>
@@ -42,11 +35,11 @@
                             <td style="text-align: center;">
                                 <a class="fa fa-search" placeholder="Thêm mới" ng-click="detail(item)" ></a> &nbsp;&nbsp;&nbsp;
                                 <a class="fa fa-pencil-square" placeholder="Sửa" ng-click="edit(item)" ></a> &nbsp;&nbsp;&nbsp;
-                                <a class="fa fa-remove" placeholder="Xóa" ng-click="delete(item)"></a>
+                                <a class="fa fa-remove" placeholder="Xóa" ng-click="delete(item)"></a> &nbsp;&nbsp;&nbsp;
+                                <a class="far fa-check-circle" placeholder="Kích hoạt" ng-click="controlEqiup(item)"></a>
                             </td>
                             <td>{{$index+1}}</td>
                             <td>{{item.name}}</td>
-                            <td>{{item.chanel}}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -1,0 +1,104 @@
+﻿ <style>
+
+.active, .inactive {font-size:30px;cursor:pointer;background-color:#fff}
+.active, .inactive {font-size:30px;cursor:pointer;background-color:#fff}
+i.active { color: #5cb85c}
+i.inactive {color: #d9534f}
+</style>
+			    
+			    <div class="modal-header">
+			        <h3 class="modal-title">{{title()}}  {{lbl.lblCreate}}</h3>
+			    </div>
+			    <div class="modal-body">
+			        <form role="form" name="_form">
+			            <div class="row form-group">
+			                <div class="col-lg-12">
+			                    <label>Tên thiết bị <span style="color: red"> (*)</span> </label>
+			                    <input type="text" class="form-control" ng-model="target.name" id="name" name="name" required>
+			                    <span style="color:red" ng-show="_form.name.$dirty && _form.name.$invalid">
+			                        <span ng-show="_form.name.$error.required">Không được để trống</span>
+			                        <span ng-show="_form.name.$error.maxlength">Bạn không được nhập quá 50 ký tự</span>
+			                    </span>
+			                </div>
+			            </div>
+			        </form>
+			            <div class="myWorkContent row">
+					        <table class="table table-bordered table-hover table-condensed">
+					            <thead>
+									<tr>
+										<th>STT</th>
+										<th>Tên Thiết bị</th>
+										<th>Tên phòng</th>
+										<th>Kênh</th>
+										<th>chân điều khiển</th>
+										<th>Trạng thái</th>
+			                            <th style="width:5%"></th>
+									</tr>
+					            </thead>
+					            <tbody name="_formDetail">
+									<tr style="background:rgba(119, 119, 119, 0.48)" ng-enter="addRow()">
+			                            <td style="text-align:center;"></td>
+										<td>
+			                                <input type="text" style="width:100%;" name="_maHang" ng-model="newItem.equipmentName" ng-blur="selectedThietBi(newItem.equipmentName)"/>
+										</td>
+										<td>
+											{{newItem.roomName}}										
+										</td>
+										<td>
+											{{newItem.equipmentChanel}}										
+										</td>
+										<td>
+											{{newItem.equipmentPort}}										
+										</td>
+										<td>
+											{{newItem.status}}										
+										</td>
+			                            <td style="white-space: nowrap" class="text-center">
+			                                <div class="form-buttons form-inline">
+			                                    <button prevent-default type="button" ng-disabled="_formAddDetail.$invalid" ng-click="addRow()" class="btn btn-default btn-sm btn-sm-add-item">{{config.label.btnCreate}}</button>
+			                                </div>
+			                            </td>
+									</tr>
+					            </tbody>
+					            <tbody>
+			                        <tr ng-repeat="item in data track by $index">
+			                            <td style="text-align:center;">{{$index + 1}}</td>
+										<td>
+											{{item.equipmentName}}										
+										</td>
+										<td>
+											{{item.roomName}}										
+										</td>
+										<td>
+											{{item.equipmentChanel}}										
+										</td>
+										<td>
+											{{item.equipmentPort}}										
+										</td>
+										<td>
+										    <div>
+										      <i class="fa fa-toggle-on active" ng-if="item.status == true" ng-click="changeStatus(item);"></i>
+										      <i class="fa fa-toggle-on fa-rotate-180 inactive" ng-if="item.status == false" ng-click="changeStatus(item);"></i>
+										    </div>
+										
+										
+<!-- 											    <div class="btn-switch" ng-class="{'btn-switch--on':item.status}" ng-model="item.status" ng-click="item.status = !item.status">
+											        <div class="btn-switch-circle" ng-class="{'btn-switch-circle--on':item.status}" ng-model="item.status" ng-click="!item.status = item.status"></div>
+											    </div>									
+-->										</td>
+          	                            <td style="white-space: nowrap" class="text-center">
+			                                <div class="form-buttons form-inline">
+			                                    <button prevent-default type="button" style="height: 20px; line-height: 2px;background: rgba(255, 213, 93, 0.61);" ng-click="removeItem($index)" class="btn btn-default btn-sm">
+			                                        Xóa
+			                                    </button>
+			                                </div>
+			                            </td>
+					            	</tr>
+					            </tbody>
+					        </table>
+					    </div>
+				    </div>
+			    <div class="modal-footer">
+			        <button prevent-default type="submit" class="btn btn-primary" ng-disabled="_form.$invalid" ng-click="save()">{{config.label.btnSubmit}}</button>
+			        <button prevent-default class="btn btn-default" ng-click="cancel()">{{config.label.btnCancel}}</button>
+			    </div>
