@@ -8,7 +8,7 @@ import com.dqv.spring.oauth2.helper.Response;
 
 public interface EquipmentBusiness {
 
-	Response<List<EquipmentDTO>> getAllEpuipment();
+	Response<List<EquipmentDTO>> getAllEpuipment(EquipmentBO bo);
 	
 	Response<List<EquipmentDTO>> getEpuipmentByRoom(int idRoom);
 	

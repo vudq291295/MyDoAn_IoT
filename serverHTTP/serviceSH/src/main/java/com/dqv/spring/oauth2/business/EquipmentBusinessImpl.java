@@ -22,10 +22,10 @@ public class EquipmentBusinessImpl implements EquipmentBusiness{
 	EpuipmentDAO epuipmentDAO;
 
 	@Override
-	public Response<List<EquipmentDTO>> getAllEpuipment() {
+	public Response<List<EquipmentDTO>> getAllEpuipment(EquipmentBO bo) {
 		Response<List<EquipmentDTO>> result = new Response<>();
 		List<EquipmentDTO> temp = new ArrayList<EquipmentDTO>();
-		temp = epuipmentDAO.getAllEpuipment();
+		temp = epuipmentDAO.getAllEpuipment(bo);
 		result.error = false;
 		result.data = temp;
 		return result;

@@ -23,10 +23,10 @@ public class RoomBusinessImpl implements RoomBusiness{
     private EpuipmentDAO epuipmentDAO;
 
 	@Override
-	public Response<List<RoomBO>> getAllRoom() {
+	public Response<List<RoomBO>> getAllRoom(RoomBO bo) {
 		Response<List<RoomBO>> result = new Response<>();
 		List<RoomBO> temp = new ArrayList<RoomBO>();
-		temp = roomDAO.getAllRoom();
+		temp = roomDAO.getAllRoom(bo);
 		result.error = false;
 		result.data = temp;
 		return result;

@@ -24,12 +24,23 @@ public class ScriptDAO {
 	      this.sessionFactory = sessionFactory;
 	  }
 
-		public List<ScriptBO> getAllScript() {
+		public List<ScriptBO> getAllScript(ScriptBO bo) {
+			List<ScriptBO> result = new ArrayList<ScriptBO>();
+
 			try {
 		        Session session = this.sessionFactory.getCurrentSession();
-		        Query query = session.createQuery("from ScriptBO");
-		        List<ScriptBO> result=  query.list();
-		        return result;
+		        if(bo!=null) {
+		        	String nameRoomSearch = bo.getName()!=null ? bo.getName() : "";
+			        Query query = session.createQuery("from ScriptBO where name like :search");
+			        query.setParameter("search", "%"+nameRoomSearch+"%");
+			        result =  query.list();
+			        return result;
+		        }
+		        else {
+			        Query query = session.createQuery("from ScriptBO");
+			        result =  query.list();
+			        return result;
+		        }
 			}
 			catch (Exception e) {
 		        return null;
@@ -87,15 +98,23 @@ public class ScriptDAO {
 			}
 	    }
 		
-		public boolean insertRoom(ScriptDTO dto) {
+		public boolean insertScript(ScriptDTO dto) {
 			try {
 				ScriptBO bo = dto.toBO();
 				System.out.println(bo.getName());
 		        Session session = this.sessionFactory.getCurrentSession();
 //		        Serializable a = session.save(bo);
 		        Integer a = (Integer)session.save(bo);
-		        System.out.println(a);
-		        System.out.println(bo.getId());
+		        if(a>0) {
+		        	if(dto.details.size() > 0) {
+		        		for(int i =0;i<dto.details.size();i++) {
+		        			ScriptHasEquimentBO boDetail = new ScriptHasEquimentBO();
+		        			boDetail = dto.details.get(i).toBO();
+		        			boDetail.setScripID(a);
+		        			session.save(boDetail);
+		        		}
+		        	}
+		        }
 		        return true;
 			}
 			catch (Exception e) {
@@ -103,4 +122,63 @@ public class ScriptDAO {
 		        return false;
 			}
 	    }
+		
+		public boolean updateScript(ScriptDTO dto) {
+			try {
+				ScriptBO bo = dto.toBO();
+				System.out.println(bo.getName());
+		        Session session = this.sessionFactory.getCurrentSession();
+//		        Serializable a = session.save(bo);
+		        session.update(bo);
+		        Query query2 = session.createQuery("from ScriptHasEquimentBO where scripID = :idScript");
+		        query2.setParameter("idScript", dto.getId());
+		        List<ScriptHasEquimentBO> list2 = query2.list();
+		        for(int i =0;i<list2.size();i++) {
+		        	session.delete(list2.get(i));
+		        	System.out.println(list2.get(i).getEquipmentID());
+		        }
+	        	if(dto.details.size() > 0) {
+	        		for(int i =0;i<dto.details.size();i++) {
+	        			
+	        			ScriptHasEquimentBO boDetail = new ScriptHasEquimentBO();
+	        			boDetail = dto.details.get(i).toBO();
+	        			boDetail.setScripID(dto.getId());
+	        			session.save(boDetail);
+			        	System.out.println(dto.details.get(i).getEquipmentID());
+
+	        		}
+	        	}
+		        return true;
+			}
+			catch (Exception e) {
+				System.out.println(e);
+		        return false;
+			}
+	    }
+
+		public boolean deleteScript(ScriptDTO dto) {
+			try {
+				ScriptBO bo = dto.toBO();
+				System.out.println(bo.getName());
+		        Session session = this.sessionFactory.getCurrentSession();
+		        
+		        Query query2 = session.createQuery("from ScriptHasEquimentBO where scripID = :idScript");
+		        query2.setParameter("idScript", dto.getId());
+		        List<ScriptHasEquimentBO> list2 = query2.list();
+		        for(int i =0;i<list2.size();i++) {
+		        	session.delete(list2.get(i));
+		        }
+
+//		        Serializable a = session.save(bo);
+		        System.out.println(bo.getId());
+		        session.delete(bo);
+		        
+		        return true;
+			}
+			catch (Exception e) {
+				System.out.println(e);
+		        return false;
+			}
+	    }
+
 }

@@ -60,12 +60,22 @@ public class EpuipmentDAO {
 			}
 	    }
 
-		public List<EquipmentDTO> getAllEpuipment() {
+		public List<EquipmentDTO> getAllEpuipment(EquipmentBO bo) {
 			try {
+				System.out.println(bo);
+				List<EquipmentBO> result = new ArrayList<>();
 				List<EquipmentDTO> lstResul = new ArrayList<>();
 		        Session session = this.sessionFactory.getCurrentSession();
-		        Query query = session.createQuery("from EquipmentBO");
-		        List<EquipmentBO> result=  query.list();
+		        if(bo!=null) {
+		        	String nameRoomSearch = bo.getName()!=null ? bo.getName() : "";
+			        Query query = session.createQuery("from EquipmentBO where name like :search");
+			        query.setParameter("search", "%"+nameRoomSearch+"%");
+			        result=  query.list();
+		        }
+		        else {
+			        Query query = session.createQuery("from EquipmentBO");
+			        result=  query.list();
+		        }
 		        System.out.println("result "+ result.size() );
 		        if(result.size() > 0) {
 			        for(int i = 0 ; i< result.size();i++) {

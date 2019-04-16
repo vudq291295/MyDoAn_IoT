@@ -21,10 +21,13 @@ public class RoomController {
 	@Autowired
 	private RoomBusinessImpl roomBusinessImpl;
 	
-	@RequestMapping(value = "/getAllRoom", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
-	public ResponseEntity getAllRoom() {
+	@RequestMapping(value = "/getAllRoom", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
+	public ResponseEntity getAllRoom(@RequestBody RoomBO bo) {
+		if(bo!=null) {
+			System.out.println(bo.getName());
+		}
 		Response<List<RoomBO>> result = new Response<>();
-		result = roomBusinessImpl.getAllRoom();
+		result = roomBusinessImpl.getAllRoom(bo);
 		return new ResponseEntity(result,HttpStatus.OK);
 	}
 

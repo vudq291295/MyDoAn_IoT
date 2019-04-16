@@ -1,5 +1,6 @@
 package com.dqv.spring.oauth2.DTO;
 
+import com.dqv.spring.oauth2.bo.ScriptHasEquimentBO;
 
 public class ScriptDetailDTO {
 	public int scripID;
@@ -87,6 +88,15 @@ public class ScriptDetailDTO {
 
 	public void setRoomID(int roomID) {
 		this.roomID = roomID;
+	}
+	
+	public ScriptHasEquimentBO toBO() {
+		ScriptHasEquimentBO bo = new ScriptHasEquimentBO();
+		bo.setScripID(this.scripID);
+		bo.setEquipmentID(this.equipmentID);
+		bo.setStatus(this.status);
+		return bo;
+
 	}
     
     

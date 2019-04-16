@@ -20,13 +20,22 @@ public class RoomDAO {
 	      this.sessionFactory = sessionFactory;
 	  }
 	  
-	public List<RoomBO> getAllRoom() {
+	public List<RoomBO> getAllRoom(RoomBO bo) {
 		List<RoomBO> result = new ArrayList<RoomBO>();
 		try {
 	        Session session = this.sessionFactory.getCurrentSession();
-	        Query query = session.createQuery("from RoomBO");
-	        result =  query.list();
-	        return result;
+	        if(bo!=null) {
+	        	String nameRoomSearch = bo.getName()!=null ? bo.getName() : "";
+		        Query query = session.createQuery("from RoomBO where name like :search");
+		        query.setParameter("search", "%"+nameRoomSearch+"%");
+		        result =  query.list();
+		        return result;
+	        }
+	        else {
+		        Query query = session.createQuery("from RoomBO");
+		        result =  query.list();
+		        return result;
+	        }
 		}
 		catch (Exception e) {
 	        return result;

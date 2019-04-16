@@ -30,10 +30,10 @@ public class ScriptController {
 	@Autowired
 	private ScriptBusinessImpl scriptBusinessImpl;
 	
-	@RequestMapping(value = "/getAllScript", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
-	public ResponseEntity getAllScript() {
+	@RequestMapping(value = "/getAllScript", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
+	public ResponseEntity getAllScript(@RequestBody ScriptBO bo) {
 		Response<List<ScriptBO>> result = new Response<>();
-		result = scriptBusinessImpl.getAllScript();
+		result = scriptBusinessImpl.getAllScript(bo);
 		return new ResponseEntity(result,HttpStatus.OK);
 	}
 
@@ -52,6 +52,36 @@ public class ScriptController {
 		System.out.println(bo.getName()); 
 		Response<Boolean> result = new Response<>();
 		result = scriptBusinessImpl.insertScript(bo);
+		if(!result.error) {
+			return new ResponseEntity(result,HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity(result,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@RequestMapping(value = "/updateScript", method = RequestMethod.POST, produces = { "application/json; charset=utf-8" },
+			consumes="application/json;charset=UTF-8")
+	@ResponseBody 
+	public ResponseEntity updateScript(@RequestBody ScriptDTO bo) {
+		System.out.println(bo.getName()); 
+		Response<Boolean> result = new Response<>();
+		result = scriptBusinessImpl.updateScript(bo);
+		if(!result.error) {
+			return new ResponseEntity(result,HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity(result,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@RequestMapping(value = "/deleteScript", method = RequestMethod.POST, produces = { "application/json; charset=utf-8" },
+			consumes="application/json;charset=UTF-8")
+	@ResponseBody 
+	public ResponseEntity deleteScript(@RequestBody ScriptDTO bo) {
+		System.out.println(bo.getName()); 
+		Response<Boolean> result = new Response<>();
+		result = scriptBusinessImpl.deleteScript(bo);
 		if(!result.error) {
 			return new ResponseEntity(result,HttpStatus.OK);
 		}

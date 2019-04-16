@@ -48,6 +48,7 @@ public class ScriptHasEquimentBO implements Serializable{
     	ScriptDetailDTO result = new ScriptDetailDTO();
     	result.scripID = this.scripID;
     	result.equipmentID = this.equipmentID;
+    	result.status = this.status;
     	return result;
     }
 

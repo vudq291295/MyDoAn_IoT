@@ -23,10 +23,10 @@ public class ScriptBusinessImpl implements ScriptBusiness{
 
 
 	@Override
-	public Response<List<ScriptBO>> getAllScript() {
+	public Response<List<ScriptBO>> getAllScript(ScriptBO bo) {
 		Response<List<ScriptBO>> result = new Response<>();
 		List<ScriptBO> temp = new ArrayList<ScriptBO>();
-		temp = sctpitDAO.getAllScript();
+		temp = sctpitDAO.getAllScript(bo);
 		result.error = false;
 		result.data = temp;
 		return result;
@@ -45,7 +45,39 @@ public class ScriptBusinessImpl implements ScriptBusiness{
 	@Override
 	public Response<Boolean> insertScript(ScriptDTO bo) {
 		Response<Boolean> result = new Response<>();
-		if(sctpitDAO.insertRoom(bo)) {
+		if(sctpitDAO.insertScript(bo)) {
+	        result.error = false;
+	        result.message = "Thành công";
+
+		}
+		else {
+        	result.error = true;
+        	result.message = "Đã xảy ra lỗi trong quá trình thêm mới";
+		}
+	
+		return result;	
+	}
+
+	@Override
+	public Response<Boolean> updateScript(ScriptDTO bo) {
+		Response<Boolean> result = new Response<>();
+		if(sctpitDAO.updateScript(bo)) {
+	        result.error = false;
+	        result.message = "Thành công";
+
+		}
+		else {
+        	result.error = true;
+        	result.message = "Đã xảy ra lỗi trong quá trình thêm mới";
+		}
+	
+		return result;	
+	}
+
+	@Override
+	public Response<Boolean> deleteScript(ScriptDTO bo) {
+		Response<Boolean> result = new Response<>();
+		if(sctpitDAO.deleteScript(bo)) {
 	        result.error = false;
 	        result.message = "Thành công";
 

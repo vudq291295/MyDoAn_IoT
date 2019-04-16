@@ -15,6 +15,9 @@ import io.vertx.core.logging.LoggerFactory;
 import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.dna.mqtt.moquette.proto.messages.*;
 
+import com.dqv.jdbc.AuthJDBC;
+import com.dqv.jdbc.ConnectDatabase;
+import com.dqv.jdbc.EquipmentJDBC;
 import com.dqv.mqtt.parser.MQTTDecoder;
 import com.dqv.mqtt.parser.MQTTEncoder;
 import com.dqv.mqtt.persistence.StoreManager;
@@ -25,6 +28,8 @@ import com.dqv.mqtt.security.AuthorizationClient;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -447,32 +452,58 @@ public class MQTTSession implements Handler<Message<Buffer>> {
          * the Server MUST deliver the message to the Client respecting the maximum QoS of all the matching subscriptions
          */
         String topic = publishMessage.getTopicName();
-        List<Subscription> subs = getAllMatchingSubscriptions(topic);
-        if(subs!=null && subs.size()>0) {
-            publishMessageToThisClient = true;
-            for (Subscription s : subs) {
-                int itemQos = s.getQos();
-                if (itemQos > maxQos) {
-                    maxQos = itemQos;
+        ByteBuffer bb = publishMessage.getPayload();
+        String converted = "1";
+		try {
+			converted = new String(bb.array(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        String[] lstSplitTopic = topic.split("/");
+        if(lstSplitTopic.length >2) {
+        	Connection connnect = ConnectDatabase.getConnectDatabase();
+        	EquipmentJDBC conn = new EquipmentJDBC(connnect);
+        	boolean isValid = conn.updateStuatusEquipment(lstSplitTopic[1],lstSplitTopic[2],converted);
+        	if(isValid)
+        	{
+                List<Subscription> subs = getAllMatchingSubscriptions(topic);
+                if(subs!=null && subs.size()>0) {
+                    publishMessageToThisClient = true;
+                    for (Subscription s : subs) {
+                        int itemQos = s.getQos();
+                        if (itemQos > maxQos) {
+                            maxQos = itemQos;
+                        }
+                        // optimization: if qos==2 is alredy **the max** allowed
+                        if(maxQos == 2)
+                            break;
+                    }
                 }
-                // optimization: if qos==2 is alredy **the max** allowed
-                if(maxQos == 2)
-                    break;
+
+                if(publishMessageToThisClient) {
+                    // the qos cannot be bigger than the subscribe requested qos ...
+                    AbstractMessage.QOSType originalQos = publishMessage.getQos();
+                    int iSentQos = qosUtils.toInt(originalQos);
+                    int iOkQos = qosUtils.calculatePublishQos(iSentQos, maxQos);
+                    AbstractMessage.QOSType qos = qosUtils.toQos(iOkQos);
+                    publishMessage.setQos(qos);
+                    if(!cleanSession && iSentQos>0) {
+                        addMessageToQueue(publishMessage);
+                    }
+                    sendPublishMessage(publishMessage);
+                }       
             }
+        	try {
+    			connnect.close();
+    		} catch (SQLException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+        	
         }
 
-        if(publishMessageToThisClient) {
-            // the qos cannot be bigger than the subscribe requested qos ...
-            AbstractMessage.QOSType originalQos = publishMessage.getQos();
-            int iSentQos = qosUtils.toInt(originalQos);
-            int iOkQos = qosUtils.calculatePublishQos(iSentQos, maxQos);
-            AbstractMessage.QOSType qos = qosUtils.toQos(iOkQos);
-            publishMessage.setQos(qos);
-            if(!cleanSession && iSentQos>0) {
-                addMessageToQueue(publishMessage);
-            }
-            sendPublishMessage(publishMessage);
-        }
     }
 
     private List<Subscription> getAllMatchingSubscriptions(String topic) {

@@ -7,7 +7,7 @@ import com.dqv.spring.oauth2.helper.Response;
 
 public interface RoomBusiness {
 	
-	Response<List<RoomBO>> getAllRoom();
+	Response<List<RoomBO>> getAllRoom(RoomBO bo);
 	
 	Response<Boolean> insertRoom(RoomBO bo); 
 	

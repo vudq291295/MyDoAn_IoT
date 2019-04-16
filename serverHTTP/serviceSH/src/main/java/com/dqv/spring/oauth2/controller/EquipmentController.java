@@ -25,10 +25,10 @@ public class EquipmentController {
 	@Autowired
 	public EquipmentBusinessImpl equipmentBusinessImpl;
 	
-	@RequestMapping(value = "/getAllEpuipment", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
-	public ResponseEntity getAllEpuipment() {
+	@RequestMapping(value = "/getAllEpuipment", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
+	public ResponseEntity getAllEpuipment(@RequestBody EquipmentBO bo) {
 		Response<List<EquipmentDTO>> result = new Response<>();
-		result = equipmentBusinessImpl.getAllEpuipment();
+		result = equipmentBusinessImpl.getAllEpuipment(bo);
 		return new ResponseEntity(result,HttpStatus.OK);
 	}
 
