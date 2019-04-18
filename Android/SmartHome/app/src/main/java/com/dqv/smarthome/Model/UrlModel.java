@@ -31,4 +31,8 @@ public class UrlModel {
     public static String url_deleteScript = domain + "api/script/deleteScript";// dang nhap
     public static String url_getDetailsScript = domain + "api/script/getDetailsScript/";// dang nhap
 
+    //environment
+    public static String url_getAllEnviroment = domain + "api/environment/getAllEnviroment";// dang nhap
+
+
 }

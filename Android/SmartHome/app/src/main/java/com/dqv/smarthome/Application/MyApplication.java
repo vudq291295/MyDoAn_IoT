@@ -47,7 +47,7 @@ public class MyApplication extends Application {
         super.onCreate();
         db = new SQLiteHandler(getApplicationContext());
         mInstance = this;
-        startMqtt();
+        //startMqtt();
 //        mGSon = new Gson();
 
     }
@@ -109,6 +109,10 @@ public class MyApplication extends Application {
 
     public MqttHelper getMQTTHelper() {
         return mqttHelper;
+    }
+
+    public void setMqttHelper(MqttHelper mqttHelper) {
+        this.mqttHelper = mqttHelper;
     }
 
     /**

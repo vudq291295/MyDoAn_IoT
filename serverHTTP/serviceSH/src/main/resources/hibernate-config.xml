@@ -69,6 +69,10 @@
 	     <property name="sessionFactory" ref="sessionFactory" />
 	 </bean>
     
+            <bean id="environmentDAO" class="com.dqv.spring.oauth2.DAO.EnvironmentDAO">
+	     <property name="sessionFactory" ref="sessionFactory" />
+	 </bean>
+    
 </beans>
 
 

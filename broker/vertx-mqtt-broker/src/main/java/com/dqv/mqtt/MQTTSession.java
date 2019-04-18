@@ -51,6 +51,7 @@ public class MQTTSession implements Handler<Message<Buffer>> {
     private MQTTEncoder encoder;
     private ITopicsManager topicsManager;
     private String clientID;
+    private String userName;
     private String protoName;
     private boolean cleanSession;
     private String tenant;
@@ -91,7 +92,6 @@ public class MQTTSession implements Handler<Message<Buffer>> {
         this.topicsManager = new MQTTTopicsManagerOptimized();
         this.storeManager = new StoreManager(this.vertx);
         this.authenticatorAddress = config.getAuthenticatorAddress();
-        
         this.queue = new LinkedList<>();
     }
 
@@ -136,6 +136,7 @@ public class MQTTSession implements Handler<Message<Buffer>> {
             throws Exception {
 
         clientID = connectMessage.getClientID();
+        userName = connectMessage.getUsername();
         cleanSession = connectMessage.isCleanSession();
         protoName = connectMessage.getProtocolName();
         if("MQIsdp".equals(protoName)) {
@@ -365,7 +366,6 @@ public class MQTTSession implements Handler<Message<Buffer>> {
 
             // invalidate matching topic cache
             matchingSubscriptionsCache.clear();
-
             List<SubscribeMessage.Couple> subs = subscribeMessage.subscriptions();
             int indx = 0;
             for(SubscribeMessage.Couple s : subs) {
@@ -465,6 +465,7 @@ public class MQTTSession implements Handler<Message<Buffer>> {
                 if(maxQos == 2)
                     break;
             }
+            
         }
 
         if(publishMessageToThisClient) {
@@ -483,6 +484,8 @@ public class MQTTSession implements Handler<Message<Buffer>> {
             if(isUpdate) {
                 ByteBuffer bb = publishMessage.getPayload();
                 String converted = "1";
+                logger.info("client info: "+getUserName());
+                
         		try {
         			converted = new String(bb.array(), "UTF-8");
         		} catch (UnsupportedEncodingException e) {
@@ -496,14 +499,15 @@ public class MQTTSession implements Handler<Message<Buffer>> {
                 	Connection connnect = ConnectDatabase.getConnectDatabase();
                 	EquipmentJDBC conn = new EquipmentJDBC(connnect);
                 	logger.info("info mss public: "+lstSplitTopic[1] + "-" +lstSplitTopic[2] +"-"+ converted );
-                	boolean isValid = conn.updateStuatusEquipment(lstSplitTopic[1],lstSplitTopic[2],converted);
+                	boolean isValid = conn.updateStuatusEquipment(lstSplitTopic[1],lstSplitTopic[2],converted,getUserName());
+                	logger.info("IsValid :"+isValid);
                 	if(isValid)
                 	{
+                        sendPublishMessage(publishMessage);
                 		isUpdate = false;
                     }
                 }
             }
-            sendPublishMessage(publishMessage);
 
         }       
 
@@ -591,7 +595,12 @@ public class MQTTSession implements Handler<Message<Buffer>> {
         return clientID;
     }
 
-    public String getProtoName() {
+    
+    public String getUserName() {
+		return userName;
+	}
+
+	public String getProtoName() {
         return protoName;
     }
 

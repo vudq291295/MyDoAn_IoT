@@ -156,51 +156,51 @@ public class MainActivity extends AppCompatActivity {
 
         // initializing navigation menu
         setUpNavigationView();
-
+        //mqttHelper = MyApplication.getInstance().getMQTTHelper();
         //set Up MQTT
-
+        startMqtt();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_main);
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mainAdapter = new MainAdapter(listTG,getApplicationContext(),MyApplication.getInstance().getMQTTHelper(),fm);
+        mainAdapter = new MainAdapter(listTG,getApplicationContext(),mqttHelper,fm);
         mRecyclerView.setAdapter(mainAdapter);
         currentToken = MyApplication.getInstance().getPrefManager().getUser().getToken();
 //        getAllEquipment();
         getAllRoom();
-        MyApplication.getInstance().getMQTTHelper().setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean reconnect, String serverURI) {
-
-            }
-
-            @Override
-            public void connectionLost(Throwable cause) {
-
-            }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                Log.d(TAG, "messageArrived: TOPIC: "+ topic + " - MSG : "+mqttMessage);
-                String[] lstToPic =  topic.split("/");
-                Log.d(TAG, "messageArrived: TOPIC 1: "+ lstToPic[0]);
-                Log.d(TAG, "messageArrived: TOPIC 2: "+ lstToPic[1]);
-                Log.d(TAG, "messageArrived: TOPIC 3: "+ lstToPic[2]);
-
-                for(int i =0;i<listTG.size();i++){
-                    if(listTG.get(i).getChanel() == Integer.parseInt(lstToPic[1])){
-                        if(listTG.get(i).getPortOutput() == Integer.parseInt(lstToPic[2])){
-                            listTG.get(i).setStatus(Integer.parseInt(mqttMessage.toString()));
-                        }
-                    }
-                }
-                mainAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken token) {
-
-            }
-        });
+//        MyApplication.getInstance().getMQTTHelper().setCallback(new MqttCallbackExtended() {
+//            @Override
+//            public void connectComplete(boolean reconnect, String serverURI) {
+//
+//            }
+//
+//            @Override
+//            public void connectionLost(Throwable cause) {
+//
+//            }
+//
+//            @Override
+//            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+//                Log.d(TAG, "messageArrived: TOPIC: "+ topic + " - MSG : "+mqttMessage);
+//                String[] lstToPic =  topic.split("/");
+//                Log.d(TAG, "messageArrived: TOPIC 1: "+ lstToPic[0]);
+//                Log.d(TAG, "messageArrived: TOPIC 2: "+ lstToPic[1]);
+//                Log.d(TAG, "messageArrived: TOPIC 3: "+ lstToPic[2]);
+//
+//                for(int i =0;i<listTG.size();i++){
+//                    if(listTG.get(i).getChanel() == Integer.parseInt(lstToPic[1])){
+//                        if(listTG.get(i).getPortOutput() == Integer.parseInt(lstToPic[2])){
+//                            listTG.get(i).setStatus(Integer.parseInt(mqttMessage.toString()));
+//                        }
+//                    }
+//                }
+//                mainAdapter.notifyDataSetChanged();
+//            }
+//            @Override
+//            public void deliveryComplete(IMqttDeliveryToken token) {
+//
+//            }
+//        });
     }
 
     @Override
@@ -220,7 +220,8 @@ public class MainActivity extends AppCompatActivity {
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
-
+                Log.d(TAG, "connectComplete: "+b);
+                MyApplication.getInstance().setMqttHelper(mqttHelper);
             }
 
             @Override
@@ -277,6 +278,10 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.nav_script:
                         startActivity(new Intent(MainActivity.this, ScriptActivity.class));
+                        drawer.closeDrawers();
+                        return true;
+                    case R.id.nav_environment:
+                        startActivity(new Intent(MainActivity.this, EnvironmentActivity.class));
                         drawer.closeDrawers();
                         return true;
                     default:
