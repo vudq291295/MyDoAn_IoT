@@ -196,7 +196,6 @@ public abstract class MQTTSocket implements MQTTPacketTokenizer.MqttTokenizerLis
                 break;
             case PUBLISH:
                 session.resetKeepAliveTimer();
-
                 PublishMessage publish = (PublishMessage)msg;
                 QOSType qos = publish.getQos();
                 String topic = publish.getTopicName();

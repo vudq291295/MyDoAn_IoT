@@ -25,6 +25,7 @@ import com.dqv.mqtt.persistence.Subscription;
 import com.dqv.mqtt.prometheus.PromMetrics;
 import com.dqv.mqtt.prometheus.PromMetricsExporter;
 import com.dqv.mqtt.security.AuthorizationClient;
+import com.google.protobuf.Internal.BooleanList;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
@@ -71,6 +72,7 @@ public class MQTTSession implements Handler<Message<Buffer>> {
 
 
     private Queue<PublishMessage> queue;
+    boolean isUpdate = true;
 
     public MQTTSession(Vertx vertx, ConfigParser config) {
         this.vertx = vertx;
@@ -80,6 +82,7 @@ public class MQTTSession implements Handler<Message<Buffer>> {
         this.retainSupport = config.isRetainSupport();
         this.subscriptions = new LinkedHashMap<>();
         this.qosUtils = new QOSUtils();
+        isUpdate = true;
         PassiveExpiringMap.ConstantTimeToLiveExpirationPolicy<String, List<Subscription>>
                 expirePeriod = new PassiveExpiringMap.ConstantTimeToLiveExpirationPolicy<>(
                 30, TimeUnit.MINUTES);
@@ -301,6 +304,7 @@ public class MQTTSession implements Handler<Message<Buffer>> {
             if(tenant == null)
                 tenant = "";
             DeliveryOptions opt = new DeliveryOptions().addHeader(TENANT_HEADER, publishTenant);
+            isUpdate = true;
             vertx.eventBus().publish(ADDRESS, msg, opt);
 
         } catch(Throwable e) {
@@ -443,66 +447,66 @@ public class MQTTSession implements Handler<Message<Buffer>> {
             logger.error(e.getMessage(), e);
         }
     }
-
     public void handlePublishMessageReceived(PublishMessage publishMessage) {
         boolean publishMessageToThisClient = false;
         int maxQos = -1;
-
-        /*
-         * the Server MUST deliver the message to the Client respecting the maximum QoS of all the matching subscriptions
-         */
         String topic = publishMessage.getTopicName();
-        ByteBuffer bb = publishMessage.getPayload();
-        String converted = "1";
-		try {
-			converted = new String(bb.array(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        
 
-        String[] lstSplitTopic = topic.split("/");
-        if(lstSplitTopic.length >2) {
-        	Connection connnect = ConnectDatabase.getConnectDatabase();
-        	EquipmentJDBC conn = new EquipmentJDBC(connnect);
-        	boolean isValid = conn.updateStuatusEquipment(lstSplitTopic[1],lstSplitTopic[2],converted);
-        	if(isValid)
-        	{
-                List<Subscription> subs = getAllMatchingSubscriptions(topic);
-                if(subs!=null && subs.size()>0) {
-                    publishMessageToThisClient = true;
-                    for (Subscription s : subs) {
-                        int itemQos = s.getQos();
-                        if (itemQos > maxQos) {
-                            maxQos = itemQos;
-                        }
-                        // optimization: if qos==2 is alredy **the max** allowed
-                        if(maxQos == 2)
-                            break;
+        List<Subscription> subs = getAllMatchingSubscriptions(topic);
+        if(subs!=null && subs.size()>0) {
+            publishMessageToThisClient = true;
+            for (Subscription s : subs) {
+                int itemQos = s.getQos();
+                if (itemQos > maxQos) {
+                    maxQos = itemQos;
+                }
+                // optimization: if qos==2 is alredy **the max** allowed
+                if(maxQos == 2)
+                    break;
+            }
+        }
+
+        if(publishMessageToThisClient) {
+            // the qos cannot be bigger than the subscribe requested qos ...
+            AbstractMessage.QOSType originalQos = publishMessage.getQos();
+            int iSentQos = qosUtils.toInt(originalQos);
+            int iOkQos = qosUtils.calculatePublishQos(iSentQos, maxQos);
+            AbstractMessage.QOSType qos = qosUtils.toQos(iOkQos);
+            publishMessage.setQos(qos);
+            if(!cleanSession && iSentQos>0) {
+                addMessageToQueue(publishMessage);
+            }
+            /*
+             * the Server MUST deliver the message to the Client respecting the maximum QoS of all the matching subscriptions
+             */
+            if(isUpdate) {
+                ByteBuffer bb = publishMessage.getPayload();
+                String converted = "1";
+        		try {
+        			converted = new String(bb.array(), "UTF-8");
+        		} catch (UnsupportedEncodingException e) {
+        			// TODO Auto-generated catch block
+        			e.printStackTrace();
+        		}
+            	logger.info("info mss public: "+publishMessage.getTopicName() );
+
+                String[] lstSplitTopic = topic.split("/");
+                if(lstSplitTopic.length >2) {
+                	Connection connnect = ConnectDatabase.getConnectDatabase();
+                	EquipmentJDBC conn = new EquipmentJDBC(connnect);
+                	logger.info("info mss public: "+lstSplitTopic[1] + "-" +lstSplitTopic[2] +"-"+ converted );
+                	boolean isValid = conn.updateStuatusEquipment(lstSplitTopic[1],lstSplitTopic[2],converted);
+                	if(isValid)
+                	{
+                		isUpdate = false;
                     }
                 }
-
-                if(publishMessageToThisClient) {
-                    // the qos cannot be bigger than the subscribe requested qos ...
-                    AbstractMessage.QOSType originalQos = publishMessage.getQos();
-                    int iSentQos = qosUtils.toInt(originalQos);
-                    int iOkQos = qosUtils.calculatePublishQos(iSentQos, maxQos);
-                    AbstractMessage.QOSType qos = qosUtils.toQos(iOkQos);
-                    publishMessage.setQos(qos);
-                    if(!cleanSession && iSentQos>0) {
-                        addMessageToQueue(publishMessage);
-                    }
-                    sendPublishMessage(publishMessage);
-                }       
             }
-        	try {
-    			connnect.close();
-    		} catch (SQLException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
-        	
-        }
+            sendPublishMessage(publishMessage);
+
+        }       
+
 
     }
 
