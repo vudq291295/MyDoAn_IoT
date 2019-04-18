@@ -15,6 +15,11 @@ import com.dqv.smarthome.Authentication.SessionManager;
 import com.dqv.smarthome.ConnSqlite.SQLiteHandler;
 import com.dqv.smarthome.FirstActivity;
 import com.dqv.smarthome.Model.UserModel;
+import com.dqv.smarthome.Mqtt.MqttHelper;
+
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.List;
 
@@ -26,6 +31,8 @@ public class MyApplication extends Application {
     private SQLiteHandler db;
     private int userId;
     private SessionManager pref;
+    public MqttHelper mqttHelper;
+
 //    private Gson mGSon;
 
     //@Override
@@ -40,8 +47,15 @@ public class MyApplication extends Application {
         super.onCreate();
         db = new SQLiteHandler(getApplicationContext());
         mInstance = this;
+        startMqtt();
 //        mGSon = new Gson();
 
+    }
+
+    @Override
+    public void onTerminate() {
+        mqttHelper.disconnect();
+        super.onTerminate();
     }
 
     public static boolean isApplicationSentToBackground(final Context context) {
@@ -91,6 +105,10 @@ public class MyApplication extends Application {
         }
 
         return pref;
+    }
+
+    public MqttHelper getMQTTHelper() {
+        return mqttHelper;
     }
 
     /**
@@ -143,4 +161,28 @@ public class MyApplication extends Application {
 //        }
 //    }
 
+    private void startMqtt(){
+        mqttHelper = new MqttHelper(getApplicationContext());
+
+        mqttHelper.setCallback(new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean b, String s) {
+
+            }
+
+            @Override
+            public void connectionLost(Throwable throwable) {
+
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+
+            }
+        });
+    }
 }

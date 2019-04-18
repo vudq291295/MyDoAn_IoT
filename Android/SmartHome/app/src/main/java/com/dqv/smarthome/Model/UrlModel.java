@@ -24,4 +24,11 @@ public class UrlModel {
     public static String url_deleteEquipment = domain + "api/equipment/deleteEpuipment";// dang nhap
     public static String url_getALlEquipmentByRoom = domain + "api/equipment/getEpuipmentByRoom/";// dang nhap
 
+    //script
+    public static String url_getALlScript = domain + "api/script/getAllScript";// dang nhap
+    public static String url_insertScript = domain + "api/script/insertScript";// dang nhap
+    public static String url_updateScript = domain + "api/script/updateScript";// dang nhap
+    public static String url_deleteScript = domain + "api/script/deleteScript";// dang nhap
+    public static String url_getDetailsScript = domain + "api/script/getDetailsScript/";// dang nhap
+
 }

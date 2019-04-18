@@ -1,7 +1,6 @@
 package com.dqv.smarthome.Activity;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,16 +17,18 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.dqv.smarthome.Adapter.RoomAdapter;
+import com.dqv.smarthome.Adapter.MainAdapter;
+import com.dqv.smarthome.Adapter.ScriptAdapter;
 import com.dqv.smarthome.Application.MyApplication;
-import com.dqv.smarthome.Dialog.ManagerDialog;
-import com.dqv.smarthome.Model.RoomModel;
+import com.dqv.smarthome.ConnSqlite.SQLiteHandler;
+import com.dqv.smarthome.Model.ScriptModel;
 import com.dqv.smarthome.Model.UrlModel;
-import com.dqv.smarthome.Model.UserModel;
+import com.dqv.smarthome.Mqtt.MqttHelper;
 import com.dqv.smarthome.R;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -35,29 +36,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RoomActivity extends AppCompatActivity {
-    public static final String TAG = RoomActivity.class.getSimpleName();
+public class ScriptActivity extends AppCompatActivity {
+    public static final String TAG = ScriptActivity.class.getSimpleName();
 
-    public String urlGetAllRoom = UrlModel.url_getALlRoomn;
-
+    public String urlGetAllScript = UrlModel.url_getALlScript;
     private Toolbar toolbar;
     public RecyclerView mRecycleview; // bien recycleview
-    public FloatingActionButton fammm;
-    FragmentManager fm;
+    String currentToken = "";
+    ScriptAdapter scriptAdapter;
+    ArrayList<ScriptModel> listScript = new ArrayList<ScriptModel>();
+    public MqttHelper mqttHelper;
+    public SQLiteHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_room);
-        toolbar = (Toolbar) findViewById(R.id.toolbarRoom);
-        mRecycleview = (RecyclerView) findViewById(R.id.list_room);
-        fm = getSupportFragmentManager();
+        setContentView(R.layout.activity_script);
+        toolbar = (Toolbar) findViewById(R.id.toolbarScript);
+        db = new SQLiteHandler(getApplicationContext());
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         TextView tw = toolbar.findViewById(R.id.app_bar_title) ;
-        tw.setText("Phòng");
+        tw.setText("Kịch bản");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,33 +74,57 @@ public class RoomActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
+        currentToken = MyApplication.getInstance().getPrefManager().getUser().getToken();
 
+        mRecycleview = (RecyclerView) findViewById(R.id.list_script);
         mRecycleview.setHasFixedSize(false);
         mRecycleview.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-        String currentToken = MyApplication.getInstance().getPrefManager().getUser().getToken();
-        SynchData(mRecycleview,currentToken);
-        final Intent intent = new Intent(this,AddRoomActivity.class);
-        fammm = (FloatingActionButton) findViewById(R.id.fab_fab_room);
-
-        fammm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                startActivity(intent);
-                ManagerDialog userInfoDialog = ManagerDialog.newInstance(new RoomModel());
-                userInfoDialog.show(fm, null);
-
-            }
-        });
-
+        scriptAdapter = new ScriptAdapter(listScript,getApplicationContext(),MyApplication.getInstance().getMQTTHelper());
+        mRecycleview.setAdapter(scriptAdapter);
 
     }
 
-    public void SynchData(final RecyclerView recyclerView, final String token){
-        JSONObject postparams = new JSONObject();
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 
-        final ArrayList<RoomModel> listTG = new ArrayList<RoomModel>();
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlGetAllRoom,postparams, new Response.Listener<JSONObject>() {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getAllScript();
+    }
+
+    private void startMqtt(){
+        mqttHelper = new MqttHelper(getApplicationContext());
+
+        mqttHelper.setCallback(new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean b, String s) {
+
+            }
+
+            @Override
+            public void connectionLost(Throwable throwable) {
+
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+                Log.d(TAG, "messageArrived: TOPIC: " + topic + " - MSG : " + mqttMessage);
+            }
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+
+            }
+        });
+    }
+
+    public void getAllScript(){
+        JSONObject postparams = new JSONObject();
+        listScript.clear();
+        scriptAdapter.notifyDataSetChanged();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlGetAllScript,postparams, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "onResponse() returned: " + response);
@@ -107,14 +134,12 @@ public class RoomActivity extends AppCompatActivity {
                         JSONArray jsonArray = jObj.getJSONArray("data");
                         for(int i =0 ;i<jsonArray.length();i++){
                             JSONObject objTemp = jsonArray.getJSONObject(i);
-                            RoomModel roomModel = new RoomModel();
-                            roomModel.setId(objTemp.getInt("id"));
-                            roomModel.setName(objTemp.getString("name"));
-                            roomModel.setChanel(objTemp.getInt("chanel"));
-                            roomModel.setCountEquipment(objTemp.getInt("chanel"));
-                            listTG.add(roomModel);
+                            ScriptModel model = new ScriptModel();
+                            model.setName(objTemp.getString("name"));
+                            model.setId(objTemp.getInt("id"));
+                            listScript.add(model);
                         }
-                        recyclerView.setAdapter(new RoomAdapter(listTG,getApplicationContext(),fm));
+                        scriptAdapter.notifyDataSetChanged();
                     }
                 }
                 catch (Exception ex)
@@ -127,19 +152,28 @@ public class RoomActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),
-                        error+"", Toast.LENGTH_LONG).show();
                 Log.d(TAG, "onErrorResponse() returned: " + error);
+
+                if(error.networkResponse.statusCode == 401){
+                    MyApplication.getInstance().logout(db);
+                    Toast.makeText(getApplicationContext(),
+                            "Phiên làm việc đã hết hạn. Vui lòng đăng nhập lại!!!", Toast.LENGTH_LONG).show();
+
+                }
+                Toast.makeText(getApplicationContext(),
+                        error.networkResponse.statusCode+"", Toast.LENGTH_LONG).show();
+
             }
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 super.getHeaders();
                 Map<String,String> params = new HashMap<String,String>();
-                params.put("Authorization", "Bearer "+token);
+                params.put("Authorization", "Bearer "+currentToken);
                 return params;
             }
         };
         MyApplication.getInstance().addToRequestQueue(request,TAG);
     }
+
 }

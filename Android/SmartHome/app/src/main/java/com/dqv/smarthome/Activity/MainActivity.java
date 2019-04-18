@@ -26,6 +26,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.dqv.smarthome.Adapter.AutoFitGridLayoutManager;
 import com.dqv.smarthome.Adapter.MainAdapter;
@@ -158,29 +159,58 @@ public class MainActivity extends AppCompatActivity {
 
         //set Up MQTT
 
-        startMqtt();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_main);
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mainAdapter = new MainAdapter(listTG,getApplicationContext(),mqttHelper,fm);
+        mainAdapter = new MainAdapter(listTG,getApplicationContext(),MyApplication.getInstance().getMQTTHelper(),fm);
         mRecyclerView.setAdapter(mainAdapter);
         currentToken = MyApplication.getInstance().getPrefManager().getUser().getToken();
 //        getAllEquipment();
         getAllRoom();
+        MyApplication.getInstance().getMQTTHelper().setCallback(new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean reconnect, String serverURI) {
 
+            }
+
+            @Override
+            public void connectionLost(Throwable cause) {
+
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+                Log.d(TAG, "messageArrived: TOPIC: "+ topic + " - MSG : "+mqttMessage);
+                String[] lstToPic =  topic.split("/");
+                Log.d(TAG, "messageArrived: TOPIC 1: "+ lstToPic[0]);
+                Log.d(TAG, "messageArrived: TOPIC 2: "+ lstToPic[1]);
+                Log.d(TAG, "messageArrived: TOPIC 3: "+ lstToPic[2]);
+
+                for(int i =0;i<listTG.size();i++){
+                    if(listTG.get(i).getChanel() == Integer.parseInt(lstToPic[1])){
+                        if(listTG.get(i).getPortOutput() == Integer.parseInt(lstToPic[2])){
+                            listTG.get(i).setStatus(Integer.parseInt(mqttMessage.toString()));
+                        }
+                    }
+                }
+                mainAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken token) {
+
+            }
+        });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mqttHelper.disconnect();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        startMqtt();
         getAllEquipment();
     }
 
@@ -243,6 +273,10 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.nav_room:
                         startActivity(new Intent(MainActivity.this, RoomActivity.class));
+                        drawer.closeDrawers();
+                        return true;
+                    case R.id.nav_script:
+                        startActivity(new Intent(MainActivity.this, ScriptActivity.class));
                         drawer.closeDrawers();
                         return true;
                     default:
@@ -313,14 +347,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getAllEquipment(){
+        JSONObject postparams = new JSONObject();
         listTG.clear();
         mainAdapter.notifyDataSetChanged();
-        StringRequest request = new StringRequest(Request.Method.GET, urlGetAllEquipment, new Response.Listener<String>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlGetAllEquipment,postparams, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JSONObject response) {
                 Log.d(TAG, "onResponse() returned: " + response);
                 try {
-                    JSONObject jObj = new JSONObject(response);
+                    JSONObject jObj = response;
                     if(!jObj.getBoolean("error")){
                         JSONArray jsonArray = jObj.getJSONArray("data");
                         for(int i =0 ;i<jsonArray.length();i++){
@@ -375,13 +410,14 @@ public class MainActivity extends AppCompatActivity {
     int count;
 
     public void getAllRoom(){
+        JSONObject postparams = new JSONObject();
         final ArrayList<RoomModel> listTG = new ArrayList<RoomModel>();
-        StringRequest request = new StringRequest(Request.Method.GET, urlGetAllRoom, new Response.Listener<String>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlGetAllRoom,postparams, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JSONObject response) {
                 Log.d(TAG, "onResponse() returned: " + response);
                 try {
-                    JSONObject jObj = new JSONObject(response);
+                    JSONObject jObj = response;
                     if(!jObj.getBoolean("error")){
                         JSONArray jsonArray = jObj.getJSONArray("data");
                         for(int i =0 ;i<jsonArray.length();i++){

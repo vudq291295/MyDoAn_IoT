@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Default">
-        <activity android:name=".Activity.EquipmentActivity"></activity>
+        <activity android:name=".Activity.ScriptActivity"></activity>
+        <activity android:name=".Activity.EquipmentActivity" />
         <activity android:name=".Activity.AddRoomActivity" />
         <activity android:name=".Activity.RoomActivity" />
         <activity android:name=".FirstActivity">
@@ -27,7 +28,7 @@
         <activity android:name=".Activity.LoginActivity" />
         <activity android:name=".Activity.MainActivity" />
 
-        <service android:name="org.eclipse.paho.android.service.MqttService"></service>
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>
 
 </manifest>
