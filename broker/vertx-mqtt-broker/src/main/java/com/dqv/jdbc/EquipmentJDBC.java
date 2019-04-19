@@ -36,7 +36,7 @@ public class EquipmentJDBC {
 			while(rs.next()){
 				roomID = rs.getInt("id");
 			}
-        	logger.info("VUDQ info:" + roomID);
+//        	logger.info("VUDQ info:" + roomID);
 			if(roomID > 0) {
 				String QUERYSELECTEQUPIT = "select * from equipment WHERE room_id="+roomID+" and port_output="+port;
 				rs = stmt.executeQuery(QUERYSELECTEQUPIT);	
@@ -44,11 +44,11 @@ public class EquipmentJDBC {
 					equipmentID = rs.getInt("id");
 				}
 				if(equipmentID>0) {
-		        	logger.info("VUDQ info:" + username);
+//		        	logger.info("VUDQ info:" + username);
 					String QUERY2 = "UPDATE equipment SET status="+value+" WHERE room_id="+roomID+" and port_output="+port;
 					String QUERY3 = "INSERT into history_control(id_equipment,time,status,username) VALUES ("+equipmentID+",'"+currentTIme+"',"+value+",'"+username+"')";
 					stmt.executeUpdate(QUERY2);
-					logger.info("querry 2 xong : " +QUERY3);
+//					logger.info("querry 2 xong : " +QUERY3);
 					stmt.executeUpdate(QUERY3);
 					return true;
 				}

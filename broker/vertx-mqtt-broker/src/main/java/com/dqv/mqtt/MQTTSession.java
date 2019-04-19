@@ -451,7 +451,7 @@ public class MQTTSession implements Handler<Message<Buffer>> {
         boolean publishMessageToThisClient = false;
         int maxQos = -1;
         String topic = publishMessage.getTopicName();
-        
+        logger.info("client info: "+getUserName() + " - isTrue : "+isUpdate);
 
         List<Subscription> subs = getAllMatchingSubscriptions(topic);
         if(subs!=null && subs.size()>0) {
@@ -478,13 +478,14 @@ public class MQTTSession implements Handler<Message<Buffer>> {
             if(!cleanSession && iSentQos>0) {
                 addMessageToQueue(publishMessage);
             }
+
             /*
              * the Server MUST deliver the message to the Client respecting the maximum QoS of all the matching subscriptions
              */
-            if(isUpdate) {
+            System.out.println("check :"+getUserName().equals("servicechecktime"));
+            if(getUserName().equals("servicechecktime")) {
                 ByteBuffer bb = publishMessage.getPayload();
                 String converted = "1";
-                logger.info("client info: "+getUserName());
                 
         		try {
         			converted = new String(bb.array(), "UTF-8");
@@ -492,22 +493,23 @@ public class MQTTSession implements Handler<Message<Buffer>> {
         			// TODO Auto-generated catch block
         			e.printStackTrace();
         		}
-            	logger.info("info mss public: "+publishMessage.getTopicName() );
+//            	logger.info("info mss public: "+publishMessage.getTopicName() );
 
                 String[] lstSplitTopic = topic.split("/");
                 if(lstSplitTopic.length >2) {
                 	Connection connnect = ConnectDatabase.getConnectDatabase();
                 	EquipmentJDBC conn = new EquipmentJDBC(connnect);
-                	logger.info("info mss public: "+lstSplitTopic[1] + "-" +lstSplitTopic[2] +"-"+ converted );
+//                	logger.info("info mss public: "+lstSplitTopic[1] + "-" +lstSplitTopic[2] +"-"+ converted );
                 	boolean isValid = conn.updateStuatusEquipment(lstSplitTopic[1],lstSplitTopic[2],converted,getUserName());
-                	logger.info("IsValid :"+isValid);
+//                	logger.info("IsValid :"+isValid);
                 	if(isValid)
                 	{
-                        sendPublishMessage(publishMessage);
                 		isUpdate = false;
                     }
                 }
             }
+            sendPublishMessage(publishMessage);
+
 
         }       
 
