@@ -1,10 +1,10 @@
-define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
-    var app = angular.module('lapLichThietBiModule', ['dmThietBiModule']);
-    app.factory('lapLichThietBiService', ['$http', 'configService', function ($http, configService) {
+define(['angular', 'controllers/dm/DmKichBanController'], function (angular) {
+    var app = angular.module('lapLichKichBanModule', ['dmKichBanModule']);
+    app.factory('lapLichKichBanService', ['$http', 'configService', function ($http, configService) {
         var serviceUrl = configService.rootUrlWebApi + '/schedule';
         var result = {
-    		getAllScheduleEquip: function (data) {
-                return $http.post(serviceUrl + '/getAllScheduleEquip',data);
+    		getAllScheduleScrpit: function (data) {
+                return $http.post(serviceUrl + '/getAllScheduleScrpit',data);
             },
             insertSchedule : function (data) {
                 return $http.post(serviceUrl + '/insertSchedule',data);
@@ -18,8 +18,8 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
         }
         return result;
     }]);
-    app.controller('lapLichThietBiViewCtrl', ['$scope','$uibModal','lapLichThietBiService','configService','$uibModal','ngNotify',
-    	function ($scope,$uibModal,service,configService,$uibModal,ngNotify) {
+    app.controller('lapLichKichBanViewCtrl', ['$scope','$uibModal','lapLichKichBanService','configService','$uibModal','ngNotify','dmKichBanService',
+    	function ($scope,$uibModal,service,configService,$uibModal,ngNotify,dmKichBanService) {
         $scope.config = {
                 label: angular.copy(configService.label)
         }
@@ -73,7 +73,7 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
 
         $scope.search = {};
     	function filterData() {
-    		service.getAllScheduleEquip($scope.search).then(function (response) {
+    		service.getAllScheduleScrpit($scope.search).then(function (response) {
             	console.log(response);
                 if (response && response.data && response.data.data.length > 0) {
                     $scope.data = angular.copy(response.data.data);
@@ -100,8 +100,8 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
                 backdrop: 'static',
                 size: 'md',
                 windowClass : 'show app-modal-window',
-                templateUrl: configService.buildUrl('laplich/lapLichTB', 'add'),
-                controller: 'lapLichThietBiCreateCtrl',
+                templateUrl: configService.buildUrl('laplich/lapLichKB', 'add'),
+                controller: 'lapLichKichBanCreateCtrl',
                 resolve: {}
             });
 
@@ -115,8 +115,8 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
                 windowClass : 'show app-modal-window',
-                templateUrl: configService.buildUrl('laplich/lapLichTB', 'edit'),
-                controller: 'lapLichThietBiEditCtrl',
+                templateUrl: configService.buildUrl('laplich/lapLichKB', 'edit'),
+                controller: 'lapLichKichBanEditCtrl',
                 resolve: {
                     targetData: function () {
                         return target;
@@ -133,8 +133,8 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
                 windowClass : 'show app-modal-window',
-                templateUrl: configService.buildUrl('laplich/lapLichTB', 'detail'),
-                controller: 'lapLichThietBiDetailCtrl',
+                templateUrl: configService.buildUrl('laplich/lapLichKB', 'detail'),
+                controller: 'lapLichKichBanDetailCtrl',
                 resolve: {
                     targetData: function () {
                         return target;
@@ -152,8 +152,8 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
             var modalInstance = $uibModal.open({
                 backdrop: 'static',
                 windowClass : 'show app-modal-window',
-                templateUrl: configService.buildUrl('laplich/lapLichTB', 'delete'),
-                controller: 'lapLichThietBiDeleteCtrl',
+                templateUrl: configService.buildUrl('laplich/lapLichKB', 'delete'),
+                controller: 'lapLichKichBanDeleteCtrl',
                 resolve: {
                     targetData: function () {
                         return target;
@@ -170,8 +170,8 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
 
     }]);
     
-    app.controller('lapLichThietBiCreateCtrl', ['$scope', '$uibModalInstance', '$location', 'lapLichThietBiService','dmThietBiService', 'configService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'ngNotify',
-        function ($scope, $uibModalInstance, $location, service,dmThietBiService, configService, $state, tempDataService, $filter, $uibModal, $log, ngNotify) {
+    app.controller('lapLichKichBanCreateCtrl', ['$scope', '$uibModalInstance', '$location', 'lapLichKichBanService','dmKichBanService', 'configService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'ngNotify',
+        function ($scope, $uibModalInstance, $location, service,dmKichBanService, configService, $state, tempDataService, $filter, $uibModal, $log, ngNotify) {
             $scope.config = angular.copy(configService);
             $scope.tempData = tempDataService.tempData;
             $scope.target = {};
@@ -199,7 +199,7 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
             	var postData = angular.copy($scope.target);
             	var temp = new Date($scope.target.timeStart);
             	postData.timeStart = temp.getHours()+":"+temp.getMinutes()+":00";
-            	postData.equipmentID = $scope.target.equipmentID+"";
+            	postData.scriptID = $scope.target.scriptID+"";
             	console.log(postData);
             	var myJSON = JSON.stringify(postData);
             	console.log($scope.target);
@@ -222,7 +222,7 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
 				});
             };
             function loadDataPhong (){
-            	dmThietBiService.getAllEpuipment({}).then(function (response) {
+            	dmKichBanService.getAllScript({}).then(function (response) {
                 	console.log(response);
                     if (response && response.data && response.data.data.length > 0) {
                         $scope.lstEquip = angular.copy(response.data.data);
@@ -239,7 +239,7 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
 			$scope.displayHepler = function (value) {
 				var data = $filter('filter')($scope.lstEquip, {id: value}, true);
 				if (data && data.length == 1) {
-					return data[0].name + " | "+ data[0].nameRoom;
+					return data[0].name;
 				} else {
 					return '';
 				}
@@ -250,8 +250,8 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
             };
         }]);
 
-    app.controller('lapLichThietBiEditCtrl', ['$scope', '$uibModalInstance', '$location', 'lapLichThietBiService','dmThietBiService', 'configService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'ngNotify','targetData',
-        function ($scope, $uibModalInstance, $location, service,dmThietBiService, configService, $state, tempDataService, $filter, $uibModal, $log, ngNotify,targetData) {
+    app.controller('lapLichKichBanEditCtrl', ['$scope', '$uibModalInstance', '$location', 'lapLichKichBanService','dmKichBanService', 'configService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'ngNotify','targetData',
+        function ($scope, $uibModalInstance, $location, service,dmKichBanService, configService, $state, tempDataService, $filter, $uibModal, $log, ngNotify,targetData) {
             $scope.config = angular.copy(configService);
             $scope.tempData = tempDataService.tempData;
             $scope.target = targetData;
@@ -282,7 +282,7 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
             	var postData = angular.copy($scope.target);
             	var temp = new Date($scope.target.timeStart);
             	postData.timeStart = temp.getHours()+":"+temp.getMinutes()+":00";
-            	postData.equipmentID = $scope.target.equipmentID+"";
+            	postData.scriptID = $scope.target.scriptID+"";
             	console.log(postData);
             	var myJSON = JSON.stringify(postData);
             	console.log($scope.target);
@@ -305,7 +305,7 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
 				});
             };
             function loadDataPhong (){
-            	dmThietBiService.getAllEpuipment({}).then(function (response) {
+            	dmKichBanService.getAllScript({}).then(function (response) {
                 	console.log(response);
                     if (response && response.data && response.data.data.length > 0) {
                         $scope.lstEquip = angular.copy(response.data.data);
@@ -322,7 +322,7 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
 			$scope.displayHepler = function (value) {
 				var data = $filter('filter')($scope.lstEquip, {id: value}, true);
 				if (data && data.length == 1) {
-					return data[0].name + " | "+ data[0].nameRoom;
+					return data[0].name ;
 				} else {
 					return '';
 				}
@@ -332,8 +332,7 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
                 $uibModalInstance.close(); 
             };
         }]);
-    
-    app.controller('lapLichThietBiDeleteCtrl', ['$scope', '$uibModalInstance', '$location', 'lapLichThietBiService', 'configService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'targetData', 'ngNotify',
+    app.controller('lapLichKichBanDeleteCtrl', ['$scope', '$uibModalInstance', '$location', 'lapLichKichBanService', 'configService', '$state', 'tempDataService', '$filter', '$uibModal', '$log', 'targetData', 'ngNotify',
         function ($scope, $uibModalInstance, $location, service, configService, $state, tempDataService, $filter, $uibModal, $log, targetData, ngNotify) {
             $scope.target = targetData;
             $scope.config = angular.copy(configService);
@@ -362,6 +361,5 @@ define(['angular', 'controllers/dm/DmThietBiController'], function (angular) {
             };
 
         }]);
-
     return app;
 });

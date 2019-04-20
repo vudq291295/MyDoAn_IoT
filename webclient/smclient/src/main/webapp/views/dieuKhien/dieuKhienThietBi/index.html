@@ -1,9 +1,5 @@
 ﻿<style>
-body{
-	font-family: 'Roboto Condensed', sans-serif;
-	margin:0px;
-	padding:0px;
-}
+
 			
 .container{
   width:1000px;
@@ -51,7 +47,8 @@ ol li{
 .products{
 	margin: 5px;
 	padding: 10px;
-	border: 1px solid #aaa;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  
 	position:relative;
 }
 			
@@ -89,8 +86,8 @@ ol li{
 			
 .prod_cart{
 	padding: 10px;
-	background: #007cff;
-	color: #fff;
+	/* background: #007cff;
+	color: #fff; */
 	display: inline-block;
 	border-radius: 2px;
 	margin-top: 10px;
@@ -311,7 +308,9 @@ ol li{
 </style>
 
 <div class="container-fluid">
-    <div class="row">
+	<div class="card shadow mb-4">
+		<div class = "card-body">
+		    <div class="row">
         <div class="col-lg-12">
             <h2>Điều khiển thiết bị</h2>
             <div style="padding: 20px 0px;">
@@ -326,13 +325,13 @@ ol li{
             
             <div class="table-responsive">
 			   <ul>
-	                <li ng-repeat="item in data" class="col-md-4" ng-class="{'select' : product.disable}" ng-click="controlEqiup(item)">
+	                <li ng-repeat="item in data" class="col-md-3" ng-class="{'select' : product.disable}" ng-click="controlEqiup(item)">
 	                    <div class="products">
-	                        <div ng-if="item.status == 1" class="prod_img">
-	                        	<img src="imgs/on.jpg" alt=""/>
+	                        <div ng-if="item.status == 1" class="prod_img" style="height: 200px;" >
+	                        	<img src="imgs/on.jpg" alt="" style="width: 100%;height:100%"/>
 	                        </div>
-	                        <div ng-if="item.status== 0" class="prod_img">
-	                        	<img src="imgs/off.png" alt=""/>
+	                        <div ng-if="item.status== 0" class="prod_img" style="height: 200px;" >
+	                        	<img src="imgs/off.png" alt="" style="width: 100%;height:100%"/>
 	                        </div>
 	                        <div class="prod_cart">{{item.name}}</div>
 	                    </div>
@@ -342,4 +341,8 @@ ol li{
             </div>
         </div>
     </div>
+		</div>
+	</div>
+
+
 </div>

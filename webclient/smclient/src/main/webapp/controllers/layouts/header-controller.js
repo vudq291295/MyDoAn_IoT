@@ -62,11 +62,17 @@ define(['angular', 'controllers/auth/AuController', 'controllers/dm/MenuControll
                 if (response && response.data && response.data.data.length > 0) {
                     $scope.lstMenu = angular.copy(response.data.data);
                     $scope.treeMenu = treeify($scope.lstMenu);
+                    $scope.isLoading = true;
+
                     console.log($scope.treeMenu);
                 } else {
                     console.log(response);
+                    $scope.isLoading = true;
+
                 }
             }, function (response) {
+                $scope.isLoading = true;
+
                 console.log(response);
             });
 

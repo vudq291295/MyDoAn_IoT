@@ -48,18 +48,12 @@ i.inactive2 {color: #d9534f}
 			            </div>
    			            <div class="row form-group">
 			                <div class="col-lg-12">
-			                    <label>Thiết bị <span style="color: red"> (*)</span> </label>
-                                    <input type="text"  class="form-control" name="_donvi" ng-model="target.equipmentID" placeholder="Chọn thiết bị" typeahead-editable="false"
+			                    <label>Kịch bản <span style="color: red"> (*)</span> </label>
+                                    <input type="text"  class="form-control" name="_donvi" ng-model="target.scriptID" placeholder="Chọn thiết bị" typeahead-editable="false"
                                            uib-typeahead="opt.id as opt.name for opt in lstEquip | filter:$viewValue | limitTo:5" typeahead-input-formatter="displayHepler($model)" 
                                            style="width: 100%;height:36px;text-align: left;" required>
 			                    <span style="color:red" ng-show="_form.timeStart.$dirty && _form.timeStart.$invalid">
 			                    </span>
-			                </div>
-			            </div>
-   			            <div class="row form-group">
-			                <div class="col-lg-12">
-			                    <label>Trạng thái thiết bị <span style="color: red"> (*)</span> </label>
-							    Kích hoạt: <input type="checkbox" ng-model="target.statusEquipment"  ng-true-value="'1'" ng-false-value="'0'">
 			                </div>
 			            </div>
 			        </form>

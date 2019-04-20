@@ -90,6 +90,39 @@
                    }
                }
             ]);
+            
+            //loại sys từ điển
+            dataCache.put('day', [
+            	{
+            		value :'2',
+            		status : false
+        		},
+            	{
+            		value :'3',
+            		status : false
+        		},
+            	{
+            		value :'4',
+            		status : false
+        		},
+            	{
+            		value :'5',
+            		status : false
+        		},
+            	{
+            		value :'6',
+            		status : false
+        		},
+            	{
+            		value :'7',
+            		status : false
+        		},
+            	{
+            		value :'C',
+            		status : false
+        		},
+            ]);
+
 
         }
         var result = {

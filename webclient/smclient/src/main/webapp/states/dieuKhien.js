@@ -32,6 +32,19 @@ define([
             },
             moduleUrl: controlUrl_laplich + "lapLichThietBi.js"
         },
+        {
+            name: 'lapLichKB',
+            url: '/lapLichKB',
+            parent: 'layout',
+            abstract: false,
+            views: {
+                'viewMain@root': {
+                    templateUrl: layoutUrl_laplich + "lapLichKB/index.html",
+                    controller: "lapLichKichBanViewCtrl as ctrl"
+                }
+            },
+            moduleUrl: controlUrl_laplich + "lapLichKichBan.js"
+        },
 
         
     ];
