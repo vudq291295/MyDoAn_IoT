@@ -10,6 +10,22 @@ public class SchedueModel {
 	public String unit_code;
 	public int equipment_id;
 	public int script_id;
+	public int status;
+	public int statusEquipment;
+
+	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public int getStatusEquipment() {
+		return statusEquipment;
+	}
+	public void setStatusEquipment(int statusEquipment) {
+		this.statusEquipment = statusEquipment;
+	}
 	public int getId() {
 		return id;
 	}

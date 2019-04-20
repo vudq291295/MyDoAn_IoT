@@ -32,6 +32,16 @@ public class ScheduleBusinessImpl implements ScheduleBusiness{
 	}
 
 	@Override
+	public Response<List<ScheduleDTO>> getAllScheduleScrpit(ScheduleBO bo) {
+		Response<List<ScheduleDTO>> result = new Response<>();
+		List<ScheduleDTO> temp = new ArrayList<ScheduleDTO>();
+		temp = scheduleDAO.getAllScheduleScrpit(bo);
+		result.error = false;
+		result.data = temp;
+		return result;
+	}
+
+	@Override
 	public Response<Boolean> insertSchedule(ScheduleDTO bo) {
 		Response<Boolean> result = new Response<>();
 		if(scheduleDAO.insertSchedule(bo)) {

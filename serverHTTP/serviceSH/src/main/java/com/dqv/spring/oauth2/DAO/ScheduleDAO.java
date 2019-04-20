@@ -61,10 +61,50 @@ public class ScheduleDAO {
 			}
 	    }
 		
+		public List<ScheduleDTO> getAllScheduleScrpit(ScheduleBO bo) {
+			List<ScheduleDTO> result = new ArrayList<ScheduleDTO>();
+			List<ScheduleBO> resultBO = new ArrayList<ScheduleBO>();
+			try {
+		        Session session = this.sessionFactory.getCurrentSession();
+		        if(bo!=null) {
+		        	String nameRoomSearch = bo.getName()!=null ? bo.getName() : "";
+			        Query query = session.createQuery("from ScheduleBO WHERE scriptID > 0 and name like :search");
+			        query.setParameter("search", "%"+nameRoomSearch+"%");
+			        resultBO =  query.list();
+		        }
+		        else {
+			        Query query = session.createQuery("from ScheduleBO WHERE scriptID > 0");
+			        resultBO =  query.list();
+		        }
+		        if(resultBO.size()>0) {
+		        	for(int i =0;i<resultBO.size();i++) {
+		        		ScheduleDTO resultTemp = new ScheduleDTO();
+		        		resultTemp = resultBO.get(i).toDTO();
+		    			List<EquipmentBO> resultQeuipBO = new ArrayList<EquipmentBO>();
+				        Query query3 = session.createQuery("from EquipmentBO WHERE id = :id");
+				        query3.setParameter("id",resultBO.get(i).getEquipmentID());
+				        resultQeuipBO =  query3.list();
+				        System.out.println(resultQeuipBO.size());
+				        if(resultQeuipBO.size()>0) {
+				        	resultTemp.setEquipmentName(resultQeuipBO.get(0).getName());
+				        }
+				        result.add(resultTemp);
+				        System.out.println("result.size(): "+result.size());
+		        	}
+		        }
+		        return result;
+
+			}
+			catch (Exception e) {
+		        return result;
+			}
+	    }
 		public boolean insertSchedule(ScheduleDTO bo) {
 			try {
 				ScheduleBO objBO = bo.toBO();
 		        Session session = this.sessionFactory.getCurrentSession();
+		        objBO.getTimeStart().setSeconds(0);
+		        objBO.setStatus(1);
 		        session.save(objBO);
 		        return true;
 			}

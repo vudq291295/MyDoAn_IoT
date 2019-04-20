@@ -37,6 +37,7 @@ public class ScheduleJDBC {
 				SchedueModel tempSchedule = new SchedueModel();
 				tempSchedule.setScript_id(rs.getInt("script_id"));
 				tempSchedule.setEquipment_id(rs.getInt("equipment_id"));
+				tempSchedule.setStatusEquipment(rs.getInt("status_equip"));
 				resultSchedule.add(tempSchedule);
 			}
 			System.out.println(resultSchedule.size());
@@ -53,9 +54,25 @@ public class ScheduleJDBC {
 							EquipmentModel tempEquipt = new EquipmentModel();
 							tempEquipt.setChanel(rs.getInt("chanel"));
 							tempEquipt.setPortOutput(rs.getInt("port_output"));
+							tempEquipt.setStatus(resultSchedule.get(i).getStatusEquipment());
 							result.add(tempEquipt);
 						}
-
+					}
+					if(resultSchedule.get(i).getScript_id()>0) {
+						String QUERY_EQUIPT = "select chanel,port_output,c.status from equipment a" + 
+								" INNER JOIN room b" + 
+								" ON a.room_id = b.id" + 
+								"  INNER JOIN script_has_equipment c" + 
+								" ON a.id = c.equipment_id"
+								+" WHERE a.id in (select equipment_id from script_has_equipment where script_id = "+resultSchedule.get(i).getScript_id()+")";
+						rs = stmt.executeQuery(QUERY_EQUIPT);	
+						while(rs.next()){
+							EquipmentModel tempEquipt = new EquipmentModel();
+							tempEquipt.setChanel(rs.getInt("chanel"));
+							tempEquipt.setPortOutput(rs.getInt("port_output"));
+							tempEquipt.setStatus(rs.getInt("status"));
+							result.add(tempEquipt);
+						}						
 					}
 				}
 			}

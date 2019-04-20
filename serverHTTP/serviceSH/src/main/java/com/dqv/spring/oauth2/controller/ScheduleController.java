@@ -32,6 +32,16 @@ public class ScheduleController {
 		result = scheduleBusinessImpl.getAllScheduleEquip(bo);
 		return new ResponseEntity(result,HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/getAllScheduleScrpit", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
+	public ResponseEntity getAllScheduleScrpit(@RequestBody ScheduleBO bo) {
+		if(bo!=null) {
+			System.out.println(bo.getName());
+		}
+		Response<List<ScheduleDTO>> result = new Response<>();
+		result = scheduleBusinessImpl.getAllScheduleScrpit(bo);
+		return new ResponseEntity(result,HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/insertSchedule", method = RequestMethod.POST, produces = { "application/json;application/x-www-form-urlencoded;charset=UTF-8" })
 	@ResponseBody 
