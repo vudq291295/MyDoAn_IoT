@@ -6,25 +6,60 @@
         <form role="form" name="_form">
             <div class="row form-group">
                 <div class="col-lg-6">
-                    <label>Tên phòng <span style="color: red"> (*)</span> </label>
-                    <input type="text" class="form-control" ng-model="target.name" id="name" name="name" required>
-                    <span style="color:red" ng-show="_form.name.$dirty && _form.name.$invalid">
+                    <label>Tên đăng nhập <span style="color: red"> (*)</span> </label>
+                    <input type="text" class="form-control" ng-model="target.userName" id="userName" name="userName" required>
+                    <span style="color:red" ng-show="_form.userName.$dirty && _form.userName.$invalid">
                         <span ng-show="_form.name.$error.required">Không được để trống</span>
                         <span ng-show="_form.name.$error.maxlength">Bạn không được nhập quá 50 ký tự</span>
                     </span>
                 </div>
                 <div class="col-lg-6">
-                    <label>Kênh <span style="color: red"> (*)</span> </label>
-                    <input type="text"  awnum="number-int" class="form-control" ng-model="target.chanel" name="chanel" required>
-                    <span style="color:red" ng-show="_form.chanel.$dirty && _form.chanel.$invalid">
+                    <label>Tên đầy đủ <span style="color: red"> (*)</span> </label>
+                    <input type="text"  awnum="number-int" class="form-control" ng-model="target.fullName" name="fullName" required>
+                    <span style="color:red" ng-show="_form.fullName.$dirty && _form.fullName.$invalid">
                         <span ng-show="_form.chanel.$error.required">Không được để trống</span>
                         <span ng-show="_form.chanel.$error.maxlength">Bạn không được nhập quá 240 ký tự</span>
+                    </span>
+                </div>
+                <div class="col-lg-6">
+                    <label>Mật khẩu <span style="color: red"> (*)</span> </label>
+                    <input type="text" class="form-control" ng-model="target.passWord" id="passWord" name="passWord" required>
+                    <span style="color:red" ng-show="_form.userName.$dirty && _form.userName.$invalid">
+                        <span ng-show="_form.name.$error.required">Không được để trống</span>
+                        <span ng-show="_form.name.$error.maxlength">Bạn không được nhập quá 50 ký tự</span>
+                    </span>
+                </div>
+                <div class="col-lg-6">
+                    <label>Nhập lại mật khẩu <span style="color: red"> (*)</span> </label>
+                    <input type="text"  awnum="number-int" class="form-control" ng-model="rePasssword" name="rePasssword" required>
+                    <span style="color:red" ng-show="_form.rePasssword.$dirty && _form.rePasssword.$invalid">
+                        <span ng-show="_form.chanel.$error.required">Không được để trống</span>
+                        <span ng-show="_form.chanel.$error.maxlength">Bạn không được nhập quá 240 ký tự</span>
+                    </span>
+                </div>
+                <div class="col-lg-6">
+                    <label>Loại tài khoản <span style="color: red"> (*)</span> </label>
+		                 <select class="form-control  form-control-sm" ng-model="target.type"
+		                  ng-options="opt.Value as opt.Text for opt in lstLoaiTaiKhoan | orderBy:'Value'" name="type" required ng-change="changeLoaiTK()">
+		                 </select>
+                    <span style="color:red" ng-show="_form.userName.$dirty && _form.userName.$invalid">
+                        <span ng-show="_form.name.$error.required">Không được để trống</span>
+                        <span ng-show="_form.name.$error.maxlength">Bạn không được nhập quá 50 ký tự</span>
+                    </span>
+                </div>
+                <div class="col-lg-6">
+                    <label>Đơn vị <span style="color: red"> (*)</span> </label>
+                    <input ng-disabled="target.type==1" type="text"  class="form-control" name="_donvi" ng-model="target.unitCode" placeholder="Chọn đơn vị" typeahead-editable="false"
+                           uib-typeahead="opt.unitCode as opt.name for opt in lstDonVi | filter:$viewValue | limitTo:5" typeahead-input-formatter="displayHeplerDonVi($model)" 
+                           style="width: 100%;height:36px;text-align: left;" required>
+                    <span style="color:red" ng-show="_form.fullName.$dirty && _form.fullName.$invalid">
+                        <span ng-show="_form.chanel.$error.required">Không được để trống</span>
                     </span>
                 </div>
             </div>
         </form>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" style="margin-top: 50px">
         <button prevent-default type="submit" class="btn btn-primary" ng-disabled="_form.$invalid" ng-click="save()">{{config.label.btnSubmit}}</button>
         <button prevent-default class="btn btn-default" ng-click="cancel()">{{config.label.btnCancel}}</button>
     </div>

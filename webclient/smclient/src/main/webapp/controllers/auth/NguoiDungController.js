@@ -68,9 +68,7 @@ define(['angular', 'controllers/auth/donViController'], function (angular) {
 		};
 
 		$scope.displayHeplerDonVi = function (value) {
-			console.log(value);
 			var data = $filter('filter')($scope.lstDonVi, {unitCode: value}, true);
-			console.log(data);
 			if (data && data.length == 1) {
 				return data[0].name;
 			} else {
@@ -195,6 +193,21 @@ define(['angular', 'controllers/auth/donViController'], function (angular) {
                 });
     		};
     		loadDonVi();
+
+    		$scope.displayHeplerDonVi = function (value) {
+    			var data = $filter('filter')($scope.lstDonVi, {unitCode: value}, true);
+    			if (data && data.length == 1) {
+    				return data[0].name;
+    			} else {
+    				return '';
+    			}
+    		};
+    		
+    		$scope.changeLoaiTK = function (){
+    			if($scope.target.type == 1){
+    				$scope.target.unitCode = "HT";
+    			}
+    		}
 
             $scope.save = function () {
 //            	$scope.target.chanel = $scope.target.chanel+"";
