@@ -74,8 +74,13 @@
 	 </bean>
 	 
         <bean id="scheduleDAO" class="com.dqv.spring.oauth2.DAO.ScheduleDAO">
+    <property name="sessionFactory" ref="sessionFactory" />
+	 </bean>
+	 
+       <bean id="unitDAO" class="com.dqv.spring.oauth2.DAO.UnitDAO">
 	     <property name="sessionFactory" ref="sessionFactory" />
 	 </bean>
+	 
 </beans>
 
 

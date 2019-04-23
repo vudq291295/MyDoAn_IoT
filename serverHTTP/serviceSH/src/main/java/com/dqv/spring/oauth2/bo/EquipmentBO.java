@@ -14,6 +14,10 @@ public class EquipmentBO {
     public int portOutput;
     public int roomId;
     public int status;
+    public int congsuat;
+    public int dienthedinhmuc;
+    public int dienapdinhmuc;
+    public String ghi_chu;
 
     @Column(name = "status")
     public int getStatus() {
@@ -59,5 +63,43 @@ public class EquipmentBO {
 
 	public void setRoomId(int roomId) {
 		this.roomId = roomId;
+	}
+
+    @Column(name = "congsuat")
+	public int getCongsuat() {
+		return congsuat;
+	}
+
+	public void setCongsuat(int congsuat) {
+		this.congsuat = congsuat;
+	}
+
+	@Column(name = "dienthedinhmuc")
+	public int getDienthedinhmuc() {
+		return dienthedinhmuc;
+	}
+
+	public void setDienthedinhmuc(int dienthedinhmuc) {
+		this.dienthedinhmuc = dienthedinhmuc;
+	}
+
+	@Column(name = "dienapdinhmuc")
+	public int getDienapdinhmuc() {
+		return dienapdinhmuc;
+	}
+
+	public void setDienapdinhmuc(int dienapdinhmuc) {
+		this.dienapdinhmuc = dienapdinhmuc;
+	}
+
+	@Column(name = "ghi_chu")
+	public String getGhi_chu() {
+		return ghi_chu;
+	}
+
+	public void setGhi_chu(String ghi_chu) {
+		this.ghi_chu = ghi_chu;
 	}  
+	
+	
 }

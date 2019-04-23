@@ -16,7 +16,8 @@ public class UserBO {
     public String userName;
     public String passWord;
     public String fullName;
-
+    public int type;
+    public String unitCode;
     
     
 //    @Override
@@ -36,8 +37,16 @@ public class UserBO {
 //   }
 
     
-    
-    @Id
+    @Column(name = "unit_code")
+    public String getUnitCode() {
+		return unitCode;
+	}
+
+	public void setUnitCode(String unitCode) {
+		this.unitCode = unitCode;
+	}
+
+	@Id
     @Column(name = "id")
 	public int getId() {
 		return id;
@@ -72,7 +81,17 @@ public class UserBO {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	@Column(name = "type")
+	public int getType() {
+		return type;
+	}
 
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	
 
 //	public static long getSerialversionuid() {
 //		return serialVersionUID;

@@ -9,7 +9,7 @@ import javax.persistence.Table;
 @Table(name = "menu")
 public class MenuBO {
 	public int id,trangthai;
-	public String maMenu,tenMenu,maCha,sTT;
+	public String maMenu,tenMenu,maCha,sTT,icon;
 	
 	@Id
     @Column(name = "id")
@@ -59,6 +59,16 @@ public class MenuBO {
 	public void setsTT(String sTT) {
 		this.sTT = sTT;
 	}
+	
+    @Column(name = "icon")
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	
+	
 	
 	
 	
