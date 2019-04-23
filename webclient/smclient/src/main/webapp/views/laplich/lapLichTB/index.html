@@ -13,13 +13,13 @@ i.inactive2 {color: #d9534f}
 		    <div class="row">
 		        <div class="col-lg-12">
               		<h2>Lập lịch cho thiết bị</h2>
-			            <div style="padding: 20px 0px;">
-		                     <div class="input-group-btn">
-		                         <button prevent-default class="btn btn-primary" title="Thêm mới" ng-click="create()"  style="float: left;margin-right: 10px;">{{config.label.btnCreate}}</button>
-		                        <button class="btn btn-secondary" prevent-default title="Tìm kiếm" ng-click="doSearch()" style="float: right;margin-right: 10px;"><span class="fa fa-search"></span>&ensp;{{config.label.btnSearch}}</button>
-			                </div>
-			                 <input type="text" class="form-control form-control-sm" style="width: 70%;" ng-model="search.name" ng-enter="doSearch()">
-			            </div>
+		            <div style="padding: 20px 0px;">
+	                     <div class="input-group-btn">
+	                         <button prevent-default class="btn btn-primary" title="Thêm mới" ng-click="create()"  style="float: left;margin-right: 10px;">{{config.label.btnCreate}}</button>
+	                        <button class="btn btn-secondary" prevent-default title="Tìm kiếm" ng-click="doSearch()" style="float: right;margin-right: 10px;"><span class="fa fa-search"></span>&ensp;{{config.label.btnSearch}}</button>
+		                </div>
+		                 <input type="text" class="form-control form-control-sm" style="width: 70%;" ng-model="search.name" ng-enter="doSearch()">
+		            </div>
 		            <div class="table-responsive">
    		                <table class="table table-bordered table-hover table-striped dataTable">
 	                    <thead>

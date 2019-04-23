@@ -1,0 +1,346 @@
+﻿<style>
+
+			
+.container{
+  width:1000px;
+  margin: 0 auto;
+}
+			
+ul{
+	list-style:none;
+	margin:0px;
+	padding:5px;				
+}
+			
+li{
+	display:inline-block;
+	margin: 0px;
+}
+
+/*li:nth-child(even) > .products{
+  background: rgba(0,0,0,0.2)
+}*/
+
+
+.cart_list{
+	height: 135px;
+    overflow: auto;
+    width: 270px;
+    float: left;
+    padding: 0px;
+  	margin: 0px 10px 0px 0px;
+}
+			
+ol{
+	list-style:decimal;
+}
+			
+ol li{
+	display:block;
+	margin: 5px 0px;
+}
+			
+			.container > ul > li{
+					width: 33.3333%;
+				}
+			
+.products{
+	margin: 5px;
+	padding: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  
+	position:relative;
+}
+			
+.prod_img{
+	width: 100%;
+    height: 150px;
+    float: left;
+   	overflow:hidden;
+	/*box-shadow: 2px 2px 10px rgba(0,0,0,0.2);*/
+  background: white;
+	text-align: center;
+}
+
+.prod_img img{
+	height: 100%;
+}
+			
+.prod_name{
+	float: left;
+	width:100%;
+	font-weight: bold;
+	margin-top: 10px;
+	margin-bottom: 2px;
+}
+			
+.prod_desc{
+	font-size: 0.8em;
+}
+			
+.prod_price{
+	margin-top: 35px;
+	font-weight: bolder;
+	font-size: 1.2em;
+}
+			
+.prod_cart{
+	padding: 10px;
+	/* background: #007cff;
+	color: #fff; */
+	display: inline-block;
+	border-radius: 2px;
+	margin-top: 10px;
+	cursor: pointer;
+	border: none;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-size: 1em;
+	position: relative;
+    z-index: 2;
+}
+
+.prod_cart::before{
+  font-family:'FontAwesome';
+  margin-right: 5px;
+}
+			
+.prod_cart:disabled{
+	opacity: 0.7;
+    cursor: no-drop;
+}
+			
+.cart{
+	padding-left: 30px;
+}
+			
+.cart button{
+	margin-left: 10px;
+	border-radius: 50%;
+	border: none;
+	width: 20px;
+	color: #fff;
+	height: 20px;
+	padding: 0px;
+	background-color: #ea7f7f;
+	cursor: pointer;
+	font-size: 0.75em;
+	text-align: center;
+}
+			
+.cart h2:nth-child(2){
+}
+			
+.select .products{
+	border-color: #6faef1;
+    border-width: 3px;
+	transition:all 0.5s ease-in-out;
+}
+			
+.select .products::before{
+	font-family:'FontAwesome';
+	content: "\f058";
+	position: absolute;
+    font-size: 1.6em;
+    color: #007cff;
+    top: 10px;
+    right: 10px;
+	animation: check 0.5s ease-in-out 1;
+}
+						
+.prod_detail{
+	position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+			
+@keyframes check{
+	0%{
+		transform:scale(0) rotate(0deg);
+	}
+	
+	75%{
+		transform:scale(1.5) rotate(0deg);
+	}
+	
+	100%{
+		transform:scale(1) rotate(360deg);
+	}
+}
+
+.rating{
+	position: absolute;
+    right: 10px;
+    bottom: 10px;
+	width:66px;
+	height:12px;
+	overflow:hidden;
+}
+
+.rating ul {
+    display: inline-block;
+	color: #a9a9a9;
+    margin: 0;
+    padding: 0;
+	width:66px;
+	animation: star 1s steps(5) 0.5s;
+	position: relative;
+    top: -2px;
+}
+
+.rating li {
+	font-family: FontAwesome;
+	float:left;
+	margin:0px 1px;
+	font-size: 0.75em;
+    color: #ce8f2d;
+}
+
+.rating .filled {
+    font-family: FontAwesome;
+}
+
+.filled::before{
+	content: "\f005" !important;
+}
+
+.rating li::before{
+	content: "\f006";
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+}
+
+/*@keyframes star{
+	0%{
+		width:0px;
+	}
+	
+	100%{
+		width:66px;
+	}
+}*/
+
+.like_dis{
+	position: absolute;
+    right: 2px;
+	color: #b91b1b;
+    bottom: 25px;
+    font-size: 0.8em;
+}
+
+.like_dis ul{
+	padding: 0px;
+}
+
+.like_dis li{
+	margin: 0px 5px;
+}
+
+.like_cou,.dlike_cou{
+	color: #888;
+    margin-top: 2px;
+}
+
+.like,.dislike{
+	display:inline-block;
+	margin: 0px 3px;
+	font-family: FontAwesome;
+}
+
+.like::before{
+	content: "\f164";
+}
+
+.dislike::before{
+	content: "\f165";
+}
+
+.star1 li{
+  color:#e12729;
+}
+
+.star2 li{
+  color:#f37324;
+}
+
+.star3 li{
+  color:#f8cc1b;
+}
+
+.star4 li{
+  color:#72b043;
+}
+
+.star5 li{
+  color:#007f4e;
+}
+			
+			.prod_brand{
+  margin-bottom:15px;
+  font-size:0.8em;
+}
+			
+			@media screen and (max-width: 1000px) {
+				.container{
+					width: 100%;
+				}
+				
+			}
+			
+			@media screen and (max-width: 728px) {
+				.container > ul > li{
+					width: 50%;
+				}
+        
+        .prod_img{
+          height:200px;
+        }
+				
+			}
+			
+			@media screen and (max-width: 480px) {
+				.container > ul > li{
+					width: 100%;
+				}
+				
+			}
+
+</style>
+
+<div class="container-fluid">
+	<div class="card shadow mb-4">
+		<div class = "card-body">
+		    <div class="row">
+        <div class="col-lg-12">
+            <h2>Kiểm soát môi trường</h2>
+           <!--  <div style="padding: 20px 0px;">
+	            <div class = "input-group">
+		                 <input type="text" class="form-control form-control-sm" style="width: 40%;margin-right: 4px" ng-model="search.name" ng-enter="doSearch()">
+		                 <select class="form-control  form-control-sm" ng-model="filtered.MaPhong" style="width: 40%"
+		                  ng-options="opt.id as opt.name for opt in lstPhong | orderBy:'id'" name="roomId" required ng-change="changeRoom()">
+		                 	<option value="number:-1" selected> Tất cả</option>
+		                 </select>
+	            </div>
+            </div> -->
+            
+            <div class="table-responsive">
+			   <ul>
+	                <li ng-repeat="item in data" class="col-md-3" ng-class="{'select' : product.disable}" ng-click="controlEqiup(item)">
+	                    <div class="products">
+	                        <div class="prod_img" style="height: 200px;" >
+	                        	<img src="imgs/moitruong.jpg" alt="" style="width: 100%;height:100%"/>
+	                        </div>
+                 	        <div class="prod_name">{{item.roomId}}</div>
+	                        <div class="prod_cart">Nhiệt độ: {{item.value}} °C</div>
+	                    </div>
+	                 </li>
+	             </ul> 
+	         </div>
+            </div>
+        </div>
+    </div>
+		</div>
+	</div>
+
+
+</div>

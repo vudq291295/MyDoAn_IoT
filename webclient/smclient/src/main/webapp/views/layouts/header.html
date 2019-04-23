@@ -31,7 +31,7 @@
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item" ng-repeat="data in treeMenu.Children">
         <a class="nav-link collapsed" data-toggle="collapse" data-target="#{{data.maMenu}}" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
+          <i class="{{data.icon}}"></i>
           <span>{{data.tenMenu}}</span>
         </a>
         <div id="{{data.maMenu}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">

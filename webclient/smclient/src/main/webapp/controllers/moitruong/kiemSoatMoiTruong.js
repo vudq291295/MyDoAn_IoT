@@ -1,18 +1,18 @@
 define(['angular','controllers/dm/DmThietBiController', 'controllers/dm/DmPhongController'], function (angular) {
-    var app = angular.module('dieuKhienThietBiModule', ['dmThietBiModule','dmPhongModule']);
-    app.factory('dieuKhienThietBiService', ['$http', 'configService', function ($http, configService) {
-        var serviceUrl = configService.rootUrlWebApi + '/room';
+    var app = angular.module('kiemSoatMoiTruongModule', ['dmThietBiModule','dmPhongModule']);
+    app.factory('kiemSoatMoiTruongService', ['$http', 'configService', function ($http, configService) {
+        var serviceUrl = configService.rootUrlWebApi + '/environment';
         var result = {
             paging: function () {
-                return $http.get(serviceUrl + '/getAllRoom');
+                return $http.post(serviceUrl + '/getAllEnviroment');
             }
         }
         return result;
     }]);
     
     
-    app.controller('dieuKhienThietBiCtrl', ['$scope','$interval','dieuKhienThietBiService','configService','userService','dmThietBiService','dmPhongService',
-    	function ($scope,$interval,homeService,configService,userService,dmThietBiService,dmPhongService) {
+    app.controller('kiemSoatMoiTruongCtrl', ['$scope','$interval','kiemSoatMoiTruongService','configService','userService','dmThietBiService','dmPhongService',
+    	function ($scope,$interval,service,configService,userService,dmThietBiService,dmPhongService) {
     	$scope.filtered = {};
     	$scope.search = {};
 
@@ -38,7 +38,7 @@ define(['angular','controllers/dm/DmThietBiController', 'controllers/dm/DmPhongC
     		  if($scope.data[i].chanel == lstTopic[1]){
     			  if($scope.data[i].portOutput == lstTopic[2]){
     				  console.log($scope.data[i]);
-    				  $scope.data[i].status = parseInt(message.payloadString);
+    				//  $scope.data[i].status = parseInt(message.payloadString);
     			  }
     		  }
     	  }
@@ -92,7 +92,7 @@ define(['angular','controllers/dm/DmThietBiController', 'controllers/dm/DmPhongC
       }
       
 	  	function filterData() {
-	  		dmThietBiService.getAllEpuipment($scope.search).then(function (response) {
+	  		service.paging({}).then(function (response) {
 	        	console.log(response);
 	            if (response && response.data && response.data.data.length > 0) {
 	                $scope.data = angular.copy(response.data.data);
@@ -108,28 +108,6 @@ define(['angular','controllers/dm/DmThietBiController', 'controllers/dm/DmPhongC
 		$scope.doSearch = function(){
 			filterData();
 		}
-        function loadDataPhong (){
-        	dmPhongService.getAllRoom({}).then(function (response) {
-            	console.log(response);
-                if (response && response.data && response.data.data.length > 0) {
-                    $scope.lstPhong = angular.copy(response.data.data);
-                    var obj = {
-                    		chanel: -1,
-                    		id: -1,
-                    		name: "Tất cả"
-                    }
-                    $scope.lstPhong.push(obj);
-                    $scope.filtered.MaPhong = -1		
-                    console.log($scope.lstPhong);
-                    
-                } else {
-                    console.log(response);
-                }
-            }, function (response) {
-                console.log(response);
-            });      
-    	}
-        loadDataPhong ();
     }]);
 
     return app;

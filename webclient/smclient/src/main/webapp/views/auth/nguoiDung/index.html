@@ -1,24 +1,15 @@
- <style>
-
-.active2, .inactive2 {font-size:30px;cursor:pointer;background-color:#fff}
-.active2, .inactive2 {font-size:30px;cursor:pointer;background-color:#fff}
-i.active2 { color: #5cb85c}
-i.inactive2 {color: #d9534f}
-</style>
-
-
-<div class="container-fluid">
+﻿<div class="container-fluid">
 	<div class="card shadow mb-4">
 		<div class = "card-body">
-			<div class="row">
+		    <div class="row">
 		        <div class="col-lg-12">
-		            <h2>Lập lịch cho kịch bản</h2>
+		            <h2>Quản lý người dùng</h2>
 		            <div style="padding: 20px 0px;">
 		                     <div class="input-group-btn">
 		                         <button prevent-default class="btn btn-primary" title="Thêm mới" ng-click="create()"  style="float: left;margin-right: 10px;">{{config.label.btnCreate}}</button>
 		                        <button class="btn btn-secondary" prevent-default title="Tìm kiếm" ng-click="doSearch()" style="float: right;margin-right: 10px;"><span class="fa fa-search"></span>&ensp;{{config.label.btnSearch}}</button>
 			                </div>
-			                 <input type="text" class="form-control form-control-sm" style="width: 70%;" ng-model="search.name" ng-enter="doSearch()">
+			                 <input type="text" class="form-control form-control-sm" style="width: 70%;" ng-model="search.userName" ng-enter="doSearch()">
 		            </div>
 		            <div class="table-responsive">
 		                <table class="table table-bordered table-hover table-striped">
@@ -28,40 +19,32 @@ i.inactive2 {color: #d9534f}
 		                            <th width="100px">STT</th>
 		                            <th>
 		                                <a ng-click="sortType = 'name'; sortReverse = !sortReverse">
-		                                    Tên lịch
+		                                    Tên đăng nhập
 		                                    <span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
 		                                    <span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
 		                                </a>
 		                            </th>
 		                            <th>
 		                                <a ng-click="sortType = 'chanel'; sortReverse = !sortReverse">
-		                                    Giờ kích hoạt
+		                                    Tên đầy đủ
 		                                    <span ng-show="sortType == 'chanel' && !sortReverse" class="fa fa-caret-down"></span>
 		                                    <span ng-show="sortType == 'chanel' && sortReverse" class="fa fa-caret-up"></span>
 		                                </a>
 		                            </th>
 		                            <th>
 		                                <a ng-click="sortType = 'chanel'; sortReverse = !sortReverse">
-		                                    Ngày lặp lại
+		                                    Loại tài khoản
 		                                    <span ng-show="sortType == 'chanel' && !sortReverse" class="fa fa-caret-down"></span>
 		                                    <span ng-show="sortType == 'chanel' && sortReverse" class="fa fa-caret-up"></span>
 		                                </a>
 		                            </th>
-		                            <th>
+		                            		                            <th>
 		                                <a ng-click="sortType = 'chanel'; sortReverse = !sortReverse">
-		                                    Kịch bản
+		                                    Đơn vị
 		                                    <span ng-show="sortType == 'chanel' && !sortReverse" class="fa fa-caret-down"></span>
 		                                    <span ng-show="sortType == 'chanel' && sortReverse" class="fa fa-caret-up"></span>
 		                                </a>
-		                            </th>
-		                            <th>
-		                                <a ng-click="sortType = 'chanel'; sortReverse = !sortReverse">
-		                                    Trạng thái lịch
-		                                    <span ng-show="sortType == 'chanel' && !sortReverse" class="fa fa-caret-down"></span>
-		                                    <span ng-show="sortType == 'chanel' && sortReverse" class="fa fa-caret-up"></span>
-		                                </a>
-		                            </th>
-		                            
+		                            </th>		                            
 		                        </tr>
 		                    </thead>
 		                    <tbody>
@@ -77,16 +60,10 @@ i.inactive2 {color: #d9534f}
 		                                <a class="fa fa-remove" placeholder="Xóa" ng-click="delete(item)"></a>
 		                            </td>
 		                            <td>{{$index+1}}</td>
-		                            <td>{{item.name}}</td>
-		                            <td>{{item.timeStart | date:'HH:mm:ss'}}</td>
-		                            <td>{{item.day}}</td>
-		                            <td>{{item.scriptID}}</td>
-		                            <td>
-									    <div>
-									      <i class="fa fa-toggle-on active2" ng-if="item.status == 1" ng-click="changeStatus(item)"></i>
-									      <i class="fa fa-toggle-on fa-rotate-180 inactive2" ng-if="item.status == 0" ng-click="changeStatus(item)"></i>
-									    </div>
-		                            </td>
+		                            <td>{{item.userName}}</td>
+		                            <td>{{item.fullName}}</td>
+   		                            <td>{{displayHeplerLTK(item.type)}}</td>
+   		                            <td>{{displayHeplerDonVi(item.unitCode)}}</td>
 		                        </tr>
 		                    </tbody>
 		                </table>
@@ -101,6 +78,6 @@ i.inactive2 {color: #d9534f}
 		            </div>
 		        </div>
 		    </div>
-		</div>	
+		</div>
 	</div>
 </div>

@@ -1,47 +1,34 @@
 ﻿define([
 ], function () {
-    var layoutUrl = "/views/auth/";
-    var controlUrl = "/controllers/auth/";
+    var layoutUrl = "/smclient/views/auth/";
+    var controlUrl = "/smclient/controllers/auth/";
     var states = [
         {
-            name: 'AuNhomQuyen',
-            url: '/AuNhomQuyen',
+            name: 'donVi',
+            url: '/donVi',
             parent: 'layout',
             abstract: false,
             views: {
                 'viewMain@root': {
-                    templateUrl: layoutUrl + "AuNhomQuyen/index.html",
-                    controller: "AuNhomQuyenViewCtrl as ctrl"
+                    templateUrl: layoutUrl + "donVi/index.html",
+                    controller: "donViViewCtrl as ctrl"
                 }
             },
-            moduleUrl: controlUrl + "AuNhomQuyen.js"
+            moduleUrl: controlUrl + "donViController.js"
         },
         {
-            name: 'AuNguoiDung',
-            url: '/AuNguoiDung',
+            name: 'quanLyNguoiDung',
+            url: '/quanLyNguoiDung',
             parent: 'layout',
             abstract: false,
             views: {
                 'viewMain@root': {
-                    templateUrl: layoutUrl + "AuNguoiDung/index.html",
-                    controller: "AuNguoiDungViewCtrl as ctrl"
+                    templateUrl: layoutUrl + "nguoiDung/index.html",
+                    controller: "nguoiDungViewCtrl as ctrl"
                 }
             },
-            moduleUrl: controlUrl + "AuNguoiDung.js"
+            moduleUrl: controlUrl + "NguoiDungController.js"
         },
-        {
-            name: 'phf_nguoidung_vaitro',
-            url: '/phf_nguoidung_vaitro',
-            parent: 'layout',
-            abstract: false,
-            views: {
-                'viewMain@root': {
-                    templateUrl: layoutUrl + "phf_nguoidung_vaitro/index.html",
-                    controller: "AuNguoiDungVaiTroViewCtrl as ctrl"
-                }
-            },
-            moduleUrl: controlUrl + "phf_nguoidung_vaitro.js"
-        }
     ];
     return states;
 });
