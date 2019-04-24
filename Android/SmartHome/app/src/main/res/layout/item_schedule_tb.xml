@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200px"
+    android:orientation="horizontal"
+    android:layout_weight="1">
+    <TextView
+        android:id="@+id/twTimeSche"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textSize="32sp"
+        android:gravity="center"
+        android:textColor="@color/text_color"
+        android:text="08:00"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="right|center"
+            >
+            <TextView
+                android:id="@+id/twDaySche2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="16px"
+                android:gravity="center|right"
+                android:text="2 "/>
+            <TextView
+                android:id="@+id/twDaySche3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="16px"
+                android:gravity="center|right"
+                android:text="3 "/>
+            <TextView
+                android:id="@+id/twDaySche4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="16px"
+                android:gravity="center|right"
+                android:text="4 "/>
+            <TextView
+                android:id="@+id/twDaySche5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="16px"
+                android:gravity="center|right"
+                android:text="5 "/>
+            <TextView
+                android:id="@+id/twDaySche6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="16px"
+                android:gravity="center|right"
+                android:text="6 "/>
+            <TextView
+                android:id="@+id/twDaySche7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="16px"
+                android:gravity="center|right"
+                android:text="7 "/>
+            <TextView
+                android:id="@+id/twDayScheC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="16px"
+                android:gravity="center|right"
+                android:text="C "/>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/twEquipSche"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16px"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:text="Đèn A"/>
+
+    </LinearLayout>
+    <Switch
+        android:id="@+id/swStatusSche"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginRight="16px"
+        android:layout_weight="1"/>
+</LinearLayout>

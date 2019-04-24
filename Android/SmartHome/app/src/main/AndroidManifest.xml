@@ -14,6 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Default">
+        <activity android:name=".Activity.SelectEquipActivity"></activity>
+        <activity android:name=".Activity.SelectScriptActivity"></activity>
+        <activity android:name=".Activity.AddScheduleTBActivity" />
+        <activity android:name=".Activity.AddScheduleKBActivity" />
+        <activity android:name=".Activity.ScheduleKBActivity" />
+        <activity android:name=".Activity.ScheduleTBActivity" />
         <activity android:name=".Activity.ScriptActivity" />
         <activity android:name=".Activity.EquipmentActivity" />
         <activity android:name=".Activity.AddRoomActivity" />
@@ -30,7 +36,7 @@
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
-        <activity android:name=".Activity.EnvironmentActivity"></activity>
+        <activity android:name=".Activity.EnvironmentActivity" />
     </application>
 
 </manifest>

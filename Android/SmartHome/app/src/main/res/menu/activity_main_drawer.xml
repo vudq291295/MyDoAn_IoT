@@ -1,26 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="Điều khiển">
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/nav_room"
+                    android:icon="@drawable/house"
+                    android:title="Quản lý phòng" />
+                <item
+                    android:id="@+id/nav_script"
+                    android:icon="@drawable/script"
+                    android:title="Quản lý kịch bản" />
+                <item
+                    android:id="@+id/nav_environment"
+                    android:icon="@drawable/sun"
+                    android:title="Kiểm soát môi trường" />
+                <item
+                    android:id="@+id/nav_chedule_tb"
+                    android:icon="@drawable/calendar"
+                    android:title="Lập lịch cho thiết bị" />
+                <item
+                    android:id="@+id/nav_chedule_kb"
+                    android:icon="@drawable/calendar_kb"
+                    android:title="Lập lịch cho kịch bản" />
 
-       <item
-         android:id="@+id/nav_room"
-         android:icon="@drawable/house"
-         android:title="Quản lý phòng" />
+            </group>
+        </menu>
+    </item>
     <item
-        android:id="@+id/nav_equipment"
-        android:icon="@drawable/house"
-        android:title="Quản lý thiết bị" />
-    <item
-        android:id="@+id/nav_script"
-        android:icon="@drawable/house"
-        android:title="Quản lý kịch bản" />
-    <item
-        android:id="@+id/nav_environment"
-        android:icon="@drawable/house"
-        android:title="Kiểm soát môi trường" />
+        android:title="Tài khoản">
+        <menu>
+            <group>
 
-    <item
-         android:id="@+id/nav_logout"
-         android:title="@string/nav_logout"
-         android:icon="@drawable/ic_logout"/>
+                <item
+                    android:id="@+id/nav_logout"
+                    android:title="@string/nav_logout"
+                    android:icon="@drawable/ic_logout"/>
+            </group>
+        </menu>
+    </item>
 </menu>

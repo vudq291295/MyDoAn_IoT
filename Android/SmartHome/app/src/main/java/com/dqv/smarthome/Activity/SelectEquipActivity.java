@@ -1,24 +1,21 @@
 package com.dqv.smarthome.Activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.IdRes;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,65 +25,43 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.dqv.smarthome.Adapter.AutoFitGridLayoutManager;
-import com.dqv.smarthome.Adapter.MainAdapter;
-import com.dqv.smarthome.Adapter.RoomAdapter;
 import com.dqv.smarthome.Application.MyApplication;
 import com.dqv.smarthome.ConnSqlite.SQLiteHandler;
-import com.dqv.smarthome.Dialog.DialogEquipment;
-import com.dqv.smarthome.Dialog.ManagerDialog;
 import com.dqv.smarthome.Model.EquipmentModel;
 import com.dqv.smarthome.Model.RoomModel;
 import com.dqv.smarthome.Model.UrlModel;
-import com.dqv.smarthome.Model.UserModel;
-import com.dqv.smarthome.Mqtt.MqttHelper;
 import com.dqv.smarthome.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
-    public static String TAG = MainActivity.class.getSimpleName();
+public class SelectEquipActivity extends AppCompatActivity {
+    public static String TAG = SelectEquipActivity.class.getSimpleName();
+
+    ArrayList<EquipmentModel> listTG = new ArrayList<EquipmentModel>();
     public String urlGetAllEquipment = UrlModel.url_getALlEquipment;
     public String urlGetAllEquipmentByRoom = UrlModel.url_getALlEquipmentByRoom;
 
     public String urlGetAllRoom = UrlModel.url_getALlRoomn;
-
-    private Toolbar toolbar;
-    private NavigationView navigationView;
-    private DrawerLayout drawer;
-    private View navHeader;
-    private TextView txtName, txtWebsite, twHome;
+    String currentToken = "";
+    public SQLiteHandler db;
     public FloatingActionsMenu fam;
     public FloatingActionButton fammm;
-
-
-    public static int navItemIndex = 0;
-    public SQLiteHandler db;
-    public MqttHelper mqttHelper;
-    public RecyclerView mRecyclerView;
-    ArrayList<EquipmentModel> listTG = new ArrayList<EquipmentModel>();
-    MainAdapter mainAdapter;
-    String currentToken = "";
     int currentRoomID = 0;
-    FragmentManager fm;
-
+    CustomListView customAdapter;
+    String currentTbName ="";
+    int currentTbID = 0;
     View.OnClickListener btnClickListner = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.fab_tonghop:
+                case R.id.fab_tonghop_celect_tb:
                     getAllEquipment();
                     currentRoomID = -1;
                     fam.collapse();
@@ -101,27 +76,19 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_select_equip);
         db = new SQLiteHandler(getApplicationContext());
+        currentToken = MyApplication.getInstance().getPrefManager().getUser().getToken();
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        fm = getSupportFragmentManager();
-
-        drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.main_view);
-        navHeader = navigationView.getHeaderView(0);
-        txtName = navHeader.findViewById(R.id.name);
-        fam = (FloatingActionsMenu) findViewById(R.id.fab_filter_new);
-        fammm = (FloatingActionButton) findViewById(R.id.fab_fab_main);
-        final ImageView dimmedBackground= (ImageView) findViewById(R.id.dimmedBackground);
+        fam = (FloatingActionsMenu) findViewById(R.id.fab_filter_select_tb);
+        fammm = (FloatingActionButton) findViewById(R.id.fab_fab_select_tb);
+        final ImageView dimmedBackground= (ImageView) findViewById(R.id.dimmedBackground_selectTB);
         dimmedBackground.setVisibility(View.GONE);
-        final FloatingActionButton fab_tonghop = (FloatingActionButton) findViewById(R.id.fab_tonghop);
+        FloatingActionButton fab_tonghop = (FloatingActionButton) findViewById(R.id.fab_tonghop_celect_tb);
         fab_tonghop.setOnClickListener(btnClickListner);
 
         fammm.setOnClickListener(new View.OnClickListener() {
@@ -152,222 +119,34 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        loadNavHeader();
-
-        // initializing navigation menu
-        setUpNavigationView();
-        //mqttHelper = MyApplication.getInstance().getMQTTHelper();
-        //set Up MQTT
-        startMqtt();
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.list_main);
-        mRecyclerView.setHasFixedSize(false);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mainAdapter = new MainAdapter(listTG,getApplicationContext(),mqttHelper,fm);
-        mRecyclerView.setAdapter(mainAdapter);
-        currentToken = MyApplication.getInstance().getPrefManager().getUser().getToken();
-//        getAllEquipment();
+        ListView lw = (ListView)findViewById(R.id.list_SelectTB);
+        customAdapter = new CustomListView(this, R.layout.item_selecttb, listTG);
+        lw.setAdapter(customAdapter);
         getAllRoom();
-//        MyApplication.getInstance().getMQTTHelper().setCallback(new MqttCallbackExtended() {
-//            @Override
-//            public void connectComplete(boolean reconnect, String serverURI) {
-//
-//            }
-//
-//            @Override
-//            public void connectionLost(Throwable cause) {
-//
-//            }
-//
-//            @Override
-//            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-//                Log.d(TAG, "messageArrived: TOPIC: "+ topic + " - MSG : "+mqttMessage);
-//                String[] lstToPic =  topic.split("/");
-//                Log.d(TAG, "messageArrived: TOPIC 1: "+ lstToPic[0]);
-//                Log.d(TAG, "messageArrived: TOPIC 2: "+ lstToPic[1]);
-//                Log.d(TAG, "messageArrived: TOPIC 3: "+ lstToPic[2]);
-//
-//                for(int i =0;i<listTG.size();i++){
-//                    if(listTG.get(i).getChanel() == Integer.parseInt(lstToPic[1])){
-//                        if(listTG.get(i).getPortOutput() == Integer.parseInt(lstToPic[2])){
-//                            listTG.get(i).setStatus(Integer.parseInt(mqttMessage.toString()));
-//                        }
-//                    }
-//                }
-//                mainAdapter.notifyDataSetChanged();
-//            }
-//            @Override
-//            public void deliveryComplete(IMqttDeliveryToken token) {
-//
-//            }
-//        });
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         getAllEquipment();
-    }
 
-    private void startMqtt(){
-        mqttHelper = new MqttHelper(getApplicationContext());
-
-        mqttHelper.setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean b, String s) {
-                Log.d(TAG, "connectComplete: "+b);
-                MyApplication.getInstance().setMqttHelper(mqttHelper);
-            }
-
-            @Override
-            public void connectionLost(Throwable throwable) {
-
-            }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                Log.d(TAG, "messageArrived: TOPIC: "+ topic + " - MSG : "+mqttMessage);
-                String[] lstToPic =  topic.split("/");
-                Log.d(TAG, "messageArrived: TOPIC 1: "+ lstToPic[0]);
-                Log.d(TAG, "messageArrived: TOPIC 2: "+ lstToPic[1]);
-                Log.d(TAG, "messageArrived: TOPIC 3: "+ lstToPic[2]);
-
-                for(int i =0;i<listTG.size();i++){
-                    if(listTG.get(i).getChanel() == Integer.parseInt(lstToPic[1])){
-                        if(listTG.get(i).getPortOutput() == Integer.parseInt(lstToPic[2])){
-                            listTG.get(i).setStatus(Integer.parseInt(mqttMessage.toString()));
-                        }
-                    }
-                }
-                mainAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-
-            }
-        });
-    }
-
-    private void loadNavHeader() {
-        // name, website
-        if (MyApplication.getInstance().getPrefManager().getUser() != null)
-            txtName.setText(MyApplication.getInstance().getPrefManager().getUser().getName().toString().trim());
-    }
-    private void setUpNavigationView() {
-        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            // This method will trigger on item Click of navigation menu
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-                //Check to see which item was being clicked and perform appropriate action
-                switch (menuItem.getItemId()) {
-                    case R.id.nav_logout:
-                        logout();
-                        return true;
-                    case R.id.nav_room:
-                        startActivity(new Intent(MainActivity.this, RoomActivity.class));
-                        drawer.closeDrawers();
-                        return true;
-                    case R.id.nav_script:
-                        startActivity(new Intent(MainActivity.this, ScriptActivity.class));
-                        drawer.closeDrawers();
-                        return true;
-                    case R.id.nav_environment:
-                        startActivity(new Intent(MainActivity.this, EnvironmentActivity.class));
-                        drawer.closeDrawers();
-                        return true;
-                    case R.id.nav_chedule_tb:
-                        startActivity(new Intent(MainActivity.this, ScheduleTBActivity.class));
-                        drawer.closeDrawers();
-                        return true;
-                    case R.id.nav_chedule_kb:
-                        startActivity(new Intent(MainActivity.this, ScheduleKBActivity.class));
-                        drawer.closeDrawers();
-                        return true;
-
-                    default:
-                        navItemIndex = 0;
-                }
-                return true;
-            }
-        });
-
-
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-                super.onDrawerOpened(drawerView);
-            }
-        };
-
-        //Setting the actionbarToggle to drawer layout
-        drawer.setDrawerListener(actionBarDrawerToggle);
-
-        //calling sync state is necessary or else your hamburger icon wont show up
-        actionBarDrawerToggle.syncState();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (navItemIndex == 0) {
-            getMenuInflater().inflate(R.menu.main, menu);
-        }
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.addEquip:
-                if(currentRoomID >0){
-                    EquipmentModel model = new EquipmentModel();
-                    model.setRoomId(currentRoomID);
-                    DialogEquipment userInfoDialog = DialogEquipment.newInstance(model);
-                    userInfoDialog.show(fm, null);
-                }
-                else {
-                    Toast.makeText(getApplicationContext(),
-                            "Vui lòng chọn phòng muốn thêm mới", Toast.LENGTH_LONG).show();
-
-                }
-
-                return true;
-            default:
-                return false;
-
-        }
-    }
-
-    private void logout() {
-        MyApplication.getInstance().logout(db);
+    public void onBackPressed() {
+        Intent data = getIntent();
+//        Intent data = new Intent(this,AddScheduleTBActivity.class);
+        Bundle b = new Bundle();
+        b.putString("equipmentName",currentTbName);
+        b.putInt("equipmentID",currentTbID);
+        data.putExtras(b);
+        data.putExtra("a","a");
+        setResult(Activity.RESULT_OK,data);
+        super.onBackPressed();
     }
 
     public void getAllEquipment(){
         JSONObject postparams = new JSONObject();
         listTG.clear();
-        mainAdapter.notifyDataSetChanged();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlGetAllEquipment,postparams, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "onResponse() returned: " + response);
+                Log.d(TAG, "onResponse() getAllEquipment returned: " + response);
                 try {
                     JSONObject jObj = response;
                     if(!jObj.getBoolean("error")){
@@ -385,8 +164,9 @@ public class MainActivity extends AppCompatActivity {
 
                             listTG.add(model);
                         }
-                        mainAdapter.notifyDataSetChanged();
+                        customAdapter.notifyDataSetChanged();
                     }
+
                 }
                 catch (Exception ex)
                 {
@@ -453,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
                                 fab.setColorNormal(getResources().getColor(R.color.colorPrimary));
                                 fab.setIcon(R.drawable.house);
                                 fab.setOnClickListener(btnClickListner);
-
                                 fam.addButton(fab);
                             }
                         }
@@ -487,11 +266,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void getAllEquipmentByRoomId(int roomId){
         listTG.clear();
-        mainAdapter.notifyDataSetChanged();
         StringRequest request = new StringRequest(Request.Method.GET, urlGetAllEquipmentByRoom+"/"+roomId, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "onResponse() returned: " + response);
+                Log.d(TAG, "onResponse() getAllEquipmentByRoomId returned: " + response);
                 try {
                     JSONObject jObj = new JSONObject(response);
                     if(!jObj.getBoolean("error")){
@@ -508,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
                             model.setNameRoom(objTemp.getString("nameRoom"));
                             listTG.add(model);
                         }
-                        mainAdapter.notifyDataSetChanged();
+                        customAdapter.notifyDataSetChanged();
                     }
                 }
                 catch (Exception ex)
@@ -546,4 +324,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    class CustomListView extends ArrayAdapter<EquipmentModel>{
+
+        private int resourceLayout;
+        private Context mContext;
+
+        public CustomListView(Context context, int resource,ArrayList<EquipmentModel> items) {
+            super(context, resource,items);
+            this.mContext = context;
+            this.resourceLayout = resource;
+        }
+
+        @Override
+        public View getView(int position, View convertView,ViewGroup parent) {
+            View v = convertView;
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.item_selecttb, parent, false);
+                viewHolder = new ViewHolder();
+                viewHolder.tvName = (TextView) convertView.findViewById(R.id.ten_tb);
+                viewHolder.tvNumberPhone = (TextView) convertView.findViewById(R.id.ten_phong);
+
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+
+            final EquipmentModel obj = getItem(position);
+            viewHolder.tvName.setText(obj.getName());
+            viewHolder.tvNumberPhone.setText(obj.getNameRoom());
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentTbName = obj.getName();
+                    currentTbID = obj.getId();
+                    onBackPressed();
+                }
+            });
+            return convertView;
+        }
+
+        public class ViewHolder {
+            TextView tvName, tvNumberPhone, tvAvatar;
+
+        }
+
+    }
 }
+

@@ -35,4 +35,12 @@ public class UrlModel {
     public static String url_getAllEnviroment = domain + "api/environment/getAllEnviroment";// dang nhap
 
 
+    //schedule
+    public static String url_getAllScheduleEquip = domain + "api/schedule/getAllScheduleEquip";// dang nhap
+    public static String url_getAllScheduleScrpit = domain + "api/schedule/getAllScheduleScrpit";// dang nhap
+    public static String url_insertSchedule = domain + "api/schedule/insertSchedule";// dang nhap
+    public static String url_updateSchedule = domain + "api/schedule/updateSchedule";// dang nhap
+    public static String url_deleteSchedule = domain + "api/schedule/deleteSchedule";// dang nhap
+
+
 }

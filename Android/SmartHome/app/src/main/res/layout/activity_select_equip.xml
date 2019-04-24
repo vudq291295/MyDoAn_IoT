@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.RoomActivity">
+    <ListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_below="@+id/toolbarScheduleTB"
+        android:id="@+id/list_SelectTB"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:background="@color/background">
+
+    </ListView>
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+        <ImageView
+            android:id="@+id/dimmedBackground_selectTB"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:alpha="0.5" />
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/fab_filter_select_tb"
+            android:layout_gravity="bottom|right"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            app:fab_labelStyle="@style/menu_labels_style"
+            app:fab_addButtonColorNormal="@color/colorPrimary"
+            app:fab_addButtonColorPressed="@color/white"
+            app:fab_expandDirection="up"
+            android:src="@drawable/add_icon"
+            app:fab_labelsPosition="left">
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_tonghop_celect_tb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/colorPrimary"
+                fab:fab_title="Tất cả"
+                fab:fab_size="normal"
+                fab:fab_stroke_visible="false"
+                fab:paddingEnd="0dp"
+                app:fab_icon="@drawable/house"
+                fab:fab_colorPressed="@color/colorPrimary"/>
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </FrameLayout>
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_fab_select_tb"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_title="Thêm mới phòng"
+        app:fab_icon="@drawable/filter"
+        app:fab_stroke_visible="true"
+        app:paddingEnd="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        app:fab_colorPressed="@color/colorPrimary"/>
+
+</RelativeLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200px"
+    android:orientation="vertical"
+    android:layout_margin="16px"
+    android:layout_marginLeft="32px"
+    android:gravity="center_vertical">
+    <TextView
+        android:id="@+id/ten_kb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="24sp"
+        android:textColor="@color/text_color"
+        android:text="Cái a"
+        android:layout_margin="16px"
+        android:layout_marginLeft="32px"
+        android:gravity="center_vertical"/>
+</LinearLayout>

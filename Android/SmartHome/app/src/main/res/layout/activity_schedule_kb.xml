@@ -1,0 +1,36 @@
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:fab="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".Activity.RoomActivity">
+<include
+    android:id="@+id/toolbarScheduleKB"
+    layout="@layout/appbar_dktv"
+    />
+<android.support.v7.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_below="@+id/toolbarScheduleKB"
+    android:id="@+id/list_ScheduleKB"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:background="@color/background">
+
+</android.support.v7.widget.RecyclerView>
+<com.getbase.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fab_fab_scheduleKB"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    app:fab_colorNormal="@color/colorPrimary"
+    app:fab_title="Thêm mới phòng"
+    app:fab_icon="@drawable/add_icon"
+    app:fab_stroke_visible="true"
+    app:paddingEnd="0dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    app:fab_colorPressed="@color/colorPrimary"/>
+</RelativeLayout>
