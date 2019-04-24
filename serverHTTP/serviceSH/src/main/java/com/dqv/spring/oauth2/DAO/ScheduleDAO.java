@@ -12,6 +12,7 @@ import com.dqv.spring.oauth2.DTO.ScheduleDTO;
 import com.dqv.spring.oauth2.bo.EquipmentBO;
 import com.dqv.spring.oauth2.bo.RoomBO;
 import com.dqv.spring.oauth2.bo.ScheduleBO;
+import com.dqv.spring.oauth2.bo.ScriptBO;
 
 
 @Transactional
@@ -80,13 +81,13 @@ public class ScheduleDAO {
 		        	for(int i =0;i<resultBO.size();i++) {
 		        		ScheduleDTO resultTemp = new ScheduleDTO();
 		        		resultTemp = resultBO.get(i).toDTO();
-		    			List<EquipmentBO> resultQeuipBO = new ArrayList<EquipmentBO>();
-				        Query query3 = session.createQuery("from EquipmentBO WHERE id = :id");
-				        query3.setParameter("id",resultBO.get(i).getEquipmentID());
+		    			List<ScriptBO> resultQeuipBO = new ArrayList<ScriptBO>();
+				        Query query3 = session.createQuery("from ScriptBO WHERE id = :id");
+				        query3.setParameter("id",resultBO.get(i).getScriptID());
 				        resultQeuipBO =  query3.list();
 				        System.out.println(resultQeuipBO.size());
 				        if(resultQeuipBO.size()>0) {
-				        	resultTemp.setEquipmentName(resultQeuipBO.get(0).getName());
+				        	resultTemp.setScriptName(resultQeuipBO.get(0).getName());
 				        }
 				        result.add(resultTemp);
 				        System.out.println("result.size(): "+result.size());
@@ -96,6 +97,7 @@ public class ScheduleDAO {
 
 			}
 			catch (Exception e) {
+				System.out.println(e);
 		        return result;
 			}
 	    }
