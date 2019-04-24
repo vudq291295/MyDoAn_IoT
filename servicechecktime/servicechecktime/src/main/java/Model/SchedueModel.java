@@ -12,8 +12,15 @@ public class SchedueModel {
 	public int script_id;
 	public int status;
 	public int statusEquipment;
+	public String day;
 
 	
+	public String getDay() {
+		return day;
+	}
+	public void setDay(String day) {
+		this.day = day;
+	}
 	public int getStatus() {
 		return status;
 	}

@@ -28,7 +28,8 @@ public class ScheduleJDBC {
 		List<SchedueModel> resultSchedule = new ArrayList<SchedueModel>();
 
 		String QUERY = "select * from schedule where time_start = '"+ldt.getHour()+":"+ldt.getMinute()
-						+"' and  (day is null OR day like '%"+out.getDay()+"%')";
+						+"' and  (day is null OR day like '%"+out.getDay()+"%' OR day = '')"
+						+" and status = 1";
 		System.out.println(QUERY);
 		try {
 			Statement stmt = con.createStatement();
@@ -38,12 +39,13 @@ public class ScheduleJDBC {
 				tempSchedule.setScript_id(rs.getInt("script_id"));
 				tempSchedule.setEquipment_id(rs.getInt("equipment_id"));
 				tempSchedule.setStatusEquipment(rs.getInt("status_equip"));
+				tempSchedule.setDay(rs.getString("day"));
+				tempSchedule.setId(rs.getInt("id"));
 				resultSchedule.add(tempSchedule);
 			}
 			System.out.println(resultSchedule.size());
 			if(resultSchedule.size() > 0) {
 				for(int i = 0;i<resultSchedule.size();i++) {
-					System.out.println(resultSchedule.get(i).getEquipment_id());
 					if(resultSchedule.get(i).getEquipment_id()>0) {
 						String QUERY_EQUIPT = "select * from equipment a"
 											+" INNER JOIN room b"
@@ -73,6 +75,11 @@ public class ScheduleJDBC {
 							tempEquipt.setStatus(rs.getInt("status"));
 							result.add(tempEquipt);
 						}						
+					}
+					if(resultSchedule.get(i).getDay().isEmpty()) {
+						String QUERY_UPDATE = "UPDATE schedule set status = 0"
+								+" WHERE id = "+resultSchedule.get(i).getId();
+						stmt.executeUpdate(QUERY_UPDATE);
 					}
 				}
 			}

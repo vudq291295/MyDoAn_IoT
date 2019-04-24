@@ -2,6 +2,9 @@ package com.dqv.servicechecktime.thread;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +27,10 @@ public class ServiceCheckTime implements Runnable{
 	Connection conn;
 	String publisherId = UUID.randomUUID().toString();
 	MqttClient publisher; 
+	Date in2 = new Date();
+	LocalDateTime ldt2 = LocalDateTime.ofInstant(in2.toInstant(), ZoneId.systemDefault());
+	Date out2 = Date.from(ldt2.atZone(ZoneId.systemDefault()).toInstant());
+	int currentMinus = out2.getMinutes();
 
 	public ServiceCheckTime() {
 	    t = new Thread(this, "mqtt");
@@ -79,27 +86,35 @@ public class ServiceCheckTime implements Runnable{
 		
 		try {
 			for(;;) {
-				Thread.sleep(60000);
-				if(publisher.isConnected()) {
-					ScheduleJDBC shedule = new ScheduleJDBC(conn);
-					List<EquipmentModel> resut = shedule.getEquipSet();
-					if(resut.size()>0) {
-						for(int i =0;i<resut.size();i++) {
-							MqttMessage msg = new MqttMessage("1".getBytes());
-							String topic = "DV1/"+resut.get(i).getChanel()+"/"+resut.get(i).getPortOutput();
-							try {
-								publisher.publish(topic, msg);
-								System.out.println(topic);
-							} catch (MqttPersistenceException e) {
-								System.out.println("MqttPersistenceException" + e);
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (MqttException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+				Date in = new Date();
+				LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+				Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+				Thread.sleep(1000);
+				if(out.getMinutes() != currentMinus) {
+					currentMinus = out.getMinutes();
+					if(publisher.isConnected()) {
+						ScheduleJDBC shedule = new ScheduleJDBC(conn);
+						List<EquipmentModel> resut = shedule.getEquipSet();
+						System.out.println("resut.sixe: "+resut.size());
+						if(resut.size()>0) {
+							for(int i =0;i<resut.size();i++) {
+								String ms = resut.get(i).getStatus()+"";
+								MqttMessage msg = new MqttMessage(ms.getBytes());
+								String topic = "DV1/"+resut.get(i).getChanel()+"/"+resut.get(i).getPortOutput();
+								try {
+									publisher.publish(topic, msg);
+									System.out.println(topic);
+								} catch (MqttPersistenceException e) {
+									System.out.println("MqttPersistenceException" + e);
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (MqttException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}
-						}
-					}
+						}				}
+
 //					else {
 //						try {
 //							publisher.reconnect();
