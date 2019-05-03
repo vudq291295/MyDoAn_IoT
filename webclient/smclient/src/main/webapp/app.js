@@ -36,12 +36,13 @@ define([
     'jqueryEasey',
     'sbAdmin2',
     'chartSbAdmin2',
-
+    'chart-js',
+    'angular-chart',
 ], function (jquery, jqueryui, angular,state_auth,state_danhmuc,state_dieukhien) {
     'use strict';
     var app = angular.module('myApp', ['oc.lazyLoad', 'ui.router','ui.bootstrap', 'InterceptorModule', 'LocalStorageModule', 'configModule', 'tempDataModule',
         'angular-loading-bar', 'ngAnimate', 'common-filter', 'common-directive', 'ngResource', 'angular.filter', 'angular-cache', 'toaster',
-        'ngFileUpload', 'ngSanitize', 'dynamicNumber', 'cp.ngConfirm', 'angularPaho','ngNotify']);
+        'ngFileUpload', 'ngSanitize', 'dynamicNumber', 'cp.ngConfirm', 'angularPaho','ngNotify','chart.js']);
     app.service('securityService', ['$http', 'configService', function ($http, configService) {
         var result = {
             getAccessList: function (mcn) {

@@ -1,6 +1,6 @@
 
 define(['angular'], function (angular) {
-    var app = angular.module('homeModule', []);
+    var app = angular.module('homeModule', ['chart.js']);
 
     app.factory('homeService', ['$http', 'configService', function ($http, configService) {
         var serviceUrl = configService.rootUrlWebApi + '/room';
@@ -14,37 +14,36 @@ define(['angular'], function (angular) {
 
 
     app.controller('homeCtrl', ['$scope','homeService','configService','MqttClient',function ($scope,homeService,configService,MqttClient) {
-//        var ip = "192.168.1.99";
-//        var port = 11884;
-//        var id = "test";
-////        var client = new Paho.MQTT.Client(ip, port, id);
-//
-//        MqttClient.init(ip, port, id);
-//        MqttClient.connect({onSuccess: successCallback,userName:"vudq",password:"1",onFailure:failedCallback});
-//
-//        function failedCallback() {
-//        	console.log("failedddddddddddd");
-//        }
-////        
-//        // called when a message arrives
-//        function onMessageArrived(message) {
-//        	console.log(message.destinationName,message.payloadString);
-//        
-//        }
-//        function successCallback() {
-//          MqttClient.subscribe('DV1/#');
-//          message = new Paho.MQTT.Message("Hello");
-//          message.destinationName = "DV1/123";
-//          MqttClient.send(message);
-//        }
-//        
+        $scope.barColor2 = ['#3e95cd', '#8e5ea2'];
+
+        $scope.options2 = {
+                legend: { display: false },
+                scales: {
+                    yAxes: [
+                      {
+                          id: 'y-axis',
+                          min: 0,
+                          ticks: {
+                              beginAtZero: true,
+                              callback: function (value) {
+                                  return (value + '').replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+                              }
+                          }
+                      }
+                    ]
+                }
+
+            };
+        
+        $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+        $scope.data = [300, 500, 100];
+        $scope.labels2 = ["January", "February", "March", "April", "May", "June", "July"];
+
+        $scope.data2 = [
+            [65, 59, 80, 81, 56, 55, 40]          ];
+                    
+
     	function filterData() {
-    		homeService.paging().then(function(response) {
-    			console.log(response);
-				
-			},function() {
-				
-			})
 		};
 		filterData();
     }]);

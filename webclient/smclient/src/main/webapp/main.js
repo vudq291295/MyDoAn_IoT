@@ -26,6 +26,10 @@ require.config({
         'ngNotify': 'lib/ng-notify/ng-notify.min',
         'moment': 'lib/moment',
         'angularPaho': 'lib/mqtt/angular-paho',
+        'moment': 'lib/moment',
+        'chart-js': 'lib/Chart.min',
+        'angular-chart': 'lib/angular-chart.min'
+
 //        'browserMqtt': 'lib/mqtt/browserMqtt'
 
     },
@@ -60,6 +64,9 @@ require.config({
         'ngNotify': ['angular'],
         'moment': ['angular'],
         'angularPaho': ['angular'],
+        'chart-js': ['angular'],
+        'angular-chart': ['chart-js']
+
 //        'browserMqtt': ['angular'],
     },
     waitSeconds: 0
