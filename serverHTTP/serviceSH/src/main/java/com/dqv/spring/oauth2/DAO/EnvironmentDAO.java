@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dqv.spring.oauth2.DTO.EnvironmentDTO;
 import com.dqv.spring.oauth2.bo.EnvironmentBO;
 import com.dqv.spring.oauth2.bo.RoomBO;
 
@@ -19,8 +20,8 @@ public class EnvironmentDAO {
 	      this.sessionFactory = sessionFactory;
 	  }
 
-		public List<EnvironmentBO> getAllEnviroment() {
-			List<EnvironmentBO> result = new ArrayList<EnvironmentBO>();
+		public List<EnvironmentDTO> getAllEnviroment() {
+			List<EnvironmentDTO> result = new ArrayList<EnvironmentDTO>();
 			try {
 			        Session session = this.sessionFactory.getCurrentSession();
 			        Query query = session.createQuery("select distinct(roomId) from EnvironmentBO"); 
@@ -41,7 +42,16 @@ public class EnvironmentDAO {
 					        List<EnvironmentBO> temp =  query2.list();
 					        System.out.println("temo: "+temp.size());
 					        if(temp.size()>0) {
-					        	result.add(temp.get(0));
+					        	EnvironmentDTO tempBO = temp.get(0).toDTO();
+						        Query query3 = session.createQuery("from RoomBO Where id = :id");
+						        query3.setParameter("id", temp.get(0).getRoomId());
+						        List<RoomBO> result2 =  query3.list();
+						        if(result2.size()>0) {
+						        	tempBO.setRoomName(result2.get(0).getName());
+
+						        }
+					        	result.add(tempBO);
+					        	
 					        }
 			        	}
 			        }
@@ -51,6 +61,7 @@ public class EnvironmentDAO {
 //		        }
 			}
 			catch (Exception e) {
+				System.out.println(e);
 		        return result;
 			}
 	    }

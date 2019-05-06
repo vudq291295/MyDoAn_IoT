@@ -57,6 +57,7 @@ void loop() {
      if (!client.connected()) {
         reconnect();
       }
+      Wire.requestFrom(20,32, 0));
       client.loop();
   }
 

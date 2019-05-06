@@ -18,25 +18,12 @@ public class ScheduleBO {
 	public Time timeEnd;
 	public String unitCode;
 	public int equipmentID;
-	public String equipmentName;
 	public int scriptID;
-	public String scriptName;
 	public String day;
 	public int status;
 	public int statusEquipment;
 	
-    public String getEquipmentName() {
-		return equipmentName;
-	}
-	public void setEquipmentName(String equipmentName) {
-		this.equipmentName = equipmentName;
-	}
-	public String getScriptName() {
-		return scriptName;
-	}
-	public void setScriptName(String scriptName) {
-		this.scriptName = scriptName;
-	}
+
 	@Id
     @Column(name = "id")
 	public int getId() {

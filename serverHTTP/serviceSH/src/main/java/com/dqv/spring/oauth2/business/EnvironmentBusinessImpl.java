@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 import com.dqv.spring.oauth2.DAO.EnvironmentDAO;
+import com.dqv.spring.oauth2.DTO.EnvironmentDTO;
 import com.dqv.spring.oauth2.bo.EnvironmentBO;
 import com.dqv.spring.oauth2.helper.Response;
 
@@ -20,9 +21,9 @@ public class EnvironmentBusinessImpl implements EnvironmentBusiness{
 	EnvironmentDAO environmentDAO;
 
 	@Override
-	public Response<List<EnvironmentBO>> getAllEnviroment() {
-		Response<List<EnvironmentBO>> result = new Response<>();
-		List<EnvironmentBO> temp = new ArrayList<EnvironmentBO>();
+	public Response<List<EnvironmentDTO>> getAllEnviroment() {
+		Response<List<EnvironmentDTO>> result = new Response<>();
+		List<EnvironmentDTO> temp = new ArrayList<EnvironmentDTO>();
 		temp = environmentDAO.getAllEnviroment();
 		System.out.println(temp.get(0).getTime().getDay());
 		result.error = false;

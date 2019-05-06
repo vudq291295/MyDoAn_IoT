@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dqv.spring.oauth2.DTO.EnvironmentDTO;
 import com.dqv.spring.oauth2.bo.EnvironmentBO;
 import com.dqv.spring.oauth2.business.EnvironmentBusinessImpl;
 import com.dqv.spring.oauth2.helper.Response;
@@ -21,7 +22,7 @@ public class EnvironmentController {
 	
 	@RequestMapping(value = "/getAllEnviroment", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	public ResponseEntity getAllEnviroment() {
-		Response<List<EnvironmentBO>> result = new Response<>();
+		Response<List<EnvironmentDTO>> result = new Response<>();
 		result = environmentBusinessImpl.getAllEnviroment();
 		return new ResponseEntity(result,HttpStatus.OK);
 	}

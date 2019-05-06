@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.dqv.spring.oauth2.DTO.EnvironmentDTO;
+
 @Entity
 @Table(name = "environment")
 public class EnvironmentBO {
@@ -18,10 +20,14 @@ public class EnvironmentBO {
 	public String type;
 	public String unitId;
 	public int roomId;
+	public String roomName;
+
 	public int value;
 	public Date time;
 	
-    @Id
+	
+	
+	@Id
     @Column(name = "id")
 	public int getId() {
 		return id;
@@ -71,6 +77,23 @@ public class EnvironmentBO {
 		this.time = time;
 	}
 	
+    public String getRoomName() {
+		return roomName;
+	}
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
+
 	
+	public EnvironmentDTO toDTO() {
+		EnvironmentDTO result = new EnvironmentDTO();
+		result.setId(this.id);
+		result.setRoomId(this.roomId);
+		result.setTime(this.time);
+		result.setType(this.type);
+		result.setUnitId(this.unitId);
+		result.setValue(this.value);
+		return result;
+	}
 	
 }
