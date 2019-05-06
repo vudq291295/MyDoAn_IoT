@@ -4,15 +4,15 @@
 
 #include <Timer.h>
 #include <WorkScheduler.h>
-//#include <onewire.h>
-//#include <dallastemperature.h>
 #include <Wire.h>
 #include <math.h>
-
+#include <stdlib.h>
 char port[8] = "";
 char value[8] = "";
 char mss[8] = "";
 int sensorPin = A0;// chân analog kết nối tới cảm biến LM35
+
+char buf[8];
 // Chân nối với Arduino
 #define ONE_WIRE_BUS 2
 //Thiết đặt thư viện onewire
@@ -25,6 +25,7 @@ DallasTemperature sensors(&oneWire);
 * 
 */
 float curentTemp = 0;
+int statusMQTT = '0';
 //khởi tạo các job
 WorkScheduler *printToSerialScheduler;
 WorkScheduler *printToSerial100msScheduler;
@@ -39,8 +40,8 @@ void printToSerial() {
 }
 
 void printToSerial100ms() {
-    Wire.write(curentTemp);
-
+    //Wire.write(curentTemp);
+    statusMQTT = '1';
 //  static unsigned long counter = 0;
 //  counter++;
 //  Serial.print("ksp's handsome!!! Lan thu: ");
@@ -52,6 +53,8 @@ void setup()
    Serial.begin(115200);
   Wire.begin(20); // Khởi tạo thư viện i2c địa chỉ 6
   Wire.onReceive(receiveEvent); // khởi tạo chế độ nhận tín hiệu từ boad chủ
+  Wire.onRequest(requestEvent); // register event
+
   pinMode(13,OUTPUT);
   digitalWrite(13,LOW);
     Timer::getInstance()->initialize();
@@ -77,13 +80,17 @@ void loop()
   //cuối hàm loop phải có để cập nhập lại THỜI ĐIỂM (thời điểm chứ ko phải thời gian nha, tuy tiếng Anh chúng đều là time) để cho lần xử lý sau
   Timer::getInstance()->resetTick();
   sensors.requestTemperatures();  
-  Serial.print("Nhiet do");
-  Serial.println(sensors.getTempCByIndex(0)); // vì 1 ic nên dùng 0
+ // Serial.print("Nhiet do");
+ // Serial.println(sensors.getTempCByIndex(0)); // vì 1 ic nên dùng 0
   float temp = sensors.getTempCByIndex(0);
   if(abs(curentTemp - temp) > 3.00){
-    Wire.write(curentTemp);
+        statusMQTT = '2';
+
+    //Wire.write(curentTemp);
   }
    curentTemp = temp;
+
+
   //chờ 1 s rồi đọc để bạn kiệp thấy sự thay đổi
   //delay(1000);
 
@@ -124,4 +131,13 @@ void receiveEvent(int howMany) // hàm sự kiện nhận tín hiệu từ boad 
 //      digitalWrite(13,LOW);// chân 13 ở mức Low
 //    }
 //  }
+}
+void requestEvent() {
+     dtostrf(curentTemp, 4, 2, buf);
+      buf[7] = statusMQTT;
+      Serial.println(buf[7]);
+      float x = atof(buf);  
+      Serial.println(x);
+      Wire.write(buf); // respond with message of 6 bytes
+  // as expected by master
 }
