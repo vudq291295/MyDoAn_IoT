@@ -18,6 +18,7 @@ import org.dna.mqtt.moquette.proto.messages.*;
 import com.dqv.jdbc.AuthJDBC;
 import com.dqv.jdbc.ConnectDatabase;
 import com.dqv.jdbc.EquipmentJDBC;
+import com.dqv.jdbc.EvironmentJDBC;
 import com.dqv.mqtt.parser.MQTTDecoder;
 import com.dqv.mqtt.parser.MQTTEncoder;
 import com.dqv.mqtt.persistence.StoreManager;
@@ -496,16 +497,25 @@ public class MQTTSession implements Handler<Message<Buffer>> {
 //            	logger.info("info mss public: "+publishMessage.getTopicName() );
 
                 String[] lstSplitTopic = topic.split("/");
+    			logger.info(lstSplitTopic[2]);
+
                 if(lstSplitTopic.length >2) {
                 	Connection connnect = ConnectDatabase.getConnectDatabase();
-                	EquipmentJDBC conn = new EquipmentJDBC(connnect);
-//                	logger.info("info mss public: "+lstSplitTopic[1] + "-" +lstSplitTopic[2] +"-"+ converted );
-                	boolean isValid = conn.updateStuatusEquipment(lstSplitTopic[1],lstSplitTopic[2],converted,getUserName());
-//                	logger.info("IsValid :"+isValid);
-                	if(isValid)
-                	{
-                		isUpdate = false;
-                    }
+                	if(lstSplitTopic[2].equals("t") || lstSplitTopic[2].equals("w")) {
+                		EvironmentJDBC conn = new EvironmentJDBC(connnect);
+                		double valueTemp = Double.parseDouble(converted);
+                		conn.insertEnviroment(valueTemp,lstSplitTopic[1],lstSplitTopic[0]);
+                	}
+                	else {
+                    	EquipmentJDBC conn = new EquipmentJDBC(connnect);
+//                    	logger.info("info mss public: "+lstSplitTopic[1] + "-" +lstSplitTopic[2] +"-"+ converted );
+                    	boolean isValid = conn.updateStuatusEquipment(lstSplitTopic[1],lstSplitTopic[2],converted,getUserName());
+//                    	logger.info("IsValid :"+isValid);
+                    	if(isValid)
+                    	{
+                    		isUpdate = false;
+                        }
+                	}
                 }
             }
             sendPublishMessage(publishMessage);
