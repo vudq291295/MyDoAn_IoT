@@ -51,6 +51,8 @@ public class ScheduleJDBC {
 											+" INNER JOIN room b"
 											+" ON a.room_id = b.id"
 											+" WHERE a.id = "+resultSchedule.get(i).getEquipment_id();
+						System.out.println(QUERY_EQUIPT);
+
 						rs = stmt.executeQuery(QUERY_EQUIPT);	
 						while(rs.next()){
 							EquipmentModel tempEquipt = new EquipmentModel();
@@ -66,7 +68,9 @@ public class ScheduleJDBC {
 								" ON a.room_id = b.id" + 
 								"  INNER JOIN script_has_equipment c" + 
 								" ON a.id = c.equipment_id"
-								+" WHERE a.id in (select equipment_id from script_has_equipment where script_id = "+resultSchedule.get(i).getScript_id()+")";
+								+" WHERE a.id in (select equipment_id from script_has_equipment where script_id = "+resultSchedule.get(i).getScript_id()+")"
+								+" and c.script_id = "+resultSchedule.get(i).getScript_id();
+						System.out.println(QUERY_EQUIPT);
 						rs = stmt.executeQuery(QUERY_EQUIPT);	
 						while(rs.next()){
 							EquipmentModel tempEquipt = new EquipmentModel();

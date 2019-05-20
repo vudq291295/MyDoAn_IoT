@@ -5,6 +5,11 @@
 #include <ESP8266WebServer.h>
 #include <PubSubClient.h>
 #include <Wire.h>
+#include <Timer.h>
+#include <WorkScheduler.h>
+#include <sstream>
+
+std::stringstream ss;
 
 const IPAddress apIP(192, 168, 4, 1);
 const char* apSSID = "ESP8266_SETUP";
@@ -23,6 +28,13 @@ int value = 0;
 int OUTPUT_LED = 5;
 const char* mqtt_server = "14.160.26.174";
 
+
+WorkScheduler *reciveTempScheduler;
+
+
+void reciveTemp(int chanel) {
+
+}
 void setup() {
   Serial.begin(115200);
   EEPROM.begin(512);
@@ -45,9 +57,17 @@ void setup() {
   }
   settingMode = true;
   setupMode();
+//  Timer::getInstance()->initialize();
+      //Khởi tạo một công việc (job) - không đùng đến một pin cụ thể nào đó mà chỉ thực hiện các tác vụ như in serial monitor hoăc đọc các cảm biến có nhiều chân ^_^  
+  //print ra nhanh hơn
+//  reciveTempScheduler = new WorkScheduler(3000UL, reciveTemp);
 }
 
+
 void loop() {
+
+//    char valueTemp2[5] = {};
+//  char statusEnvironment2 = '0';
   if (settingMode) {
     dnsServer.processNextRequest();
   }
@@ -57,8 +77,72 @@ void loop() {
      if (!client.connected()) {
         reconnect();
       }
-      Wire.requestFrom(20,32, 0));
       client.loop();
+      //dọc cảm biến kênh 2
+      Serial.println("kenh 6");
+      char buf[8];
+    
+      char valueTemp[6] = {};
+      char statusEnvironment = '0';
+      int ii = 0;
+      delay(1);
+
+      int n = Wire.requestFrom(2,6);
+       Serial.println(n);
+       while(Wire.available()){
+          char c = Wire.read();
+          if(ii<5){
+            valueTemp[ii] = c;
+          }
+          else if(ii == 5){
+            statusEnvironment = c;
+          }
+          ii++;
+
+       }
+      Serial.println("");
+       Serial.print("valueTemp: ");
+
+       Serial.println(valueTemp);
+       Serial.print("statusEnvironment: ");
+
+        Serial.println(statusEnvironment);
+        //std::stringstream ss;
+    
+
+      if(statusEnvironment == '1'){
+                Serial.println("VAO 1");
+        char cccccc[8] = {};
+        cccccc[0] = 'D';
+        cccccc[1] = 'V';
+        cccccc[2] = '1';
+        cccccc[3] = '/';
+        cccccc[4] = '6';
+        cccccc[5] = '/';
+        cccccc[6] = 't';
+                   Serial.println(cccccc);
+
+        //std::string myString( ss.str() );
+
+        client.publish(cccccc, valueTemp);
+      }
+      else if(statusEnvironment == '2'){
+                        Serial.println("VAO 2");
+
+      char topicTemp[7] = {};
+        topicTemp[0] = 'D';
+        topicTemp[1] = 'V';
+        topicTemp[2] = '1';
+        topicTemp[3] = '/';
+        topicTemp[4] = '6';
+        topicTemp[5] = '/';
+          topicTemp[6] = 'w';
+                   Serial.println(topicTemp);              //std::string myString( ss.str() );
+
+        client.publish(topicTemp, valueTemp);
+
+      }
+      delay(1000);  
   }
 
 
@@ -259,6 +343,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 // config for mqtt
 char roomAss[8] = {};
 char port[8] = {}; 
+int isTemp = 0;
   for (int i = 0; i < strlen(topic); i++) {
     if(numOfIndex == 0){
       if(topic[i] == '/')
@@ -278,8 +363,13 @@ char port[8] = {};
       }
     }
     else if(numOfIndex == 2){
-        port[indexPort] = topic[i];
-        indexPort++;
+        if(topic[i] == 't' || topic[i] == 'w'){
+          isTemp = 1;
+        }
+        else{
+          port[indexPort] = topic[i];
+          indexPort++;
+        }
     }
   }
       Serial.println(roomAss);
@@ -288,14 +378,15 @@ char port[8] = {};
           port[indexPort] = (char)payload[i];
             indexPort++;
   }
-  
-  Serial.println(port);
-  int roomNum = atoi(roomAss);
-  Serial.println(roomNum);
-  Wire.beginTransmission(roomNum); // Bắt đầu truyền dữ liệu về địa chỉ số 6
-  Wire.write(port); // Truyền ký tự H
-  Wire.endTransmission(); // kết thúc truyền dữ liệu
-
+  Serial.println(isTemp);
+  if(isTemp == 0){
+      Serial.println(port);
+      int roomNum = atoi(roomAss);
+      Serial.println(roomNum);
+      Wire.beginTransmission(roomNum); // Bắt đầu truyền dữ liệu về địa chỉ số 6
+      Wire.write(port); // Truyền ký tự H
+      Wire.endTransmission(); // kết thúc truyền dữ liệu
+  }
 }
 
 

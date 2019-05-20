@@ -502,6 +502,7 @@ public class MQTTSession implements Handler<Message<Buffer>> {
                 if(lstSplitTopic.length >2) {
                 	Connection connnect = ConnectDatabase.getConnectDatabase();
                 	if(lstSplitTopic[2].equals("t") || lstSplitTopic[2].equals("w")) {
+                		
                 		EvironmentJDBC conn = new EvironmentJDBC(connnect);
                 		double valueTemp = Double.parseDouble(converted);
                 		conn.insertEnviroment(valueTemp,lstSplitTopic[1],lstSplitTopic[0]);

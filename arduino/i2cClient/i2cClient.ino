@@ -11,6 +11,7 @@ char port[8] = "";
 char value[8] = "";
 char mss[8] = "";
 int sensorPin = A0;// chân analog kết nối tới cảm biến LM35
+int chenelI2C = 6;// kênh i2c
 
 char buf[8];
 // Chân nối với Arduino
@@ -25,7 +26,7 @@ DallasTemperature sensors(&oneWire);
 * 
 */
 float curentTemp = 0;
-int statusMQTT = '0';
+char statusMQTT = '0';
 //khởi tạo các job
 WorkScheduler *printToSerialScheduler;
 WorkScheduler *printToSerial100msScheduler;
@@ -51,18 +52,29 @@ void printToSerial100ms() {
 void setup()
 {
    Serial.begin(115200);
-  Wire.begin(20); // Khởi tạo thư viện i2c địa chỉ 6
+  Wire.begin(chenelI2C); // Khởi tạo thư viện i2c địa chỉ 6
   Wire.onReceive(receiveEvent); // khởi tạo chế độ nhận tín hiệu từ boad chủ
   Wire.onRequest(requestEvent); // register event
 
   pinMode(13,OUTPUT);
+  pinMode(12,OUTPUT);
+  pinMode(11,OUTPUT);
+  pinMode(10,OUTPUT);
+  pinMode(9,OUTPUT);
+  pinMode(8,OUTPUT);
+  pinMode(7,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(4,OUTPUT);
+
   digitalWrite(13,LOW);
     Timer::getInstance()->initialize();
       //Khởi tạo một công việc (job) - không đùng đến một pin cụ thể nào đó mà chỉ thực hiện các tác vụ như in serial monitor hoăc đọc các cảm biến có nhiều chân ^_^  
   //print ra nhanh hơn
-  printToSerial100msScheduler = new WorkScheduler(3000UL, printToSerial100ms);
+  printToSerial100msScheduler = new WorkScheduler(30000UL, printToSerial100ms);
     sensors.begin();
 
+    statusMQTT = '1';
 
 
 }
@@ -71,13 +83,13 @@ void loop()
 {
     //đầu hàm loop phải có để cập nhập thời điểm diễn ra việc kiểm tra lại các tiến trình
   Timer::getInstance()->update();
-
-  //Không quan trọng thứ tự các job, các job này là các job thực hiện các công việc độc lập với nhau
-//  printToSerialScheduler->update();
+//
+//  //Không quan trọng thứ tự các job, các job này là các job thực hiện các công việc độc lập với nhau
+////  printToSerialScheduler->update();
   printToSerial100msScheduler->update();
-
-
-  //cuối hàm loop phải có để cập nhập lại THỜI ĐIỂM (thời điểm chứ ko phải thời gian nha, tuy tiếng Anh chúng đều là time) để cho lần xử lý sau
+//
+//
+//  //cuối hàm loop phải có để cập nhập lại THỜI ĐIỂM (thời điểm chứ ko phải thời gian nha, tuy tiếng Anh chúng đều là time) để cho lần xử lý sau
   Timer::getInstance()->resetTick();
   sensors.requestTemperatures();  
  // Serial.print("Nhiet do");
@@ -90,6 +102,11 @@ void loop()
   }
    curentTemp = temp;
 
+      dtostrf(curentTemp, 4, 2, buf);
+      buf[5] = statusMQTT;
+     // Serial.println(buf[5]);
+      float x = atof(buf);  
+      //Serial.println(x);
 
   //chờ 1 s rồi đọc để bạn kiệp thấy sự thay đổi
   //delay(1000);
@@ -98,6 +115,8 @@ void loop()
  
 void receiveEvent(int howMany) // hàm sự kiện nhận tín hiệu từ boad chủ
 {
+       Serial.println('a');
+
     for (int i = 0; i < howMany; i++)
     {
 //       Serial.println(i);
@@ -132,12 +151,19 @@ void receiveEvent(int howMany) // hàm sự kiện nhận tín hiệu từ boad 
 //    }
 //  }
 }
+
+byte response[11] = {};
+
 void requestEvent() {
-     dtostrf(curentTemp, 4, 2, buf);
-      buf[7] = statusMQTT;
-      Serial.println(buf[7]);
-      float x = atof(buf);  
-      Serial.println(x);
-      Wire.write(buf); // respond with message of 6 bytes
+//      dtostrf(curentTemp, 4, 2, buf);
+//      buf[7] = statusMQTT;
+//      Serial.println(buf[7]);
+//      float x = atof(buf);  
+//      Serial.println(x);
+      buf[5] = statusMQTT;
+             //Serial.println(buf);
+
+       Wire.write(buf);  /*send string on request */
+      statusMQTT = '0';
   // as expected by master
 }
