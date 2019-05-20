@@ -1,6 +1,16 @@
 package com.dqv.smarthome.Activity;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,9 +36,14 @@ import com.dqv.smarthome.Model.ScriptModel;
 import com.dqv.smarthome.Model.UrlModel;
 import com.dqv.smarthome.Mqtt.MqttHelper;
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -81,7 +96,75 @@ public class EnvironmentActivity extends AppCompatActivity {
         scriptAdapter = new EnvrAdapter(listScript,getApplicationContext(),mqttHelper);
         mRecycleview.setAdapter(scriptAdapter);
         getAllEnvr();
+        mqttHelper.setCallback(new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean reconnect, String serverURI) {
+
+            }
+
+            @Override
+            public void connectionLost(Throwable cause) {
+
+            }
+
+            @TargetApi(Build.VERSION_CODES.O)
+            @Override
+            public void messageArrived(String topic, MqttMessage message) throws Exception {
+                String[] lstToPic =  topic.split("/");
+                Log.d(TAG, "messageArrived: TOPIC 1: "+ lstToPic[0]);
+                Log.d(TAG, "messageArrived: TOPIC 2: "+ lstToPic[1]);
+                Log.d(TAG, "messageArrived: TOPIC 3: "+ lstToPic[2]);
+                if(lstToPic[2].equals(("w"))){
+                    // --------------------------
+                    // Chuẩn bị một thông báo
+                    // --------------------------
+                    notificationDialog();
+                    getAllEnvr();
+
+                }
+                else if(lstToPic[2].equals(("t"))){
+                    getAllEnvr();
+                }
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken token) {
+
+            }
+        });
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void notificationDialog() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String NOTIFICATION_CHANNEL_ID = dtf.format(now);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            @SuppressLint("WrongConstant") NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_MAX);
+            // Configure the notification channel.
+            notificationChannel.setDescription("Sample Channel description");
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+            notificationChannel.enableVibration(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        notificationBuilder.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setTicker("Tutorialspoint")
+                //.setPriority(Notification.PRIORITY_MAX)
+                .setContentTitle("Cảnh báo nhiệt độ")
+                .setContentText("Nhiệt độ thay đổi quá bất thường !!!")
+                .setContentInfo("Information");
+        notificationManager.notify(1, notificationBuilder.build());
+    }
+
 
     public void getAllEnvr(){
         JSONObject postparams = new JSONObject();

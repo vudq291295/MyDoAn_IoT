@@ -1,10 +1,21 @@
 package com.dqv.smarthome.Activity;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.IdRes;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +62,8 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
     String currentToken = "";
     int currentRoomID = 0;
     FragmentManager fm;
+    private NotificationCompat.Builder notBuilder;
+
+    private static final int MY_NOTIFICATION_ID = 12345;
+    private static final int MY_REQUEST_CODE = 100;
 
     View.OnClickListener btnClickListner = new View.OnClickListener() {
         @Override
@@ -101,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
         db = new SQLiteHandler(getApplicationContext());
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        notBuilder = new NotificationCompat.Builder(getApplicationContext());
+
+// Thôn báo sẽ tự động bị hủy khi người dùng click vào Panel
+
+        this.notBuilder.setAutoCancel(true);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -168,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
         currentToken = MyApplication.getInstance().getPrefManager().getUser().getToken();
 //        getAllEquipment();
         getAllRoom();
+
 //        MyApplication.getInstance().getMQTTHelper().setCallback(new MqttCallbackExtended() {
 //            @Override
 //            public void connectComplete(boolean reconnect, String serverURI) {
@@ -202,6 +226,36 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void notificationDialog() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String NOTIFICATION_CHANNEL_ID = dtf.format(now);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            @SuppressLint("WrongConstant") NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_MAX);
+            // Configure the notification channel.
+            notificationChannel.setDescription("Sample Channel description");
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+            notificationChannel.enableVibration(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        notificationBuilder.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setTicker("Tutorialspoint")
+                //.setPriority(Notification.PRIORITY_MAX)
+                .setContentTitle("Cảnh báo nhiệt độ")
+                .setContentText("Nhiệt độ thay đổi quá bất thường !!!")
+                .setContentInfo("Information");
+        notificationManager.notify(1, notificationBuilder.build());
+    }
 
     @Override
     protected void onPause() {
@@ -229,6 +283,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            @TargetApi(Build.VERSION_CODES.O)
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 Log.d(TAG, "messageArrived: TOPIC: "+ topic + " - MSG : "+mqttMessage);
@@ -236,15 +291,23 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "messageArrived: TOPIC 1: "+ lstToPic[0]);
                 Log.d(TAG, "messageArrived: TOPIC 2: "+ lstToPic[1]);
                 Log.d(TAG, "messageArrived: TOPIC 3: "+ lstToPic[2]);
+                if(lstToPic[2].equals(("w"))){
+                    // --------------------------
+                    // Chuẩn bị một thông báo
+                    // --------------------------
+                    notificationDialog();
 
-                for(int i =0;i<listTG.size();i++){
-                    if(listTG.get(i).getChanel() == Integer.parseInt(lstToPic[1])){
-                        if(listTG.get(i).getPortOutput() == Integer.parseInt(lstToPic[2])){
-                            listTG.get(i).setStatus(Integer.parseInt(mqttMessage.toString()));
+                }
+                else {
+                    for(int i =0;i<listTG.size();i++){
+                        if(listTG.get(i).getChanel() == Integer.parseInt(lstToPic[1])){
+                            if(listTG.get(i).getPortOutput() == Integer.parseInt(lstToPic[2])){
+                                listTG.get(i).setStatus(Integer.parseInt(mqttMessage.toString()));
+                            }
                         }
                     }
+                    mainAdapter.notifyDataSetChanged();
                 }
-                mainAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -332,22 +395,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @TargetApi(Build.VERSION_CODES.O)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case R.id.addEquip:
-                if(currentRoomID >0){
-                    EquipmentModel model = new EquipmentModel();
-                    model.setRoomId(currentRoomID);
-                    DialogEquipment userInfoDialog = DialogEquipment.newInstance(model);
-                    userInfoDialog.show(fm, null);
-                }
-                else {
-                    Toast.makeText(getApplicationContext(),
-                            "Vui lòng chọn phòng muốn thêm mới", Toast.LENGTH_LONG).show();
+                notificationDialog();
 
-                }
+//                if(currentRoomID >0){
+//                    EquipmentModel model = new EquipmentModel();
+//                    model.setRoomId(currentRoomID);
+//                    DialogEquipment userInfoDialog = DialogEquipment.newInstance(model);
+//                    userInfoDialog.show(fm, null);
+//                }
+//                else {
+//                    Toast.makeText(getApplicationContext(),
+//                            "Vui lòng chọn phòng muốn thêm mới", Toast.LENGTH_LONG).show();
+//
+//                }
 
                 return true;
             default:
