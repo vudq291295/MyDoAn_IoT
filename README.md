@@ -9,6 +9,7 @@
 	+ Web client (Web Front-end) : Angular JS
 	+ Android native : Java
 	+ Service checkTime : Java Service
+	+ Database : MySQL
 - subcribe: 
 	+ topic : "mã đơn vị/#": mã đơn vị ăn theo tài khoản. madv/#. subcribe tất cả topic madv/... (vd: madv/1,madv/2,madv/3,madv/abcabcabc ... )
 - publish : cũng publish với cấu trúc trên. madv/port
